@@ -1,4 +1,4 @@
-import React from "react"
+import React, { PropTypes } from "react"
 import cx from "classnames"
 
 import {
@@ -47,12 +47,12 @@ const Warning = ({
   )
 }
 
-// Warning.propTypes = {
-//   line: PropTypes.object.isRequired,
-//   column:
-//   text:
-//   rule:
-//   severity:
-// }
+Warning.propTypes = {
+  line: PropTypes.number.isRequired,
+  column: PropTypes.number.isRequired,
+  text: PropTypes.string.isRequired,
+  rule: PropTypes.string.isRequired,
+  severity: PropTypes.string.isRequired
+}
 
 export default Warning

@@ -1,28 +1,29 @@
-import React, { Component, PropTypes } from "react"
-import cx from "classnames"
+import React, { PropTypes } from "react"
 import Warning from '../warning'
 
-import styles from "./index.css"
+import { root } from "./index.css"
 
-export default class WarningList extends Component {
-  render() {
-    return (
-      <ul className={ styles.root }> {
-        this.props.warnings.map(w => {
-          return <Warning
-            key={`${w.line}${w.column}${w.rule}`}
-            line={w.line}
-            column={w.column}
-            text={w.text}
-            rule={w.rule}
-            severity={w.severity}
-          ></Warning>
-        })
-      } </ul>
-    )
-  }
+const WarningList = ({
+  warnings
+}) => {
+  return (
+    <ul className={ root }> {
+      warnings.map(w => {
+        return <Warning
+          key={`${w.line}${w.column}${w.rule}`}
+          line={w.line}
+          column={w.column}
+          text={w.text}
+          rule={w.rule}
+          severity={w.severity}
+        ></Warning>
+      })
+    } </ul>
+  )
 }
 
 WarningList.propTypes = {
   warnings: PropTypes.array.isRequired,
 }
+
+export default WarningList

@@ -1,9 +1,3 @@
-.root {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
 .result {
   align-items: baseline;
   display: flex;
@@ -55,11 +49,5 @@
 
   &:hover {
     text-decoration: none;
-  }
-}
-
-@media (width > 48em) {
-  .root {
-    font-size: 1.125rem;
   }
 }

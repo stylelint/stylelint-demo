@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import LinterContainer from '../common/linter-container'
+import Root from '../common/root'
 
 ReactDOM.render(
-  <LinterContainer />,
+  <Root />,
   document.getElementById('root')
 )

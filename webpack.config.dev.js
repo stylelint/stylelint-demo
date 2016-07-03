@@ -23,8 +23,16 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.css$/,
+        test: /codemirror\.css$/,
         exclude: /node_modules/,
+        loader: "style-loader!css-loader"
+      },
+      {
+        test: /\.css$/,
+        exclude: [
+          /node_modules/,
+          /codemirror\.css$/
+        ],
         loaders: [
           'style',
           'css?' + [

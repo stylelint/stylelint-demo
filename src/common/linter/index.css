@@ -10,7 +10,7 @@
   padding: 1rem 0.5rem;
 }
 
-.console {
+.errorConsole {
   background: crimson;
   border: 1px solid gainsboro;
   border-width: 1px 0;
