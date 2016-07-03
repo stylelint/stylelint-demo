@@ -1,43 +1,33 @@
 import React, { PropTypes } from "react"
 import cx from "classnames"
 
-import {
-  root,
-  result,
-  location,
-  severity,
-  errorSeverity,
-  warningSeverity,
-  message,
-  ruleName,
-  ruleLink
-} from "./index.css"
+import styles from "./index.css"
 
 const Warning = ({
   line,
   column,
   text,
   rule,
-  severity
+  severity,
 }) => {
   const id = `${line}${column}${text}`
   const location = `${line}:${column}`
-  const severityClassName = cx("", {
-    [errorSeverity]: severity === "error",
-    [warningSeverity]: severity === "warning",
-  })
   const warningText = text.replace(`(${rule})`, "")
   const url = `/user-guide/rules/${rule}/`
+  const severityClassName = cx("", {
+    [styles.errorSeverity]: severity === "error",
+    [styles.warningSeverity]: severity === "warning",
+  })
 
   return (
-    <li className={ result } key={ id }>
-      <span className={ location }> { location } </span>
+    <li className={ styles.result } key={ id }>
+      <span className={ styles.location }> { location } </span>
       <span className={ severityClassName }> { severity } </span>
-      <span className={ message }>
+      <span className={ styles.message }>
         { warningText }
-        <span className={ ruleName }>
+        <span className={ styles.ruleName }>
           { "(" }
-            <a className={ ruleLink } href={ url } >
+            <a className={ styles.ruleLink } href={ url } >
               { rule }
             </a>
           { ")" }
@@ -52,7 +42,7 @@ Warning.propTypes = {
   column: PropTypes.number.isRequired,
   text: PropTypes.string.isRequired,
   rule: PropTypes.string.isRequired,
-  severity: PropTypes.string.isRequired
+  severity: PropTypes.string.isRequired,
 }
 
 export default Warning

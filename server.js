@@ -1,33 +1,33 @@
-const compression = require('compression')
-const express = require('express')
-const favicon = require('serve-favicon')
-const bodyParser = require('body-parser')
-const morgan = require('morgan')
-const path = require('path')
-const lint = require('./src/server/lint')
+const compression = require("compression")
+const express = require("express")
+const favicon = require("serve-favicon")
+const bodyParser = require("body-parser")
+const morgan = require("morgan")
+const path = require("path")
+const lint = require("./src/server/lint")
 
-const developmentMiddleware = require('./src/server/development-middleware')
+const developmentMiddleware = require("./src/server/development-middleware")
 
 const NODE_ENV = process.env.NODE_ENV
 const PORT = process.env.PORT || 8080
 const app = express()
-const faviconPath = path.join(__dirname, 'src/static/favicon.ico')
+const faviconPath = path.join(__dirname, "src/static/favicon.ico")
 
-app.locals.settings['x-powered-by'] = false
+app.locals.settings["x-powered-by"] = false
 app.use(favicon(faviconPath))
-app.use(morgan('dev'))
+app.use(morgan("dev"))
 app.use(compression())
 app.use(bodyParser.json())
 
-if (NODE_ENV === 'development') {
+if (NODE_ENV === "development") {
   app.use(developmentMiddleware.dev)
   app.use(developmentMiddleware.hot)
   // app.get('*', developmentMiddleware.index)
 }
 
-app.use(express.static(path.join(__dirname, 'dist'), {maxAge: '1 year'}))
+app.use(express.static(path.join(__dirname, "dist"), { maxAge: "1 year" }))
 // app.use('/static', express.static(path.join(__dirname, 'dist/static'), {maxAge: '1 year'}))
-app.post('/lint', lint)
+app.post("/lint", lint)
 app.listen(PORT, () => {
-  console.log(`Server started on ${PORT} in ${NODE_ENV}`)
+  console.log(`Server started on ${PORT} in ${NODE_ENV}`) // eslint-disable-line no-console
 })

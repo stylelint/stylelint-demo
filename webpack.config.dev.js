@@ -1,66 +1,65 @@
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var glob = require('glob') // eslint-disable-line no-unused-vars
-var path = require('path') // eslint-disable-line no-unused-vars
-var webpack = require('webpack') // eslint-disable-line no-unused-vars
+const HtmlWebpackPlugin = require("html-webpack-plugin")
+const glob = require("glob") // eslint-disable-line no-unused-vars
+const path = require("path") // eslint-disable-line no-unused-vars
+const webpack = require("webpack") // eslint-disable-line no-unused-vars
 
 module.exports = {
   debug: true,
   entry: [
-    'webpack-hot-middleware/client?reload=true',
-    './src/client/index.js'
+    "webpack-hot-middleware/client?reload=true",
+    "./src/client/index.js",
   ],
   output: {
-    filename: '[name]-[hash].js',
-    path: path.join(__dirname, '/dist/'),
-    publicPath: '/'
+    filename: "[name]-[hash:5].js",
+    path: path.join(__dirname, "/dist/"),
+    publicPath: "/",
   },
   module: {
     loaders: [
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
+        loader: "babel-loader",
+        exclude: /node_modules/,
       },
       {
         test: /codemirror\.css$/,
         exclude: /node_modules/,
-        loader: "style-loader!css-loader"
+        loader: "style-loader!css-loader",
       },
       {
         test: /\.css$/,
         exclude: [
           /node_modules/,
-          /codemirror\.css$/
+          /codemirror\.css$/,
         ],
         loaders: [
-          'style',
-          'css?' + [
-            '-autoprefixer',
-            '-mergeRules',
-            'modules',
-            'importLoaders=1',
-            'localIdentName=[folder]-[local]-[hash:base64:5]'
-          ].join('&') + '!postcss'
-        ]
-      }
-    ]
+          "style",
+          "css?" + [
+            "-autoprefixer",
+            "-mergeRules",
+            "modules",
+            "importLoaders=1",
+            "localIdentName=[folder]-[local]-[hash:base64:5]",
+          ].join("&") + "!postcss",
+        ],
+      },
+    ],
   },
-  postcss: function (webpack) {
+  postcss(webpack) {
     return [
-      require('postcss-import')({addDependencyTo: webpack}),
-      require('postcss-cssnext')()
+      require("postcss-import")({ addDependencyTo: webpack }),
+      require("postcss-cssnext")(),
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'index.html',
-      inject: 'body',
-      template: 'src/client/index.ejs'
+      filename: "index.html",
+      inject: "body",
+      template: "src/client/index.ejs",
     }),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-    new webpack.EnvironmentPlugin([ 'NODE_ENV' ])
-  ]
+    new webpack.EnvironmentPlugin(["NODE_ENV"]),
+  ],
 }

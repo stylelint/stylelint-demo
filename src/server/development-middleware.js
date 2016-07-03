@@ -1,31 +1,25 @@
-const path = require('path')
-const webpack = require('webpack')
-const webpackMiddleware = require('webpack-dev-middleware')
-const webpackHotMiddleware = require('webpack-hot-middleware')
-const config = require(path.join(__dirname, '../../webpack.config.dev.js'))
+const path = require("path")
+const webpack = require("webpack")
+const webpackMiddleware = require("webpack-dev-middleware")
+const webpackHotMiddleware = require("webpack-hot-middleware")
+const config = require(path.join(__dirname, "../../webpack.config.dev.js"))
 
 const compiler = webpack(config)
 const dev = webpackMiddleware(compiler, {
   publicPath: config.output.publicPath,
-  contentBase: 'src',
+  contentBase: "src",
   stats: {
     colors: true,
     hash: false,
     timings: true,
     chunks: false,
     chunkModules: false,
-    modules: false
-  }
+    modules: false,
+  },
 })
 const hot = webpackHotMiddleware(compiler)
-// const index = (req, res) => {
-//   res.write(dev.fileSystem.readFileSync(path.join(__dirname, '../../dist/index.html')));
-//   res.end()
-// }
 
 module.exports = {
   dev,
-  hot
-  // ,
-  // index
+  hot,
 }

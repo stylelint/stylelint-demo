@@ -1,10 +1,10 @@
 import React, { PropTypes } from "react"
-import Warning from '../warning'
+import Warning from "../warning"
 
 import { root } from "./index.css"
 
 const WarningList = ({
-  warnings
+  warnings,
 }) => {
   return (
     <ul className={ root }> {

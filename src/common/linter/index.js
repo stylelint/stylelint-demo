@@ -1,4 +1,4 @@
-import React from "react"
+import React, { PropTypes } from "react"
 import Codemirror from "react-codemirror"
 import WarningList from "../warning-list/"
 import "codemirror/mode/css/css"
@@ -9,7 +9,7 @@ import {
   errorConsole,
   results,
   root,
-  input
+  input,
 } from "./index.css"
 
 const Linter = ({
@@ -18,7 +18,7 @@ const Linter = ({
   code,
   config,
   warnings,
-  error
+  error,
 }) => {
   const errorOutput = (
     <div className={ errorConsole }>
@@ -61,8 +61,16 @@ const Linter = ({
   )
 }
 
-// Linter.propTypes = {
-//
-// }
+Linter.propTypes = {
+  onCodeChange: PropTypes.func.isRequired,
+  onConfigChange: PropTypes.func.isRequired,
+  code: PropTypes.string.isRequired,
+  config: PropTypes.string.isRequired,
+  warnings: PropTypes.array.isRequired,
+  error: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.bool,
+  ]).isRequired,
+}
 
 export default Linter

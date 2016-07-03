@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component } from "react"
 import debounce from "lodash.debounce"
-import Linter from '../linter'
+import Linter from "../linter"
 import standardConfig from "stylelint-config-standard"
-import 'whatwg-fetch'
+import "whatwg-fetch"
 
 export default class Root extends Component {
   constructor(props) {
@@ -34,17 +34,17 @@ export default class Root extends Component {
 
   lint() {
     fetch(
-      '/lint',
+      "/lint",
       {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          "Accept": "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           code: this.state.code,
-          config: this.state.config
-        })
+          config: this.state.config,
+        }),
       }
     )
     .then(this.checkResponseStatus)
@@ -52,24 +52,24 @@ export default class Root extends Component {
     .then(data => {
       this.setState({
         warnings: data.warnings,
-        error: false
+        error: false,
       })
     }).catch(error => {
       this.setState({
-        error: `Unable to lint CSS: \n\n ${error}`
+        error: `Unable to lint CSS: \n\n ${error}`,
       })
     })
   }
 
   onCodeChange(code) {
     this.setState({
-      code
+      code,
     }, this.lint)
   }
 
   onConfigChange(config) {
     this.setState({
-      config
+      config,
     }, this.lint)
   }
 
