@@ -1,13 +1,13 @@
 import React, { PropTypes } from "react"
 import Warning from "../warning"
 
-import { root } from "./index.css"
+import styles from "./index.css"
 
 const WarningList = ({
   warnings,
 }) => {
   return (
-    <ul className={ root }> {
+    <ul className={ styles.root }> {
       warnings.map(w => {
         return <Warning
           key={`${w.line}${w.column}${w.rule}`}

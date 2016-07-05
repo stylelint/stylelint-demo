@@ -5,12 +5,7 @@ import "codemirror/mode/css/css"
 import "codemirror/mode/javascript/javascript"
 
 import "./codemirror.css"
-import {
-  errorConsole,
-  results,
-  root,
-  input,
-} from "./index.css"
+import styles from "./index.css"
 
 const Linter = ({
   onCodeChange,
@@ -21,22 +16,22 @@ const Linter = ({
   error,
 }) => {
   const errorOutput = (
-    <div className={ errorConsole }>
+    <div className={ styles.errorConsole }>
       { error }
     </div>
   )
 
   const warningOutput = (
-    <div className={ results }>
+    <div className={ styles.results }>
       <WarningList warnings={ warnings } />
     </div>
   )
 
   return (
-    <div className={ root }>
+    <div className={ styles.root }>
       <Codemirror
         name={ "code" }
-        className={ input }
+        className={ styles.input }
         value={ code }
         onChange={ onCodeChange }
         options={ {
@@ -48,7 +43,7 @@ const Linter = ({
       { error ? errorOutput : warningOutput }
       <Codemirror
         name={ "config" }
-        className={ input }
+        className={ styles.input }
         value={ config }
         onChange={ onConfigChange }
         options={ {
