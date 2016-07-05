@@ -1,3 +1,4 @@
+/* global fetch:false */
 import React, { Component } from "react"
 import debounce from "lodash.debounce"
 import Linter from "../linter"
@@ -23,15 +24,6 @@ export default class Root extends Component {
     this.lint()
   }
 
-  checkResponseStatus(response) {
-    if (response.status >= 200 && response.status < 300) {
-      return response
-    }
-    const error = new Error(response.statusText)
-    error.response = response
-    throw error
-  }
-
   lint() {
     fetch(
       "/lint",
@@ -47,13 +39,18 @@ export default class Root extends Component {
         }),
       }
     )
-    .then(this.checkResponseStatus)
     .then(response => { return response.json() })
     .then(data => {
-      this.setState({
-        warnings: data.warnings,
-        error: false,
-      })
+      if (data.error) {
+        this.setState({
+          error: data.error,
+        })
+      } else {
+        this.setState({
+          warnings: data.warnings,
+          error: false,
+        })
+      }
     }).catch(error => {
       this.setState({
         error: `Unable to lint CSS: \n\n ${error}`,

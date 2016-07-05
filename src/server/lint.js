@@ -1,12 +1,18 @@
 const stylelint = require("stylelint")
 
-module.exports = (req, res) => {
+module.exports = (req, res, next) => {
+  let config
+  try {
+    config = JSON.parse(req.body.config)
+  } catch (err) {
+    return next(new Error("parseConfig"))
+  }
   stylelint.lint({
     code: req.body.code,
-    config: JSON.parse(req.body.config),
+    config,
   }).then(result => {
     res.send({ warnings: result.results[0].warnings })
-  }).catch(err => {
-    console.log("ERROR", err)
+  }).catch((err) => {
+    return next(new Error(err.message))
   })
 }
