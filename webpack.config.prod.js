@@ -1,5 +1,4 @@
-const ExtractTextPlugin = require("extract-text-webpack-plugin")
-const glob = require("glob")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
 const path = require("path")
 const webpack = require("webpack")
 
@@ -7,9 +6,9 @@ module.exports = {
   debug: false,
   entry: "./src/client/index.js",
   output: {
-    filename: "client.js",
-    path: "./dist",
-    publicPath: "/static/",
+    filename: "[name]-[hash:5].js",
+    path: path.join(__dirname, "/dist/"),
+    publicPath: "/",
   },
   module: {
     loaders: [
@@ -19,40 +18,46 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
+        test: /codemirror\.css$/,
+        exclude: /node_modules/,
+        loader: "style-loader!css-loader",
+      },
+      {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader!postcss-loader"),
-      },
-      {
-        test: /\.(png|jpg)$/,
-        loader: "file-loader?name=images/[name].[ext]",
-      },
-      {
-        test: /\.(eot|ttf|woff|woff2)$/,
-        loader: "file-loader?name=fonts/[name].[ext]",
+        exclude: [
+          /node_modules/,
+          /codemirror\.css$/,
+        ],
+        loaders: [
+          "style",
+          "css?" + [
+            "-autoprefixer",
+            "-mergeRules",
+            "modules",
+            "importLoaders=1",
+            "localIdentName=[folder]-[local]-[hash:base64:5]",
+          ].join("&") + "!postcss",
+        ],
       },
     ],
   },
   postcss(webpack) {
     return [
-      require("postcss-import")({
-        addDependencyTo: webpack,
-        resolve(id, base) { // Manually add glob support: https://github.com/postcss/postcss-import/releases/tag/8.0.0
-          return glob.sync(path.join(base, id))
-        },
-      }),
-      require("postcss-custom-properties")(),
-      require("postcss-custom-media")(),
-      require("postcss-media-minmax")(),
+      require("postcss-import")({ addDependencyTo: webpack }),
+      require("postcss-cssnext")(),
     ]
   },
   plugins: [
-    new ExtractTextPlugin("main.css", {
-      allChunks: true,
+    new HtmlWebpackPlugin({
+      filename: "index.html",
+      inject: "body",
+      template: "src/client/index.ejs",
     }),
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.EnvironmentPlugin("NODE_ENV"),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: { warnings: false },
     }),
-    new webpack.EnvironmentPlugin("NODE_ENV"),
   ],
 }

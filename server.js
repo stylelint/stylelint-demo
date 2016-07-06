@@ -6,7 +6,6 @@ const morgan = require("morgan")
 const path = require("path")
 const lint = require("./src/server/lint")
 const errorHandler = require("./src/server/error-handler")
-const developmentMiddleware = require("./src/server/development-middleware")
 
 const NODE_ENV = process.env.NODE_ENV
 const PORT = process.env.PORT || 8080
@@ -20,6 +19,7 @@ app.use(compression())
 app.use(bodyParser.json())
 
 if (NODE_ENV === "development") {
+  const developmentMiddleware = require("./src/server/development-middleware")
   app.use(developmentMiddleware.dev)
   app.use(developmentMiddleware.hot)
 }
