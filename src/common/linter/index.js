@@ -1,10 +1,13 @@
 import React, { PropTypes } from "react"
-import Codemirror from "react-codemirror"
 import WarningList from "../warning-list/"
-import "codemirror/mode/css/css"
-import "codemirror/mode/javascript/javascript"
+import brace from "brace" // eslint-disable-line no-unused-vars
+import AceEditor from "react-ace"
 
-import "./codemirror.css"
+import "brace/mode/json"
+import "brace/mode/css"
+import "brace/theme/github"
+import "brace/ext/language_tools"
+
 import styles from "./index.css"
 
 const Linter = ({
@@ -29,29 +32,42 @@ const Linter = ({
 
   return (
     <div className={ styles.root }>
-      <Codemirror
-        name={ "code" }
-        className={ styles.input }
-        value={ code }
-        onChange={ onCodeChange }
-        options={ {
-          mode: "css",
-          theme: "eclipse",
-          lineNumbers: true,
-        } }
-      />
+      <div className={styles.input}>
+        <AceEditor
+          mode="css"
+          theme="github"
+          name="code"
+          tabSize={2}
+          value={ code }
+          height="100%"
+          width="100%"
+          onChange={onCodeChange}
+          onLoad={(editor) => {
+            editor.focus()
+            // disable Ace's built in syntax checking
+            editor.getSession().setUseWorker(false)
+          }}
+          editorProps={{
+            $blockScrolling: true,
+            enableBasicAutocompletion: true,
+            enableLiveAutocompletion: true,
+          }}
+        />
+      </div>
       { error ? errorOutput : warningOutput }
-      <Codemirror
-        name={ "config" }
-        className={ styles.input }
-        value={ config }
-        onChange={ onConfigChange }
-        options={ {
-          mode: { name: "javascript", json: true },
-          theme: "eclipse",
-          lineNumbers: true,
-        } }
-      />
+      <div className={styles.input}>
+        <AceEditor
+          mode="json"
+          theme="github"
+          name="config"
+          tabSize={2}
+          value={ config }
+          height="100%"
+          width="100%"
+          onChange={onConfigChange}
+          editorProps={{ $blockScrolling: true }}
+        />
+      </div>
     </div>
   )
 }

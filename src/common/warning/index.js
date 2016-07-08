@@ -13,7 +13,7 @@ const Warning = ({
   const id = `${line}${column}${text}`
   const location = `${line}:${column}`
   const warningText = text.replace(`(${rule})`, "")
-  const url = `/user-guide/rules/${rule}/`
+  const url = `http://stylelint.io/user-guide/rules/${rule}/`
   const severityClassName = cx("", {
     [styles.errorSeverity]: severity === "error",
     [styles.warningSeverity]: severity === "warning",
@@ -27,7 +27,7 @@ const Warning = ({
         { warningText }
         <span className={ styles.ruleName }>
           { "(" }
-            <a className={ styles.ruleLink } href={ url } >
+            <a className={ styles.ruleLink } href={ url } target="_blank">
               { rule }
             </a>
           { ")" }
