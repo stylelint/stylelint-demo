@@ -32,7 +32,7 @@ const Linter = ({
 
   return (
     <div className={ styles.root }>
-      <div className={styles.input}>
+      <div className={styles.codeInput}>
         <AceEditor
           mode="css"
           theme="github"
@@ -41,6 +41,8 @@ const Linter = ({
           value={ code }
           height="100%"
           width="100%"
+          maxLines={Infinity}
+          minLines={15}
           onChange={onCodeChange}
           onLoad={(editor) => {
             editor.focus()
@@ -54,8 +56,10 @@ const Linter = ({
           }}
         />
       </div>
-      { error ? errorOutput : warningOutput }
-      <div className={styles.input}>
+      <div className={ styles.output }>
+        { error ? errorOutput : warningOutput }
+      </div>
+      <div className={styles.configInput}>
         <AceEditor
           mode="json"
           theme="github"
@@ -64,6 +68,8 @@ const Linter = ({
           value={ config }
           height="100%"
           width="100%"
+          maxLines={Infinity}
+          minLines={5}
           onChange={onConfigChange}
           editorProps={{ $blockScrolling: true }}
         />

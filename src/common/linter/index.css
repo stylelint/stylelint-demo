@@ -1,18 +1,19 @@
 .root {
   display: flex;
   flex-direction: column;
-  height: 100vh;
 }
 
-.input {
-  min-height: 300px;
-  flex: 1;
+.codeInput,
+.output {
+  border: 1px solid gainsboro;
+  border-width: 0 0 1px;
+}
+
+.output {
+  background-color: whitesmoke;
 }
 
 .results {
-  background: whitesmoke;
-  border: 1px solid gainsboro;
-  border-width: 1px 0;
   padding: 1rem 0.5rem;
 }
 
@@ -24,4 +25,19 @@
   display: block;
   font-family: "Oxygen Mono", monospace;
   padding: 1rem 0.5rem;
+}
+
+@media (min-width: 48em) {
+  .root {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .codeInput { width: 50%; }
+  .output { width: 50%; }
+  .configInput { width: 100%; }
+
+  .results {
+    padding-top: 0;
+  }
 }
