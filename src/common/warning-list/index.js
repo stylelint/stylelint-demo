@@ -8,7 +8,7 @@ const WarningList = ({
 }) => {
   let messages
   if (warnings.length === 0) {
-    messages = <li className={styles.noWarnings}>No warnings found!</li>
+    messages = <li className={styles.success}>✔ No warnings</li>
   } else {
     messages = warnings.map(w => {
       return <Warning

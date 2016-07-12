@@ -4,13 +4,7 @@
   padding: 0;
 }
 
-.noWarnings {
-  font-family: "Oxygen Mono", monospace;
-  color: darkgreen;
-}
-
-@media (width > 48em) {
-  .root {
-    font-size: 1.125rem;
-  }
+.success {
+  color: limegreen;
+  font: 12px/16px Monaco, Menlo, "Ubuntu Mono", Consolas, source-code-pro, monospace;
 }
