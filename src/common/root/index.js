@@ -5,7 +5,7 @@ import Linter from "../linter"
 import standardConfig from "stylelint-config-standard"
 import "whatwg-fetch"
 
-const defaultCSS = `/* Edit your CSS here and the\n   config in the panel below. */\n\na {color: #FFF; }\n`
+const defaultCSS = `a {color: #FFF; }\n`
 
 export default class Root extends Component {
   constructor(props) {

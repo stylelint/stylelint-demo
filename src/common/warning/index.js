@@ -17,6 +17,7 @@ const Warning = ({
   const severityClassName = cx("", {
     [styles.errorSeverity]: severity === "error",
     [styles.warningSeverity]: severity === "warning",
+    [styles.severity]: severity !== "warning" && severity !== "error",
   })
 
   return (

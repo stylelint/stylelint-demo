@@ -19,7 +19,7 @@ const Linter = ({
   error,
 }) => {
   const errorOutput = (
-    <div className={ styles.errorConsole }>
+    <div className={ styles.error }>
       { error }
     </div>
   )
@@ -33,6 +33,12 @@ const Linter = ({
   return (
     <div className={ styles.root }>
       <div className={styles.codeInput}>
+        <span className={ styles.caption }>
+          <select className={ styles.syntax }>
+            <option>{ "CSS" }</option>
+          </select>
+          { "input" }
+        </span>
         <AceEditor
           mode="css"
           theme="github"
@@ -43,6 +49,7 @@ const Linter = ({
           width="100%"
           maxLines={Infinity}
           minLines={15}
+          showPrintMargin={false}
           onChange={onCodeChange}
           onLoad={(editor) => {
             editor.focus()
@@ -57,9 +64,11 @@ const Linter = ({
         />
       </div>
       <div className={ styles.output }>
+        <span className={ styles.caption }>{ "Result" }</span>
         { error ? errorOutput : warningOutput }
       </div>
       <div className={styles.configInput}>
+        <span className={ styles.caption }>{ "Config input" }</span>
         <AceEditor
           mode="json"
           theme="github"
@@ -70,6 +79,7 @@ const Linter = ({
           width="100%"
           maxLines={Infinity}
           minLines={5}
+          showPrintMargin={false}
           onChange={onConfigChange}
           editorProps={{ $blockScrolling: true }}
         />
