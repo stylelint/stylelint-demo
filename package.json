@@ -4,10 +4,14 @@
   "description": "Demo stylelint",
   "main": "server.js",
   "scripts": {
+    "lint:js": "eslint . --ignore-path .gitignore --fix",
+    "lint:css": "stylelint src/common/**/*.css",
+    "lint": "npm-run-all --parallel lint:*",
+    "pretest": "npm run lint",
+    "test": "npm run bundle",
     "prebundle": "rimraf dist",
     "bundle": "NODE_ENV=production webpack --config webpack.config.prod.js",
     "heroku-postbuild": "npm run bundle",
-    "lint": "eslint . --ignore-path .gitignore",
     "start": "NODE_ENV=production node server",
     "start:dev": "NODE_ENV=development nodemon --ignore src/common/ server.js"
   },
@@ -27,6 +31,7 @@
     "express": "^4.12.4",
     "extract-text-webpack-plugin": "^1.0.1",
     "html-webpack-plugin": "^2.21.0",
+    "lodash.debounce": "^4.0.6",
     "morgan": "^1.7.0",
     "postcss-cssnext": "^2.7.0",
     "postcss-import": "^8.1.2",
@@ -43,11 +48,14 @@
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
+    "eslint": "^3.0.0",
     "eslint-config-stylelint": "^3.0.0",
     "eslint-loader": "^1.4.0",
     "eslint-plugin-react": "^5.2.2",
-    "eslint": "^3.0.0",
     "nodemon": "^1.9.2",
+    "npm-run-all": "^2.3.0",
+    "stylelint": "^6.9.0",
+    "stylelint-config-standard": "^9.0.0",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.0"
   },
@@ -84,6 +92,55 @@
       "ecmaFeatures": {
         "jsx": true
       }
+    }
+  },
+  "stylelint": {
+    "extends": "stylelint-config-standard",
+    "rules": {
+      "color-named": "always-where-possible",
+      "color-no-hex": true,
+      "custom-media-pattern": "^([a-z]+-?)*([a-z]+)$",
+      "custom-property-no-outside-root": true,
+      "custom-property-pattern": "^([a-z]+-?)*([a-z]+)$",
+      "declaration-block-no-duplicate-properties": true,
+      "declaration-block-properties-order": [
+        [
+          "composes"
+        ], {
+          "unspecified": "bottomAlphabetical"
+        }
+      ],
+      "font-family-name-quotes": "always-where-recommended",
+      "font-weight-notation": "numeric",
+      "function-url-quotes": "always",
+      "function-whitelist": "",
+      "no-descending-specificity": true,
+      "no-duplicate-selectors": true,
+      "property-blacklist": [
+        "float"
+      ],
+      "property-no-vendor-prefix": true,
+      "root-no-standard-properties": true,
+      "rule-nested-empty-line-before": [
+        "always-multi-line", {
+          "except": ["first-nested"],
+          "ignore": ["after-comment"]
+        }
+      ],
+      "selector-class-pattern": "^([a-z]+[a-zA-Z]*|ng-[a-z]+(-[a-z]+)*)$",
+      "selector-max-specificity": "0,4,0",
+      "selector-no-type": true,
+      "selector-no-universal": true,
+      "selector-no-vendor-prefix": true,
+      "selector-root-no-composition": true,
+      "string-quotes": "double",
+      "unit-whitelist": [
+        "%",
+        "px",
+        "em",
+        "vh"
+      ],
+      "value-no-vendor-prefix": true
     }
   },
   "license": "MIT"
