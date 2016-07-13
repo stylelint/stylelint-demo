@@ -1,14 +1,14 @@
 sudo: false
 language: node_js
 node_js:
-- '6'
-- '4'
+  - '6'
+  - '4'
 cache:
   directories:
-  - node_modules
+    - node_modules
 before_install:
-- npm prune
-- npm update
+  - npm prune
+  - npm update
 deploy:
   provider: heroku
   api_key:
