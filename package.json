@@ -42,7 +42,7 @@
     "rimraf": "^2.5.3",
     "serve-favicon": "^2.3.0",
     "style-loader": "^0.13.1",
-    "stylelint": "^7.0.1",
+    "stylelint": "^7.0.2",
     "stylelint-config-standard": "^11.0.0",
     "webpack": "^1.13.1",
     "whatwg-fetch": "^1.0.0"
@@ -104,7 +104,8 @@
       "declaration-block-properties-order": [
         [
           "composes"
-        ], {
+        ],
+        {
           "unspecified": "bottomAlphabetical"
         }
       ],
@@ -120,9 +121,14 @@
       "property-no-vendor-prefix": true,
       "root-no-standard-properties": true,
       "rule-nested-empty-line-before": [
-        "always-multi-line", {
-          "except": ["first-nested"],
-          "ignore": ["after-comment"]
+        "always-multi-line",
+        {
+          "except": [
+            "first-nested"
+          ],
+          "ignore": [
+            "after-comment"
+          ]
         }
       ],
       "selector-class-pattern": "^([a-z]+[a-zA-Z]*|ng-[a-z]+(-[a-z]+)*)$",
