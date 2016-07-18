@@ -42,7 +42,7 @@
     "rimraf": "^2.5.3",
     "serve-favicon": "^2.3.0",
     "style-loader": "^0.13.1",
-    "stylelint": "^7.0.2",
+    "stylelint": "^7.0.3",
     "stylelint-config-standard": "^11.0.0",
     "webpack": "^1.13.1",
     "whatwg-fetch": "^1.0.0"
