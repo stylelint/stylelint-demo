@@ -10,7 +10,7 @@
     "pretest": "npm run lint",
     "test": "npm run tape",
     "posttest": "npm run bundle",
-    "tape": "babel-tape-runner \"src/**/__tests__/**/*.js\"",
+    "tape": "tape --require babel-core/register \"src/**/__tests__/**/*.js\"",
     "prebundle": "rimraf dist",
     "bundle": "NODE_ENV=production webpack --config webpack.config.prod.js",
     "heroku-postbuild": "npm run bundle",
@@ -52,7 +52,6 @@
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
-    "babel-tape-runner": "^2.0.1",
     "eslint": "^3.0.0",
     "eslint-config-stylelint": "^3.0.0",
     "eslint-loader": "^1.4.0",
