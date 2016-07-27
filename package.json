@@ -2,18 +2,20 @@
   "name": "stylelint-demo",
   "version": "0.0.1",
   "description": "Demo stylelint",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "lint:js": "eslint . --ignore-path .gitignore --fix",
     "lint:css": "stylelint src/common/**/*.css",
     "lint": "npm-run-all --parallel lint:*",
     "pretest": "npm run lint",
-    "test": "npm run bundle",
+    "test": "npm run tape",
+    "posttest": "npm run bundle",
+    "tape": "babel-tape-runner \"src/**/__tests__/**/*.js\"",
     "prebundle": "rimraf dist",
     "bundle": "NODE_ENV=production webpack --config webpack.config.prod.js",
     "heroku-postbuild": "npm run bundle",
-    "start": "NODE_ENV=production node server",
-    "start:dev": "NODE_ENV=development nodemon --ignore src/common/ server.js"
+    "start": "NODE_ENV=production node index.js",
+    "start:dev": "NODE_ENV=development nodemon --ignore src/common/ index.js"
   },
   "dependencies": {
     "babel-cli": "^6.10.1",
@@ -48,12 +50,15 @@
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
+    "babel-tape-runner": "^2.0.1",
     "eslint": "^3.0.0",
     "eslint-config-stylelint": "^3.0.0",
     "eslint-loader": "^1.4.0",
     "eslint-plugin-react": "^5.2.2",
     "nodemon": "^1.9.2",
     "npm-run-all": "^2.3.0",
+    "supertest": "^1.2.0",
+    "tape": "^4.6.0",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.0"
   },
