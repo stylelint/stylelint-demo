@@ -7,12 +7,15 @@ module.exports = (req, res, next) => {
   } catch (err) {
     return next(new Error("parseConfig"))
   }
-  stylelint.lint({
+  const opts = {
     code: req.body.code,
     config,
-  }).then(result => {
-    res.send({ warnings: result.results[0].warnings })
-  }).catch((err) => {
-    return next(new Error(err.message))
-  })
+  }
+
+  stylelint.lint(opts)
+    .then(result => {
+      res.send({ warnings: result.results[0].warnings })
+    }).catch((err) => {
+      return next(new Error(err.message))
+    })
 }
