@@ -101,6 +101,8 @@
   "stylelint": {
     "extends": "stylelint-config-standard",
     "rules": {
+      "at-rule-no-vendor-prefix": true,
+      "at-rule-whitelist": ["import", "media"],
       "color-named": "always-where-possible",
       "color-no-hex": true,
       "custom-media-pattern": "^([a-z]+-?)*([a-z]+)$",
@@ -118,20 +120,29 @@
       "font-family-name-quotes": "always-where-recommended",
       "font-weight-notation": "numeric",
       "function-url-quotes": "always",
-      "function-whitelist": "",
+      "function-whitelist": ["color"],
+      "media-feature-name-no-vendor-prefix": true,
       "no-descending-specificity": true,
       "no-duplicate-selectors": true,
       "property-blacklist": [
         "float"
       ],
+      "property-no-unknown": [true, {
+        "ignoreProperties": ["composes"]
+      }],
       "property-no-vendor-prefix": true,
       "root-no-standard-properties": true,
       "selector-class-pattern": "^([a-z]+[a-zA-Z]*|ng-[a-z]+(-[a-z]+)*)$",
       "selector-max-specificity": "0,4,0",
+      "selector-no-attribute": true,
       "selector-no-type": true,
       "selector-no-universal": true,
       "selector-no-vendor-prefix": true,
       "selector-root-no-composition": true,
+      "selector-pseudo-class-whitelist": [
+        "hover",
+        "focus"
+      ],
       "string-quotes": "double",
       "unit-whitelist": [
         "%",
