@@ -105,7 +105,7 @@ test("undefined rule error", t => {
     .expect(500)
     .end((err, res) => {
       const actual = JSON.stringify(res.body)
-      const expected = JSON.stringify({ error: "Undefined rule \"this-rule-does-not-exist\"" })
+      const expected = JSON.stringify({ error: "Undefined rule this-rule-does-not-exist" })
       t.error(err)
       t.same(actual, expected)
       t.end()
