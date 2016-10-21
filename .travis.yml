@@ -15,4 +15,4 @@ deploy:
     secure: VA0xNG49NLUIdhwgmOoLOnd/SxtCQxxhvsleSrRVtDpnyxNg8ZrV40bOxiGJyJA5LsnR6N5hwAzhXSsLmSJmh7vo9H35cg6FIP7d1NG10ygDI/+y3onuIgwV4wKtvJ9xzlqd7CTfiU9bi9VlaIScGx3qEuylXKjaoj+0LXzQy5n32GO95Yf52lJi/IbJ1SnaYp4NJyQrO0AIsaSxzsp0e7GQ2H/dpBts+nZkXnAIR0fruNp7mWYFkFXTAGA/Y5mAQXkVa+6Kx2QDlpByoQ6+vf8FmBhbAh0EVVNAiiHaMa2GRPPYH7stBD8FgXOEk+wRd/jfxHFYEV+mEHToAfGupDb0ldgjnQyQAD+WGKetKqmIHhvaoLmvL1EqkjoudfbtriX+UZAeeGCGekwwk5nrFQv+H+rMd/dX57wDQsMhy3ewYp4uq6i/qIo3gjtZE3nmWmn//peB2hPw0tgORurQl5nbgYmOGhym1l1J/CwIrmBzoMoUjAT8coWTYumlymy8Rco6jz08fXwy+IxAQo+B+Od3DBsU9XICtPl0xo/bEZnPvyzq7iTTdszFeoyWnBGxzJQiB+WrfCRRpnjeBMUQFK81TyUpjMhM+dkIkJ0EECD6F2xJtAF9SpuryBo9feL6yzczI2wTXoXIcOKN4teGIEKr8F2vX5IdXypWUK0cdFo=
   app: stylelint-demo
   on:
-    repo: stylelint/demo
+    repo: stylelint/stylelint-demo

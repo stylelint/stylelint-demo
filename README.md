@@ -21,4 +21,4 @@ It consists of two parts:
 Deployment
 ----------
 
-Commits to `master` will be tested by [Travis](https://travis-ci.org/stylelint/demo). Successful builds will automatically be deployed to http://stylelint-demo.herokuapp.com.
+Commits to `master` will be tested by [Travis](https://travis-ci.org/stylelint/stylelint-demo). Successful builds will automatically be deployed to http://stylelint-demo.herokuapp.com.

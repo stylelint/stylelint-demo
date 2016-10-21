@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "stylelint-demo",
   "version": "0.0.1",
   "description": "Demo stylelint",
