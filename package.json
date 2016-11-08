@@ -42,7 +42,7 @@
     "postcss-import": "^8.1.2",
     "postcss-loader": "^1.1.0",
     "react": "^15.0.1",
-    "react-ace": "^4.0.0",
+    "react-ace": "^3.7.0",
     "react-dom": "^15.0.1",
     "rimraf": "^2.5.3",
     "serve-favicon": "^2.3.0",
@@ -65,7 +65,7 @@
     "webpack-hot-middleware": "^2.12.0"
   },
   "engines": {
-    "node": "6.2.1"
+    "node": "6.9.1"
   },
   "repository": {
     "//type": "git",
@@ -73,9 +73,9 @@
   },
   "babel": {
     "presets": [
-      "react",
+      "es2015",
       "stage-2",
-      "es2015"
+      "react"
     ]
   },
   "eslintConfig": {
