@@ -7,6 +7,7 @@ cache:
   directories:
     - node_modules
 before_install:
+  - npm install -g npm
   - npm prune
   - npm update
 deploy:
