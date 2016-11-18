@@ -2,12 +2,10 @@ sudo: false
 language: node_js
 node_js:
   - '6'
-  - '4'
 cache:
   directories:
     - node_modules
 before_install:
-  - npm install -g npm
   - npm prune
   - npm update
 deploy:
