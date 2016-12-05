@@ -54,7 +54,7 @@
   },
   "devDependencies": {
     "eslint": "^3.0.0",
-    "eslint-config-stylelint": "^5.0.0",
+    "eslint-config-stylelint": "^6.0.0",
     "eslint-loader": "^1.4.0",
     "eslint-plugin-react": "^6.5.0",
     "nodemon": "^1.9.2",
