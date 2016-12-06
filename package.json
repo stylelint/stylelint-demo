@@ -54,7 +54,7 @@
   },
   "devDependencies": {
     "eslint": "^3.0.0",
-    "eslint-config-stylelint": "^5.0.0",
+    "eslint-config-stylelint": "^6.0.0",
     "eslint-loader": "^1.4.0",
     "eslint-plugin-react": "^6.5.0",
     "nodemon": "^1.9.2",
@@ -86,17 +86,11 @@
     "plugins": [
       "react"
     ],
-    "rules": {
-      "arrow-spacing": 2,
-      "no-var": 2,
-      "object-shorthand": 2,
-      "prefer-const": 2,
-      "template-curly-spacing": 2
-    },
     "parserOptions": {
       "ecmaFeatures": {
         "jsx": true
-      }
+      },
+      "sourceType": "module"
     }
   },
   "stylelint": {
