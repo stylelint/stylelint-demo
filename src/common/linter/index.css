@@ -55,7 +55,7 @@
   padding: 16px 8px;
 }
 
-@media (min-width: 48em) {
+@media (width > 54em) {
   .root {
     position: relative;
 
