@@ -26,13 +26,13 @@
 }
 
 .errorSeverity {
-  composes: severity;
   background: crimson;
+  composes: severity;
 }
 
 .warningSeverity {
-  composes: severity;
   background: gold;
+  composes: severity;
 }
 
 .message {
