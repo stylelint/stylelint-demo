@@ -60,7 +60,7 @@
     "eslint-plugin-react": "^6.5.0",
     "nodemon": "^1.9.2",
     "npm-run-all": "^4.0.0",
-    "supertest": "^2.0.1",
+    "supertest": "^3.0.0",
     "tape": "^4.6.0",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.0"
