@@ -42,4 +42,10 @@ module.exports = {
     new webpack.EnvironmentPlugin("NODE_ENV"),
     new webpack.optimize.UglifyJsPlugin(),
   ],
+  resolve: {
+    alias: {
+      // Prevent a second copy being bundled as part of react-ace
+      brace: path.resolve("./node_modules/brace"),
+    },
+  },
 }
