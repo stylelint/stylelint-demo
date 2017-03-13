@@ -1,17 +1,17 @@
 sudo: false
 language: node_js
 node_js:
-  - '6'
+- '6'
 cache:
   directories:
-    - node_modules
+  - node_modules
 before_install:
-  - npm prune
-  - npm update
+- npm prune
+- npm update
 deploy:
   provider: heroku
   api_key:
-    secure: VA0xNG49NLUIdhwgmOoLOnd/SxtCQxxhvsleSrRVtDpnyxNg8ZrV40bOxiGJyJA5LsnR6N5hwAzhXSsLmSJmh7vo9H35cg6FIP7d1NG10ygDI/+y3onuIgwV4wKtvJ9xzlqd7CTfiU9bi9VlaIScGx3qEuylXKjaoj+0LXzQy5n32GO95Yf52lJi/IbJ1SnaYp4NJyQrO0AIsaSxzsp0e7GQ2H/dpBts+nZkXnAIR0fruNp7mWYFkFXTAGA/Y5mAQXkVa+6Kx2QDlpByoQ6+vf8FmBhbAh0EVVNAiiHaMa2GRPPYH7stBD8FgXOEk+wRd/jfxHFYEV+mEHToAfGupDb0ldgjnQyQAD+WGKetKqmIHhvaoLmvL1EqkjoudfbtriX+UZAeeGCGekwwk5nrFQv+H+rMd/dX57wDQsMhy3ewYp4uq6i/qIo3gjtZE3nmWmn//peB2hPw0tgORurQl5nbgYmOGhym1l1J/CwIrmBzoMoUjAT8coWTYumlymy8Rco6jz08fXwy+IxAQo+B+Od3DBsU9XICtPl0xo/bEZnPvyzq7iTTdszFeoyWnBGxzJQiB+WrfCRRpnjeBMUQFK81TyUpjMhM+dkIkJ0EECD6F2xJtAF9SpuryBo9feL6yzczI2wTXoXIcOKN4teGIEKr8F2vX5IdXypWUK0cdFo=
+    secure: WdnsRBwmzckP5zpOAzGaZSplgT8uCozjl0rGPD6tAcpqFXv1TbC9K9UNm6NuPvT/XYTGulKexBOESIUJna3VZye+3HwmH6zxAdRHjUtLFl+4wtMEHNMBPyryh+MjR+05NLneS41iRmNpaMMnPJXQKAP+tyE6XJ+dwoKIzZB6y0urGbXdU3sKFV+z410cUsViVTsDmBuj6jEFQ0iKvgmZhXrg/jhIZZYsM8ik7NNrggQ8eWjaeVkdmIfnBY0sxhI34Ym2Y7WULBJgEX4HsH748lbJ2fvLajfTxay1rjqlpuJ9GJyXCeVkSyhK2U/OhpaKsyHf3Miy/2Ft2adJ4zxpR57FC/AhE2gPwX37CYs+sJu9ofQdpRrf1R5L5d0Y3tT12p4CJuRB8Lr/qGIiPlnia6Mr9y2Ng0qiKYd+/FR4z/t1gGG2z/dpz+XQ9oZHKjeIyOZTxmgwYKAkhE1YYBGuxAxa3XekTonf5WwDsb8xRZ5slonJNvT6wjQ6ErH2ixczvyaKDYHphhf0p/BNd79IARkGubJslC2X/02mn3SD5JCqsE44I5UtNU9Kb7uLrQn9fTxg8jRdhAt4TbYT4sBY+GgkWgo8/fcNAloRgrWb95diAQisfTFm0ya2EWhOcqCWfPNisRCQwJS0UkjYXdxH5hfKI6XHmyj8bvJHxJYbmpI=
   app: stylelint-demo
   on:
     repo: stylelint/stylelint-demo
