@@ -1,0 +1,7 @@
+{
+  "map": true,
+  "plugins": {
+    "postcss-nesting": {},
+    "autoprefixer": {}
+  }
+}

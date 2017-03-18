@@ -3,14 +3,11 @@
   flex-direction: column;
 }
 
-.put {
-  position: relative;
-}
-
+.put,
 .codeInput,
 .configInput,
 .output {
-  composes: put;
+  position: relative;
 }
 
 .output {
