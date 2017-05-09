@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react"
+import PropTypes from "prop-types"
+import React from "react"
 import WarningList from "../warning-list/"
 import brace from "brace" // eslint-disable-line no-unused-vars
 import AceEditor from "react-ace"
@@ -94,9 +95,9 @@ Linter.propTypes = {
   code: PropTypes.string.isRequired,
   config: PropTypes.string.isRequired,
   warnings: PropTypes.array.isRequired,
-  error: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.bool,
+  error: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
   ]).isRequired,
 }
 

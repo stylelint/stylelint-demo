@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react"
+import PropTypes from "prop-types"
+import React from "react"
 import cx from "classnames"
 
 import styles from "./index.css"
@@ -28,7 +29,7 @@ const Warning = ({
         { warningText }
         <span className={ styles.ruleName }>
           { "(" }
-            <a className={ styles.ruleLink } href={ url } target="_blank">
+            <a className={ styles.ruleLink } href={ url } target="_blank" rel="noopener noreferrer">
               { rule }
             </a>
           { ")" }
