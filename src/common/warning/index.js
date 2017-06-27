@@ -29,9 +29,9 @@ const Warning = ({
         { warningText }
         <span className={ styles.ruleName }>
           { "(" }
-            <a className={ styles.ruleLink } href={ url } target="_blank" rel="noopener noreferrer">
-              { rule }
-            </a>
+          <a className={ styles.ruleLink } href={ url } target="_blank" rel="noopener noreferrer">
+            { rule }
+          </a>
           { ")" }
         </span>
       </span>

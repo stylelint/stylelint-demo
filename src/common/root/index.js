@@ -41,23 +41,23 @@ export default class Root extends Component {
         }),
       }
     )
-    .then(response => { return response.json() })
-    .then(data => {
-      if (data.error) {
+      .then(response => { return response.json() })
+      .then(data => {
+        if (data.error) {
+          this.setState({
+            error: data.error,
+          })
+        } else {
+          this.setState({
+            warnings: data.warnings,
+            error: false,
+          })
+        }
+      }).catch(error => {
         this.setState({
-          error: data.error,
+          error: `Unable to lint CSS: \n\n ${error}`,
         })
-      } else {
-        this.setState({
-          warnings: data.warnings,
-          error: false,
-        })
-      }
-    }).catch(error => {
-      this.setState({
-        error: `Unable to lint CSS: \n\n ${error}`,
       })
-    })
   }
 
   onCodeChange(code) {
