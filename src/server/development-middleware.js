@@ -1,7 +1,9 @@
 const path = require("path")
 const webpack = require("webpack")
-const webpackMiddleware = require("webpack-dev-middleware")
 const webpackHotMiddleware = require("webpack-hot-middleware")
+const webpackMiddleware = require("webpack-dev-middleware")
+
+// eslint-disable-line sort-requires/sort-requires
 const config = require(path.join(__dirname, "../../webpack.config.dev.js"))
 
 const compiler = webpack(config)
