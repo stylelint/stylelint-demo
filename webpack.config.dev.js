@@ -1,7 +1,7 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const path = require("path") // eslint-disable-line no-unused-vars
-const webpack = require("webpack")
 const prodConfig = require("./webpack.config.prod.js")
+const webpack = require("webpack")
 
 module.exports = {
   entry: [

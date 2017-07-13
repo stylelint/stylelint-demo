@@ -1,11 +1,11 @@
+const bodyParser = require("body-parser")
 const compression = require("compression")
+const errorHandler = require("./error-handler")
 const express = require("express")
 const favicon = require("serve-favicon")
-const bodyParser = require("body-parser")
+const lint = require("./lint")
 const morgan = require("morgan")
 const path = require("path")
-const lint = require("./lint")
-const errorHandler = require("./error-handler")
 
 const NODE_ENV = process.env.NODE_ENV
 
