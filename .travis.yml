@@ -1,13 +1,32 @@
 sudo: false
+
+git:
+  depth: 1
+
+branches:
+  only:
+    - master
+    - /^greenkeeper/.*$/
+
 language: node_js
+
 node_js:
-- '7.5.0'
+  - '8'
+
+# cache node modules
 cache:
   directories:
-  - node_modules
+    - $HOME/.npm
+    - node_modules
+
 before_install:
-- npm prune
-- npm update
+  - npm install -g npm@latest
+  - npm i -g greenkeeper-lockfile@1
+
+before_script: greenkeeper-lockfile-update
+
+after_script: greenkeeper-lockfile-upload
+
 deploy:
   provider: heroku
   api_key:
