@@ -2,17 +2,21 @@
 import React, { Component } from "react"
 import debounce from "lodash.debounce"
 import Linter from "../linter"
+import recommendedConfig from "stylelint-config-recommended"
 import standardConfig from "stylelint-config-standard"
 import "whatwg-fetch"
 
 const defaultCSS = "a {color: #FFF; }\n"
+const config = {
+  rules: Object.assign(recommendedConfig.rules, standardConfig.rules)
+}
 
 export default class Root extends Component {
   constructor(props) {
     super(props)
     this.state = {
       code: defaultCSS,
-      config: JSON.stringify(standardConfig, null, 2),
+      config: JSON.stringify(config, null, 2),
       warnings: [],
       error: false,
     }
