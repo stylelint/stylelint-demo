@@ -1,5 +1,7 @@
 # stylelint-demo
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/stylelint/stylelint-demo.svg)](https://greenkeeper.io/)
+
 An online demo of [stylelint](https://github.com/stylelint/stylelint).
 
 ## Getting started
