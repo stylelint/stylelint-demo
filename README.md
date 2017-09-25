@@ -1,5 +1,7 @@
 # stylelint-demo
 
+[![Build Status](https://travis-ci.org/stylelint/stylelint-demo.svg?branch=master)](https://travis-ci.org/stylelint/stylelint-demo)
+
 An online demo of [stylelint](https://github.com/stylelint/stylelint).
 
 ## Getting started
