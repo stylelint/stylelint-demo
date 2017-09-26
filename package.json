@@ -40,7 +40,7 @@
     "morgan": "^1.7.0",
     "postcss-loader": "^2.0.0",
     "postcss-nesting": "^4.0.0",
-    "react": "^15.0.1",
+    "react": "^16.0.0",
     "react-ace": "^5.0.1",
     "react-css-modules": "^4.1.0",
     "react-dom": "^15.0.1",
