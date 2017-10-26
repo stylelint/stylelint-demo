@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "eslint": "^4.1.0",
-    "eslint-config-stylelint": "^7.0.0",
+    "eslint-config-stylelint": "^8.0.0",
     "eslint-loader": "^1.4.0",
     "eslint-plugin-react": "^7.0.0",
     "nodemon": "^1.9.2",
@@ -89,6 +89,16 @@
         "jsx": true
       },
       "sourceType": "module"
+    },
+    "rules": {
+      "node/no-unsupported-features": [
+        "error",
+        {
+          "ignores": [
+            "modules"
+          ]
+        }
+      ]
     }
   },
   "stylelint": {
