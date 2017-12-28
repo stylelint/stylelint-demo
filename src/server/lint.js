@@ -1,21 +1,23 @@
-const stylelint = require("stylelint")
+const stylelint = require("stylelint");
 
 module.exports = (req, res, next) => {
-  let config
+  let config;
   try {
-    config = JSON.parse(req.body.config)
+    config = JSON.parse(req.body.config);
   } catch (err) {
-    return next(new Error("parseConfig"))
+    return next(new Error("parseConfig"));
   }
   const opts = {
     code: req.body.code,
-    config,
-  }
+    config
+  };
 
-  stylelint.lint(opts)
+  stylelint
+    .lint(opts)
     .then(result => {
-      res.send({ warnings: result.results[0].warnings })
-    }).catch((err) => {
-      return next(new Error(err.message))
+      res.send({ warnings: result.results[0].warnings });
     })
-}
+    .catch(err => {
+      return next(new Error(err.message));
+    });
+};
