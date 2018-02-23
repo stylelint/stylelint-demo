@@ -167,7 +167,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "prettier --write",
+      "npm run prettier --write",
       "git add"
     ]
   },
