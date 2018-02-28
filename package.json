@@ -69,7 +69,7 @@
     "stylelint-order": "^0.8.1",
     "supertest": "^3.0.0",
     "tape": "^4.6.0",
-    "webpack-dev-middleware": "^2.0.0",
+    "webpack-dev-middleware": "^3.0.0",
     "webpack-hot-middleware": "^2.12.0"
   },
   "engines": {
