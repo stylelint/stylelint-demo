@@ -4,6 +4,7 @@ const prodConfig = require("./webpack.config.prod.js");
 const webpack = require("webpack");
 
 module.exports = {
+  mode: "development",
   entry: ["webpack-hot-middleware/client?reload=true", prodConfig.entry],
   output: prodConfig.output,
   module: prodConfig.module,

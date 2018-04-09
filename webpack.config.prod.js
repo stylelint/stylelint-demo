@@ -3,6 +3,7 @@ const path = require("path");
 const webpack = require("webpack");
 
 module.exports = {
+  mode: "production",
   entry: "./src/client/index.js",
   output: {
     filename: "[name]-[hash:5].js",
@@ -39,8 +40,7 @@ module.exports = {
       inject: "body",
       template: "src/client/index.ejs"
     }),
-    new webpack.EnvironmentPlugin("NODE_ENV"),
-    new webpack.optimize.UglifyJsPlugin()
+    new webpack.EnvironmentPlugin("NODE_ENV")
   ],
   resolve: {
     alias: {
