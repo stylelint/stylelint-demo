@@ -42,7 +42,7 @@
     "lodash.debounce": "^4.0.6",
     "morgan": "^1.7.0",
     "postcss-loader": "^2.0.0",
-    "postcss-nesting": "^4.0.0",
+    "postcss-nesting": "^5.0.0",
     "react": "^16.0.0",
     "react-ace": "^6.0.0",
     "react-css-modules": "^4.1.0",
