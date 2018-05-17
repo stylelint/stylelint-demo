@@ -73,7 +73,7 @@
     "webpack-hot-middleware": "^2.12.0"
   },
   "engines": {
-    "node": "8.9.4"
+    "node": "10"
   },
   "babel": {
     "presets": [
