@@ -57,7 +57,7 @@
     "whatwg-fetch": "^2.0.0"
   },
   "devDependencies": {
-    "eslint": "^4.1.0",
+    "eslint": "^5.0.0",
     "eslint-config-stylelint": "^8.0.0",
     "eslint-plugin-react": "^7.0.0",
     "husky": "^0.14.3",
