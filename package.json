@@ -41,8 +41,8 @@
     "html-webpack-plugin": "^3.2.0",
     "lodash.debounce": "^4.0.6",
     "morgan": "^1.7.0",
-    "postcss-loader": "^2.0.0",
-    "postcss-nesting": "^4.0.0",
+    "postcss-loader": "^3.0.0",
+    "postcss-nesting": "^5.0.0",
     "react": "^16.0.0",
     "react-ace": "^6.0.0",
     "react-css-modules": "^4.1.0",
@@ -50,30 +50,30 @@
     "rimraf": "^2.5.3",
     "serve-favicon": "^2.3.0",
     "style-loader": "^0.21.0",
-    "stylelint": "^9.2.0",
+    "stylelint": "^9.5.0",
     "stylelint-config-recommended": "^2.1.0",
     "stylelint-config-standard": "^18.1.0",
     "webpack": "^4.5.0",
     "whatwg-fetch": "^2.0.0"
   },
   "devDependencies": {
-    "eslint": "^4.1.0",
-    "eslint-config-stylelint": "^8.0.0",
+    "eslint": "^5.0.0",
+    "eslint-config-stylelint": "^8.2.0",
     "eslint-plugin-react": "^7.0.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.0.0",
     "nodemon": "^1.9.2",
     "npm-run-all": "^4.0.0",
     "prettier": "^1.9.2",
-    "stylelint-order": "^0.8.1",
+    "stylelint-order": "^1.0.0",
     "supertest": "^3.0.0",
     "tape": "^4.6.0",
-    "webpack-cli": "^2.0.14",
+    "webpack-cli": "^3.0.0",
     "webpack-dev-middleware": "^3.1.2",
     "webpack-hot-middleware": "^2.12.0"
   },
   "engines": {
-    "node": "8.9.4"
+    "node": "10"
   },
   "babel": {
     "presets": [
@@ -97,7 +97,7 @@
       "sourceType": "module"
     },
     "rules": {
-      "node/no-unsupported-features": [
+      "node/no-unsupported-features/es-syntax": [
         "error",
         {
           "ignores": [
