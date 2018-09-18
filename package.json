@@ -53,7 +53,7 @@
     "stylelint": "^9.5.0",
     "stylelint-config-recommended": "^2.1.0",
     "stylelint-config-standard": "^18.1.0",
-    "webpack": "^4.5.0",
+    "webpack": "^4.19.1",
     "whatwg-fetch": "^2.0.0"
   },
   "devDependencies": {
