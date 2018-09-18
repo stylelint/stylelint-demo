@@ -23,6 +23,7 @@
     "start:dev": "NODE_ENV=development nodemon --ignore src/common/ index.js"
   },
   "dependencies": {
+    "autoprefixer": "^9.1.5",
     "babel-cli": "^6.10.1",
     "babel-core": "^6.10.4",
     "babel-eslint": "^8.0.0",
