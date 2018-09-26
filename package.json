@@ -61,7 +61,7 @@
     "eslint": "^5.0.0",
     "eslint-config-stylelint": "^8.2.0",
     "eslint-plugin-react": "^7.0.0",
-    "husky": "^0.14.3",
+    "husky": "^1.0.0",
     "lint-staged": "^7.0.0",
     "nodemon": "^1.9.2",
     "npm-run-all": "^4.0.0",
