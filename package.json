@@ -28,7 +28,6 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
-    "autoprefixer": "^9.1.5",
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8.0.0",
     "body-parser": "^1.15.2",
@@ -41,7 +40,7 @@
     "lodash.debounce": "^4.0.6",
     "morgan": "^1.7.0",
     "postcss-loader": "^3.0.0",
-    "postcss-nesting": "^5.0.0",
+    "postcss-preset-env": "^6.0.7",
     "react": "^16.5.1",
     "react-ace": "^6.0.0",
     "react-css-modules": "^4.1.0",
@@ -82,6 +81,16 @@
       "@babel/preset-env",
       "@babel/preset-react"
     ]
+  },
+  "postcss": {
+    "map": true,
+    "plugins": {
+      "postcss-preset-env": {
+        "features": {
+          "nesting-rules": true
+        }
+      }
+    }
   },
   "eslintConfig": {
     "extends": [
