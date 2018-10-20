@@ -6,6 +6,7 @@ import styles from "./index.css";
 
 const WarningList = ({ warnings }) => {
   let messages;
+
   if (warnings.length === 0) {
     messages = <li className={styles.success}>✔ No warnings</li>;
   } else {
@@ -22,6 +23,7 @@ const WarningList = ({ warnings }) => {
       );
     });
   }
+
   return <ul className={styles.root}> {messages} </ul>;
 };
 

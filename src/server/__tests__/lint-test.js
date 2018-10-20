@@ -30,6 +30,7 @@ test("valid, no warnings", t => {
     .end((err, res) => {
       const actual = JSON.stringify(res.body);
       const expected = JSON.stringify({ warnings: [] });
+
       t.error(err);
       t.same(actual, expected);
       t.end();
@@ -59,6 +60,7 @@ test("CSS warning", t => {
           }
         ]
       });
+
       t.error(err);
       t.same(actual, expected);
       t.end();
@@ -88,6 +90,7 @@ test("CSSSyntaxError warning", t => {
           }
         ]
       });
+
       t.error(err);
       t.same(actual, expected);
       t.end();
@@ -109,6 +112,7 @@ test("parse config error", t => {
       const expected = JSON.stringify({
         error: "Could not parse stylelint config"
       });
+
       t.error(err);
       t.same(actual, expected);
       t.end();
@@ -130,6 +134,7 @@ test("undefined rule error", t => {
       const expected = JSON.stringify({
         error: "Undefined rule this-rule-does-not-exist"
       });
+
       t.error(err);
       t.same(actual, expected);
       t.end();

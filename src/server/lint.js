@@ -2,11 +2,13 @@ const stylelint = require("stylelint");
 
 module.exports = (req, res, next) => {
   let config;
+
   try {
     config = JSON.parse(req.body.config);
   } catch (err) {
     return next(new Error("parseConfig"));
   }
+
   const opts = {
     code: req.body.code,
     config
