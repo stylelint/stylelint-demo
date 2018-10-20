@@ -20,6 +20,7 @@ app.use(bodyParser.json());
 
 if (NODE_ENV === "development") {
   const developmentMiddleware = require("./development-middleware");
+
   app.use(developmentMiddleware.dev);
   app.use(developmentMiddleware.hot);
 }
