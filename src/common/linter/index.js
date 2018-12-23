@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import WarningList from "../warning-list/";
+import SyntaxSelect from "../syntax-select";
 import brace from "brace"; // eslint-disable-line no-unused-vars
 import AceEditor from "react-ace";
 
@@ -14,8 +15,10 @@ import styles from "./index.css";
 const Linter = ({
   onCodeChange,
   onConfigChange,
+  onSyntaxChange,
   code,
   config,
+  syntax,
   warnings,
   error
 }) => {
@@ -31,11 +34,14 @@ const Linter = ({
     <div className={styles.root}>
       <div className={styles.codeInput}>
         <span className={styles.caption}>
-          <select className={styles.syntax}>
-            <option>{"CSS"}</option>
-          </select>
+          <SyntaxSelect
+            selectedSyntax={syntax}
+            onSyntaxChange={onSyntaxChange}
+          />
+
           {"input"}
         </span>
+
         <AceEditor
           mode="css"
           theme="github"
@@ -60,12 +66,16 @@ const Linter = ({
           }}
         />
       </div>
+
       <div className={styles.output}>
         <span className={styles.caption}>{"Result"}</span>
+
         {error ? errorOutput : warningOutput}
       </div>
+
       <div className={styles.configInput}>
         <span className={styles.caption}>{"Config input"}</span>
+
         <AceEditor
           mode="json"
           theme="github"
@@ -88,8 +98,10 @@ const Linter = ({
 Linter.propTypes = {
   onCodeChange: PropTypes.func.isRequired,
   onConfigChange: PropTypes.func.isRequired,
+  onSyntaxChange: PropTypes.any,
   code: PropTypes.string.isRequired,
   config: PropTypes.string.isRequired,
+  syntax: PropTypes.any,
   warnings: PropTypes.array.isRequired,
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired
 };
