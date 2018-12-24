@@ -37,6 +37,34 @@ test("valid, no warnings", t => {
     });
 });
 
+test("valid, no warnings, custom syntax", t => {
+  const body = {
+    code: `a {
+      // hello
+      color: #fff;
+    }`,
+    config: `{
+      "rules": {
+        "no-invalid-double-slash-comments": true
+      }
+    }`,
+    syntax: "scss"
+  };
+
+  request(app)
+    .post("/lint")
+    .send(body)
+    .expect(200)
+    .end((err, res) => {
+      const actual = JSON.stringify(res.body);
+      const expected = JSON.stringify({ warnings: [] });
+
+      t.error(err);
+      t.same(actual, expected);
+      t.end();
+    });
+});
+
 test("CSS warning", t => {
   const body = {
     code: warningCSS,
