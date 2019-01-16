@@ -17,6 +17,7 @@ export default class Root extends Component {
     this.state = {
       code: defaultCSS,
       config: JSON.stringify(config, null, 2),
+      syntax: "css",
       warnings: [],
       error: false
     };
@@ -24,6 +25,7 @@ export default class Root extends Component {
     this.lint = this.lint.bind(this);
     this.onCodeChange = this.onCodeChange.bind(this);
     this.onConfigChange = this.onConfigChange.bind(this);
+    this.onSyntaxChange = this.onSyntaxChange.bind(this);
   }
 
   componentDidMount() {
@@ -39,7 +41,8 @@ export default class Root extends Component {
       },
       body: JSON.stringify({
         code: this.state.code,
-        config: this.state.config
+        config: this.state.config,
+        syntax: this.state.syntax
       })
     })
       .then(response => {
@@ -82,13 +85,24 @@ export default class Root extends Component {
     );
   }
 
+  onSyntaxChange(syntax) {
+    this.setState(
+      {
+        syntax
+      },
+      this.lint
+    );
+  }
+
   render() {
     return (
       <Linter
         onCodeChange={this.onCodeChange}
         onConfigChange={this.onConfigChange}
+        onSyntaxChange={this.onSyntaxChange}
         code={this.state.code}
         config={this.state.config}
+        syntax={this.state.syntax}
         warnings={this.state.warnings}
         error={this.state.error}
       />

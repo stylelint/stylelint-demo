@@ -30,14 +30,6 @@
   z-index: 2;
 }
 
-.syntax {
-  background: transparent;
-  border: 0;
-  color: white;
-  font: 10px Monaco, Menlo, "Ubuntu Mono", Consolas, source-code-pro, monospace;
-  margin-right: 8px;
-}
-
 .results {
   padding: 20px 8px;
 }

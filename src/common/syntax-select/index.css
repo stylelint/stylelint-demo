@@ -1,0 +1,7 @@
+.syntax {
+  background: transparent;
+  border: 0;
+  color: white;
+  font: 10px Monaco, Menlo, "Ubuntu Mono", Consolas, source-code-pro, monospace;
+  margin-right: 8px;
+}
