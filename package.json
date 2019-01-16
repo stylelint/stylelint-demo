@@ -47,7 +47,7 @@
     "rimraf": "^2.6.2",
     "serve-favicon": "^2.5.0",
     "style-loader": "^0.23.1",
-    "stylelint": "^9.9.0",
+    "stylelint": "^9.10.0",
     "stylelint-config-recommended": "^2.1.0",
     "stylelint-config-standard": "^18.2.0",
     "webpack": "^4.21.0",
