@@ -40,10 +40,10 @@
     "morgan": "^1.9.1",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.1.2",
-    "react": "^16.6.3",
+    "react": "^16.8.1",
     "react-ace": "^6.2.0",
     "react-css-modules": "^4.7.7",
-    "react-dom": "^16.6.3",
+    "react-dom": "^16.8.1",
     "rimraf": "^2.6.2",
     "serve-favicon": "^2.5.0",
     "style-loader": "^0.23.1",
@@ -58,6 +58,7 @@
     "eslint": "^5.7.0",
     "eslint-config-stylelint": "^11.0.0",
     "eslint-plugin-react": "^7.11.1",
+    "eslint-plugin-react-hooks": "^1.0.1",
     "husky": "^1.1.2",
     "lint-staged": "^8.0.0",
     "nodemon": "^1.18.4",
@@ -99,7 +100,8 @@
       "plugin:react/recommended"
     ],
     "plugins": [
-      "react"
+      "react",
+      "react-hooks"
     ],
     "parserOptions": {
       "ecmaVersion": 6,
@@ -109,6 +111,7 @@
       }
     },
     "rules": {
+      "react-hooks/rules-of-hooks": "error",
       "node/no-unsupported-features/es-syntax": [
         "error",
         {
