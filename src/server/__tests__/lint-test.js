@@ -1,4 +1,3 @@
-import test from "tape";
 import request from "supertest";
 import app from "../index";
 
@@ -17,27 +16,22 @@ const nonExistentRuleConfig = `{
   }
 }`;
 
-test("valid, no warnings", t => {
+test("valid, no warnings", () => {
   const body = {
     code: validCSS,
     config: validConfig
   };
 
-  request(app)
+  return request(app)
     .post("/lint")
     .send(body)
     .expect(200)
-    .end((err, res) => {
-      const actual = JSON.stringify(res.body);
-      const expected = JSON.stringify({ warnings: [] });
-
-      t.error(err);
-      t.same(actual, expected);
-      t.end();
+    .then(res => {
+      expect(res.body).toEqual({ warnings: [] });
     });
 });
 
-test("valid, no warnings, custom syntax", t => {
+test("valid, no warnings, custom syntax", () => {
   const body = {
     code: `a {
       // hello
@@ -51,33 +45,27 @@ test("valid, no warnings, custom syntax", t => {
     syntax: "scss"
   };
 
-  request(app)
+  return request(app)
     .post("/lint")
     .send(body)
     .expect(200)
-    .end((err, res) => {
-      const actual = JSON.stringify(res.body);
-      const expected = JSON.stringify({ warnings: [] });
-
-      t.error(err);
-      t.same(actual, expected);
-      t.end();
+    .then(res => {
+      expect(res.body).toEqual({ warnings: [] });
     });
 });
 
-test("CSS warning", t => {
+test("CSS warning", () => {
   const body = {
     code: warningCSS,
     config: validConfig
   };
 
-  request(app)
+  return request(app)
     .post("/lint")
     .send(body)
     .expect(200)
-    .end((err, res) => {
-      const actual = JSON.stringify(res.body);
-      const expected = JSON.stringify({
+    .then(res => {
+      const expected = {
         warnings: [
           {
             line: 1,
@@ -87,27 +75,24 @@ test("CSS warning", t => {
             text: 'Expected "#ffffff" to be "#fff" (color-hex-length)'
           }
         ]
-      });
+      };
 
-      t.error(err);
-      t.same(actual, expected);
-      t.end();
+      expect(res.body).toEqual(expected);
     });
 });
 
-test("CSSSyntaxError warning", t => {
+test("CSSSyntaxError warning", () => {
   const body = {
     code: invalidCSS,
     config: validConfig
   };
 
-  request(app)
+  return request(app)
     .post("/lint")
     .send(body)
     .expect(200)
-    .end((err, res) => {
-      const actual = JSON.stringify(res.body);
-      const expected = JSON.stringify({
+    .then(res => {
+      const expected = {
         warnings: [
           {
             line: 1,
@@ -117,54 +102,42 @@ test("CSSSyntaxError warning", t => {
             text: "Unclosed block (CssSyntaxError)"
           }
         ]
-      });
+      };
 
-      t.error(err);
-      t.same(actual, expected);
-      t.end();
+      expect(res.body).toEqual(expected);
     });
 });
 
-test("parse config error", t => {
+test("parse config error", () => {
   const body = {
     code: validCSS,
     config: invalidConfig
   };
 
-  request(app)
+  return request(app)
     .post("/lint")
     .send(body)
     .expect(500)
-    .end((err, res) => {
-      const actual = JSON.stringify(res.body);
-      const expected = JSON.stringify({
+    .then(res => {
+      expect(res.body).toEqual({
         error: "Could not parse stylelint config"
       });
-
-      t.error(err);
-      t.same(actual, expected);
-      t.end();
     });
 });
 
-test("undefined rule error", t => {
+test("undefined rule error", () => {
   const body = {
     code: validCSS,
     config: nonExistentRuleConfig
   };
 
-  request(app)
+  return request(app)
     .post("/lint")
     .send(body)
     .expect(500)
-    .end((err, res) => {
-      const actual = JSON.stringify(res.body);
-      const expected = JSON.stringify({
+    .then(res => {
+      expect(res.body).toEqual({
         error: "Undefined rule this-rule-does-not-exist"
       });
-
-      t.error(err);
-      t.same(actual, expected);
-      t.end();
     });
 });
