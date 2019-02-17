@@ -76,3 +76,90 @@
     width: 50%;
   }
 }
+
+.editorWrapper {
+  border-left: 55px solid #e8e8e8;
+  font: 12px/normal Monaco, Menlo, "Ubuntu Mono", Consolas, source-code-pro, monospace;
+}
+
+.editor {
+  counter-reset: line;
+  min-height: 240px;
+}
+
+.editorLineNumber::before {
+  color: #aaa;
+  content: counter(line);
+  counter-increment: line;
+  margin-right: 13px;
+  position: absolute;
+  right: 100%;
+  text-align: right;
+  user-select: none;
+}
+
+/* stylelint-disable selector-class-pattern */
+:global .token.comment,
+:global .token.prolog,
+:global .token.doctype,
+:global .token.cdata {
+  color: slategray;
+}
+
+:global .token.punctuation {
+  color: #999;
+}
+
+:global .namespace {
+  opacity: 0.7;
+}
+
+:global .token.property,
+:global .token.tag,
+:global .token.boolean,
+:global .token.number,
+:global .token.constant,
+:global .token.symbol,
+:global .token.deleted {
+  color: #905;
+}
+
+:global .token.selector,
+:global .token.attr-name,
+:global .token.string,
+:global .token.char,
+:global .token.builtin,
+:global .token.inserted {
+  color: #690;
+}
+
+:global .token.operator,
+:global .token.entity,
+:global .token.url,
+:global .language-css .token.string,
+:global .style .token.string {
+  background: hsla(0, 0%, 100%, 0.5);
+  color: #9a6e3a;
+}
+
+:global .token.atrule,
+:global .token.attr-value,
+:global .token.keyword {
+  color: #07a;
+}
+
+:global .token.function,
+:global .token.class-name {
+  color: #dd4a68;
+}
+
+:global .token.regex,
+:global .token.important,
+:global .token.variable {
+  color: #e90;
+}
+
+:global .language-json .token.number,
+:global .language-json .token.boolean {
+  color: #25b;
+}
