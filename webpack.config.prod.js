@@ -41,11 +41,5 @@ module.exports = {
       template: "src/client/index.ejs"
     }),
     new webpack.EnvironmentPlugin("NODE_ENV")
-  ],
-  resolve: {
-    alias: {
-      // Prevent a second copy being bundled as part of react-ace
-      brace: path.resolve("./node_modules/brace")
-    }
-  }
+  ]
 };

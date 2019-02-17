@@ -1,16 +1,21 @@
-import PropTypes from "prop-types";
 import React from "react";
+import PropTypes from "prop-types";
+import Editor from "react-simple-code-editor";
+import { highlight, languages } from "prismjs/components/prism-core";
+import "prismjs/components/prism-css";
+import "prismjs/components/prism-json";
+
 import WarningList from "../warning-list/";
 import SyntaxSelect from "../syntax-select";
-import brace from "brace"; // eslint-disable-line no-unused-vars
-import AceEditor from "react-ace";
-
-import "brace/mode/json";
-import "brace/mode/css";
-import "brace/theme/github";
-import "brace/ext/language_tools";
 
 import styles from "./index.css";
+
+function hightlightWithLineNumbers(input, language) {
+  return highlight(input, language)
+    .split("\n")
+    .map(line => `<span class=${styles.editorLineNumber}></span>${line}`)
+    .join("\n");
+}
 
 const Linter = ({
   onCodeChange,
@@ -42,29 +47,15 @@ const Linter = ({
           {"input"}
         </span>
 
-        <AceEditor
-          mode="css"
-          theme="github"
-          name="code"
-          tabSize={2}
-          value={code}
-          height="100%"
-          width="100%"
-          maxLines={Infinity}
-          minLines={15}
-          showPrintMargin={false}
-          onChange={onCodeChange}
-          onLoad={editor => {
-            editor.focus();
-            // disable Ace's built in syntax checking
-            editor.getSession().setUseWorker(false);
-          }}
-          editorProps={{
-            $blockScrolling: true,
-            enableBasicAutocompletion: true,
-            enableLiveAutocompletion: true
-          }}
-        />
+        <div className={styles.editorWrapper}>
+          <Editor
+            value={code}
+            onValueChange={onCodeChange}
+            highlight={input => hightlightWithLineNumbers(input, languages.css)}
+            className={styles.editor}
+            padding={10}
+          />
+        </div>
       </div>
 
       <div className={styles.output}>
@@ -76,20 +67,17 @@ const Linter = ({
       <div className={styles.configInput}>
         <span className={styles.caption}>{"Config input"}</span>
 
-        <AceEditor
-          mode="json"
-          theme="github"
-          name="config"
-          tabSize={2}
-          value={config}
-          height="100%"
-          width="100%"
-          maxLines={Infinity}
-          minLines={5}
-          showPrintMargin={false}
-          onChange={onConfigChange}
-          editorProps={{ $blockScrolling: true }}
-        />
+        <div className={styles.editorWrapper}>
+          <Editor
+            value={config}
+            onValueChange={onConfigChange}
+            highlight={input =>
+              hightlightWithLineNumbers(input, languages.json)
+            }
+            className={`${styles.editor} language-json`}
+            padding={10}
+          />
+        </div>
       </div>
     </div>
   );
