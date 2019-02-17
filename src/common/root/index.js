@@ -1,10 +1,10 @@
 /* global fetch:false */
 import React, { useState, useEffect } from "react";
-import debounce from "lodash.debounce";
 import Linter from "../linter";
 import recommendedConfig from "stylelint-config-recommended";
 import standardConfig from "stylelint-config-standard";
 import "whatwg-fetch";
+import { useDebouncedCallback } from "use-debounce";
 
 const defaultCSS = "a {color: #FFF; }\n";
 const defaultConfig = {
@@ -47,9 +47,13 @@ export default function Root() {
       });
   }
 
+  const debouncedLint = useDebouncedCallback(() => {
+    lint();
+  }, 250);
+
   useEffect(() => {
-    debounce(lint, 250)();
-  });
+    debouncedLint();
+  }, [code, config, syntax]);
 
   return (
     <Linter
