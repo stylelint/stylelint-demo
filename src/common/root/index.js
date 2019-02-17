@@ -4,7 +4,7 @@ import Linter from "../linter";
 import recommendedConfig from "stylelint-config-recommended";
 import standardConfig from "stylelint-config-standard";
 import "whatwg-fetch";
-import useDebouncedCallback from "use-debounce/lib/callback";
+import { useDebouncedCallback } from "use-debounce";
 
 const defaultCSS = "a {color: #FFF; }\n";
 const defaultConfig = {
