@@ -47,7 +47,7 @@
     "stylelint": "^10.0.1",
     "stylelint-config-recommended": "^2.2.0",
     "stylelint-config-standard": "^18.3.0",
-    "use-debounce": "1.1.1",
+    "use-debounce": "1.1.3",
     "webpack": "^4.21.0",
     "whatwg-fetch": "^3.0.0"
   },
