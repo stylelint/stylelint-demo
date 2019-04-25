@@ -29,16 +29,12 @@ const syntaxes = [
     id: "html"
   },
   {
-    name: "JSX",
-    id: "jsx"
-  },
-  {
     name: "Markdown",
     id: "markdown"
   },
   {
-    name: "Styled",
-    id: "styled"
+    name: "CSS-in-JS",
+    id: "css-in-js"
   }
 ];
 
