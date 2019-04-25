@@ -47,7 +47,7 @@ export default function Root() {
       });
   }
 
-  const debouncedLint = useDebouncedCallback(() => {
+  const [debouncedLint] = useDebouncedCallback(() => {
     lint();
   }, 250);
 
