@@ -40,7 +40,7 @@
     "react": "^16.8.1",
     "react-css-modules": "^4.7.7",
     "react-dom": "^16.8.1",
-    "react-simple-code-editor": "0.9.1",
+    "react-simple-code-editor": "0.9.14",
     "rimraf": "^3.0.0",
     "serve-favicon": "^2.5.0",
     "style-loader": "^1.0.0",
