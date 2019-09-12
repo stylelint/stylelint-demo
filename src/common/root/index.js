@@ -32,8 +32,14 @@ export default function Root() {
   const [syntax, setSyntax] = useState(syntaxQueryParam || defaultSyntax);
   const [warnings, setWarnings] = useState([]);
   const [error, setError] = useState(false);
-  const setUrl = () => {
-    window.location.hash = compress({ code, syntax, config });
+  const handleDataChange = () => {
+    const query = compress({ code, syntax, config });
+
+    window.location.hash = query;
+
+    if (window.parent) {
+      window.parent.postMessage(query, "*");
+    }
   };
   const lint = () => {
     fetch("/lint", {
@@ -64,15 +70,13 @@ export default function Root() {
       });
   };
 
-  const [debouncedLint] = useDebouncedCallback(lint, inputDelayMs);
-  const [debouncedSetUrl] = useDebouncedCallback(setUrl, inputDelayMs);
+  const [debouncedLint] = useDebouncedCallback(() => {
+    lint();
+    handleDataChange();
+  }, inputDelayMs);
 
   useEffect(() => {
     debouncedLint();
-  }, [code, config, syntax]);
-
-  useEffect(() => {
-    debouncedSetUrl();
   }, [code, config, syntax]);
 
   return (
