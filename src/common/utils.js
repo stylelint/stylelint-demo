@@ -21,11 +21,9 @@ export function parseQuery(queryString) {
 
 export function stringifyQuery(queryObj) {
   return Object.keys(queryObj)
-    .reduce((acc, key) => {
-      acc.push(`${key}=${queryObj[key]}`);
-
-      return acc;
-    }, [])
+    .map(
+      key => `${encodeURIComponent(key)}=${encodeURIComponent(queryObj[key])}`
+    )
     .join("&");
 }
 

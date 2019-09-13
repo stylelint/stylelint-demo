@@ -32,16 +32,8 @@ export default function Root() {
   const [syntax, setSyntax] = useState(syntaxQueryParam || defaultSyntax);
   const [warnings, setWarnings] = useState([]);
   const [error, setError] = useState(false);
-  const handleDataChange = () => {
-    const query = compress({ code, syntax, config });
 
-    window.location.hash = query;
-
-    if (window.parent) {
-      window.parent.postMessage(query, "*");
-    }
-  };
-  const lint = () => {
+  function lint() {
     fetch("/lint", {
       method: "POST",
       headers: {
@@ -68,11 +60,17 @@ export default function Root() {
       .catch(error => {
         setError(`Unable to lint CSS: \n\n ${error}`);
       });
-  };
+  }
 
   const [debouncedLint] = useDebouncedCallback(() => {
     lint();
-    handleDataChange();
+    const query = compress({ code, syntax, config });
+
+    window.location.hash = query;
+
+    if (window.parent) {
+      window.parent.postMessage(query, "*");
+    }
   }, inputDelayMs);
 
   useEffect(() => {
