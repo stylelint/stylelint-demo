@@ -134,10 +134,20 @@ test("undefined rule error", () => {
   return request(app)
     .post("/lint")
     .send(body)
-    .expect(500)
+    .expect(200)
     .then(res => {
-      expect(res.body).toEqual({
-        error: "Undefined rule this-rule-does-not-exist"
-      });
+      const expected = {
+        warnings: [
+          {
+            line: 1,
+            column: 1,
+            rule: "this-rule-does-not-exist",
+            severity: "error",
+            text: "Unknown rule this-rule-does-not-exist."
+          }
+        ]
+      };
+
+      expect(res.body).toEqual(expected);
     });
 });
