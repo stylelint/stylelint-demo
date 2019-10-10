@@ -9,17 +9,10 @@ module.exports = (req, res, next) => {
     return next(new Error("parseConfig"));
   }
 
-  let syntax = req.body.syntax;
-
-  // syntax is for non-standard syntaxes only
-  if (syntax === "css") {
-    syntax = undefined;
-  }
-
   const opts = {
     code: req.body.code,
     config,
-    syntax
+    syntax: req.body.syntax
   };
 
   stylelint
