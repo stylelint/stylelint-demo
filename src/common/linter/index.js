@@ -24,6 +24,7 @@ const Linter = ({
   code,
   config,
   syntax,
+  invalidOptionWarnings,
   warnings,
   error
 }) => {
@@ -31,7 +32,10 @@ const Linter = ({
 
   const warningOutput = (
     <div className={styles.results}>
-      <WarningList warnings={warnings} />
+      <WarningList
+        invalidOptionWarnings={invalidOptionWarnings}
+        warnings={warnings}
+      />
     </div>
   );
 
@@ -90,6 +94,7 @@ Linter.propTypes = {
   code: PropTypes.string.isRequired,
   config: PropTypes.string.isRequired,
   syntax: PropTypes.any,
+  invalidOptionWarnings: PropTypes.array.isRequired,
   warnings: PropTypes.array.isRequired,
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired
 };

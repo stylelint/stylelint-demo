@@ -18,7 +18,9 @@ module.exports = (req, res, next) => {
   stylelint
     .lint(opts)
     .then(result => {
-      res.send({ warnings: result.results[0].warnings });
+      const { invalidOptionWarnings, warnings } = result.results[0];
+
+      res.send({ invalidOptionWarnings, warnings });
     })
     .catch(err => {
       return next(new Error(err.message));
