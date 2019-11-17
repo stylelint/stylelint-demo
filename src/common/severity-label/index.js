@@ -11,7 +11,7 @@ const SeverityLabel = ({ severity }) => {
     [styles.severity]: severity !== "warning" && severity !== "error"
   });
 
-  return <span className={severityClassName}> {severity} </span>;
+  return <span className={severityClassName}>{severity}</span>;
 };
 
 SeverityLabel.propTypes = {
