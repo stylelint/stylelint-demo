@@ -30,6 +30,7 @@ export default function Root() {
     configQueryParam ? configQueryParam : JSON.stringify(defaultConfig, null, 2)
   );
   const [syntax, setSyntax] = useState(syntaxQueryParam || defaultSyntax);
+  const [invalidOptionWarnings, setInvalidOptionWarnings] = useState([]);
   const [warnings, setWarnings] = useState([]);
   const [error, setError] = useState(false);
 
@@ -52,10 +53,19 @@ export default function Root() {
       .then(data => {
         if (data.error) {
           setError(data.error);
-        } else {
-          setWarnings(data.warnings);
-          setError(false);
+
+          return;
         }
+
+        if (data.invalidOptionWarnings) {
+          setInvalidOptionWarnings(data.invalidOptionWarnings);
+        }
+
+        if (data.warnings) {
+          setWarnings(data.warnings);
+        }
+
+        setError(false);
       })
       .catch(error => {
         setError(`Unable to lint CSS: \n\n ${error}`);
@@ -89,6 +99,7 @@ export default function Root() {
       code={code}
       config={config}
       syntax={syntax}
+      invalidOptionWarnings={invalidOptionWarnings}
       warnings={warnings}
       error={error}
     />

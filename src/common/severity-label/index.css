@@ -1,0 +1,22 @@
+.severity {
+  background: grey;
+  border-radius: 2px;
+  color: white;
+  flex: none;
+  font-family: Monaco, Menlo, "Ubuntu Mono", Consolas, source-code-pro, monospace;
+  font-size: 10px;
+  margin: 0 8px 0 0;
+  min-width: 48px;
+  padding: 0 4px;
+  text-align: center;
+}
+
+.errorSeverity {
+  background: crimson;
+  composes: severity;
+}
+
+.warningSeverity {
+  background: gold;
+  composes: severity;
+}

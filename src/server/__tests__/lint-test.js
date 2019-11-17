@@ -15,6 +15,23 @@ const nonExistentRuleConfig = `{
     "this-rule-does-not-exist": true
   }
 }`;
+const invalidOptionConfig = `{
+  "rules": {
+    "color-hex-length": "short",
+    "at-rule-empty-line-before": [
+      "always",
+      {
+        "except": [
+          "blockless-after-same-name-blockless",
+          "first-nested"
+        ],
+        "ignore": [
+          "all"
+        ]
+      }
+    ]
+  }
+}`;
 
 test("valid, no warnings", () => {
   const body = {
@@ -27,7 +44,7 @@ test("valid, no warnings", () => {
     .send(body)
     .expect(200)
     .then(res => {
-      expect(res.body).toEqual({ warnings: [] });
+      expect(res.body).toEqual({ invalidOptionWarnings: [], warnings: [] });
     });
 });
 
@@ -50,7 +67,7 @@ test("valid, no warnings, custom syntax", () => {
     .send(body)
     .expect(200)
     .then(res => {
-      expect(res.body).toEqual({ warnings: [] });
+      expect(res.body).toEqual({ invalidOptionWarnings: [], warnings: [] });
     });
 });
 
@@ -66,6 +83,7 @@ test("CSS warning", () => {
     .expect(200)
     .then(res => {
       const expected = {
+        invalidOptionWarnings: [],
         warnings: [
           {
             line: 1,
@@ -93,6 +111,7 @@ test("CSSSyntaxError warning", () => {
     .expect(200)
     .then(res => {
       const expected = {
+        invalidOptionWarnings: [],
         warnings: [
           {
             line: 1,
@@ -137,6 +156,7 @@ test("undefined rule error", () => {
     .expect(200)
     .then(res => {
       const expected = {
+        invalidOptionWarnings: [],
         warnings: [
           {
             line: 1,
@@ -144,6 +164,64 @@ test("undefined rule error", () => {
             rule: "this-rule-does-not-exist",
             severity: "error",
             text: "Unknown rule this-rule-does-not-exist."
+          }
+        ]
+      };
+
+      expect(res.body).toEqual(expected);
+    });
+});
+
+test("invalid option warnings", () => {
+  const body = {
+    code: validCSS,
+    config: invalidOptionConfig
+  };
+
+  return request(app)
+    .post("/lint")
+    .send(body)
+    .expect(200)
+    .then(res => {
+      const expected = {
+        invalidOptionWarnings: [
+          {
+            text:
+              'Invalid value "all" for option "ignore" of rule "at-rule-empty-line-before"'
+          }
+        ],
+        warnings: []
+      };
+
+      expect(res.body).toEqual(expected);
+    });
+});
+
+test("invalid option and warning css", () => {
+  const body = {
+    code: warningCSS,
+    config: invalidOptionConfig
+  };
+
+  return request(app)
+    .post("/lint")
+    .send(body)
+    .expect(200)
+    .then(res => {
+      const expected = {
+        invalidOptionWarnings: [
+          {
+            text:
+              'Invalid value "all" for option "ignore" of rule "at-rule-empty-line-before"'
+          }
+        ],
+        warnings: [
+          {
+            line: 1,
+            column: 12,
+            rule: "color-hex-length",
+            severity: "error",
+            text: 'Expected "#ffffff" to be "#fff" (color-hex-length)'
           }
         ]
       };
