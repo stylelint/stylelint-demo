@@ -78,7 +78,7 @@
 }
 
 .editorWrapper {
-  border-left: 55px solid #e8e8e8;
+  background: linear-gradient(to right, #e8e8e8 55px, transparent 55px);
   font: 12px/normal Monaco, Menlo, "Ubuntu Mono", Consolas, source-code-pro, monospace;
 }
 
@@ -87,15 +87,21 @@
   min-height: 240px;
 }
 
+/* stylelint-disable-next-line selector-max-type */
+.editor pre,
+.editor textarea {
+  padding-left: 65px !important;
+}
+
 .editorLineNumber::before {
   color: #aaa;
   content: counter(line);
   counter-increment: line;
-  margin-right: 13px;
+  left: 0;
   position: absolute;
-  right: 100%;
   text-align: right;
   user-select: none;
+  width: 42px;
 }
 
 /* stylelint-disable selector-class-pattern */
