@@ -31,6 +31,7 @@ export default function Root() {
   );
   const [syntax, setSyntax] = useState(syntaxQueryParam || defaultSyntax);
   const [invalidOptionWarnings, setInvalidOptionWarnings] = useState([]);
+  const [parseErrors, setParseErrors] = useState([]);
   const [warnings, setWarnings] = useState([]);
   const [error, setError] = useState(false);
 
@@ -59,6 +60,10 @@ export default function Root() {
 
         if (data.invalidOptionWarnings) {
           setInvalidOptionWarnings(data.invalidOptionWarnings);
+        }
+
+        if (data.parseErrors) {
+          setParseErrors(data.parseErrors);
         }
 
         if (data.warnings) {
@@ -100,6 +105,7 @@ export default function Root() {
       config={config}
       syntax={syntax}
       invalidOptionWarnings={invalidOptionWarnings}
+      parseErrors={parseErrors}
       warnings={warnings}
       error={error}
     />
