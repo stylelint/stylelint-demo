@@ -4,9 +4,11 @@ import cx from "classnames";
 
 import styles from "./index.css";
 
+const errorSeverityList = ["error", "invalid option", "parse error"];
+
 const SeverityLabel = ({ severity }) => {
   const severityClassName = cx("", {
-    [styles.errorSeverity]: severity === "error" || "invalid option",
+    [styles.errorSeverity]: errorSeverityList.includes(severity),
     [styles.warningSeverity]: severity === "warning",
     [styles.severity]: severity !== "warning" && severity !== "error"
   });

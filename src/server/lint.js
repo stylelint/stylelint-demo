@@ -1,5 +1,7 @@
 const stylelint = require("stylelint");
 
+const { uniqueParseErrors } = require("./utils");
+
 module.exports = (req, res, next) => {
   let config;
 
@@ -18,9 +20,18 @@ module.exports = (req, res, next) => {
   stylelint
     .lint(opts)
     .then(result => {
-      const { invalidOptionWarnings, warnings } = result.results[0];
+      const {
+        invalidOptionWarnings,
+        parseErrors,
+        warnings
+      } = result.results[0];
+      const filteredParseErrors = uniqueParseErrors(parseErrors);
 
-      res.send({ invalidOptionWarnings, warnings });
+      res.send({
+        invalidOptionWarnings,
+        parseErrors: filteredParseErrors,
+        warnings
+      });
     })
     .catch(err => {
       return next(new Error(err.message));

@@ -16,18 +16,20 @@ const LintWarning = ({ line, column, text, rule, severity }) => {
       <SeverityLabel severity={severity} />
       <span className={styles.message}>
         {warningText}
-        <span className={styles.ruleName}>
-          {"("}
-          <a
-            className={styles.ruleLink}
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {rule}
-          </a>
-          {")"}
-        </span>
+        {rule ? (
+          <span className={styles.ruleName}>
+            {"("}
+            <a
+              className={styles.ruleLink}
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {rule}
+            </a>
+            {")"}
+          </span>
+        ) : null}
       </span>
     </div>
   );
@@ -37,7 +39,7 @@ LintWarning.propTypes = {
   line: PropTypes.number.isRequired,
   column: PropTypes.number.isRequired,
   text: PropTypes.string.isRequired,
-  rule: PropTypes.string.isRequired,
+  rule: PropTypes.string,
   severity: PropTypes.string.isRequired
 };
 
