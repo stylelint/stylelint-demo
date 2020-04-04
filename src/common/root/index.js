@@ -12,7 +12,7 @@ const inputDelayMs = 250;
 const defaultCSS = "a {color: #FFF; }\n";
 const defaultSyntax = "css";
 const defaultConfig = {
-  rules: Object.assign(recommendedConfig.rules, standardConfig.rules)
+  rules: Object.assign(recommendedConfig.rules, standardConfig.rules),
 };
 
 const hashData = window.location.hash.slice(
@@ -21,7 +21,7 @@ const hashData = window.location.hash.slice(
 const {
   code: codeQueryParam,
   syntax: syntaxQueryParam,
-  config: configQueryParam
+  config: configQueryParam,
 } = decompress(hashData);
 
 export default function Root() {
@@ -40,18 +40,18 @@ export default function Root() {
       method: "POST",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         code,
         config,
-        syntax
-      })
+        syntax,
+      }),
     })
-      .then(response => {
+      .then((response) => {
         return response.json();
       })
-      .then(data => {
+      .then((data) => {
         if (data.error) {
           setError(data.error);
 
@@ -72,7 +72,7 @@ export default function Root() {
 
         setError(false);
       })
-      .catch(error => {
+      .catch((error) => {
         setError(`Unable to lint CSS: \n\n ${error}`);
       });
   }
@@ -94,10 +94,10 @@ export default function Root() {
 
   return (
     <Linter
-      onCodeChange={input => {
+      onCodeChange={(input) => {
         setCode(input);
       }}
-      onConfigChange={input => {
+      onConfigChange={(input) => {
         setConfig(input);
       }}
       onSyntaxChange={setSyntax}

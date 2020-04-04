@@ -15,12 +15,12 @@ const dev = webpackMiddleware(compiler, {
     timings: true,
     chunks: false,
     chunkModules: false,
-    modules: false
-  }
+    modules: false,
+  },
 });
 const hot = webpackHotMiddleware(compiler);
 
 module.exports = {
   dev,
-  hot
+  hot,
 };

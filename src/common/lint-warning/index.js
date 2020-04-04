@@ -40,7 +40,7 @@ LintWarning.propTypes = {
   column: PropTypes.number.isRequired,
   text: PropTypes.string.isRequired,
   rule: PropTypes.string,
-  severity: PropTypes.string.isRequired
+  severity: PropTypes.string.isRequired,
 };
 
 export default LintWarning;

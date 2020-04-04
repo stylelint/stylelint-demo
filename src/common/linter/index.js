@@ -13,7 +13,7 @@ import styles from "./index.css";
 function hightlightWithLineNumbers(input, language) {
   return highlight(input, language)
     .split("\n")
-    .map(line => `<span class=${styles.editorLineNumber}></span>${line}`)
+    .map((line) => `<span class=${styles.editorLineNumber}></span>${line}`)
     .join("\n");
 }
 
@@ -27,7 +27,7 @@ const Linter = ({
   invalidOptionWarnings,
   parseErrors,
   warnings,
-  error
+  error,
 }) => {
   const errorOutput = <div className={styles.error}>{error}</div>;
 
@@ -57,7 +57,9 @@ const Linter = ({
           <Editor
             value={code}
             onValueChange={onCodeChange}
-            highlight={input => hightlightWithLineNumbers(input, languages.css)}
+            highlight={(input) =>
+              hightlightWithLineNumbers(input, languages.css)
+            }
             className={styles.editor}
             padding={10}
           />
@@ -77,7 +79,7 @@ const Linter = ({
           <Editor
             value={config}
             onValueChange={onConfigChange}
-            highlight={input =>
+            highlight={(input) =>
               hightlightWithLineNumbers(input, languages.json)
             }
             className={`${styles.editor} language-json`}
@@ -99,7 +101,7 @@ Linter.propTypes = {
   invalidOptionWarnings: PropTypes.array.isRequired,
   parseErrors: PropTypes.array.isRequired,
   warnings: PropTypes.array.isRequired,
-  error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired
+  error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
 };
 
 export default Linter;

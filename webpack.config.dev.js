@@ -12,10 +12,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: "index.html",
       inject: "body",
-      template: "src/client/index.ejs"
+      template: "src/client/index.ejs",
     }),
     new webpack.EnvironmentPlugin(["NODE_ENV"]),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
-  ]
+    new webpack.NoEmitOnErrorsPlugin(),
+  ],
 };

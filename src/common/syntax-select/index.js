@@ -6,48 +6,48 @@ import styles from "./index.css";
 const syntaxes = [
   {
     name: "CSS",
-    id: "css"
+    id: "css",
   },
   {
     name: "SCSS",
-    id: "scss"
+    id: "scss",
   },
   {
     name: "Sass",
-    id: "sass"
+    id: "sass",
   },
   {
     name: "Less",
-    id: "less"
+    id: "less",
   },
   {
     name: "SugarSS",
-    id: "sugarss"
+    id: "sugarss",
   },
   {
     name: "HTML",
-    id: "html"
+    id: "html",
   },
   {
     name: "Markdown",
-    id: "markdown"
+    id: "markdown",
   },
   {
     name: "CSS-in-JS",
-    id: "css-in-js"
-  }
+    id: "css-in-js",
+  },
 ];
 
 const SyntaxSelect = ({ selectedSyntax, onSyntaxChange }) => {
   return (
     <select
       className={styles.syntax}
-      onChange={e => {
+      onChange={(e) => {
         onSyntaxChange(e.target.value);
       }}
       value={selectedSyntax}
     >
-      {syntaxes.map(syntax => (
+      {syntaxes.map((syntax) => (
         <option key={syntax.id} value={syntax.id}>
           {syntax.name}
         </option>
@@ -58,7 +58,7 @@ const SyntaxSelect = ({ selectedSyntax, onSyntaxChange }) => {
 
 SyntaxSelect.propTypes = {
   onSyntaxChange: PropTypes.func.isRequired,
-  selectedSyntax: PropTypes.string.isRequired
+  selectedSyntax: PropTypes.string.isRequired,
 };
 
 export default SyntaxSelect;
