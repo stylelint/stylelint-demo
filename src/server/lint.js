@@ -14,26 +14,26 @@ module.exports = (req, res, next) => {
   const opts = {
     code: req.body.code,
     config,
-    syntax: req.body.syntax
+    syntax: req.body.syntax,
   };
 
   stylelint
     .lint(opts)
-    .then(result => {
+    .then((result) => {
       const {
         invalidOptionWarnings,
         parseErrors,
-        warnings
+        warnings,
       } = result.results[0];
       const filteredParseErrors = uniqueParseErrors(parseErrors);
 
       res.send({
         invalidOptionWarnings,
         parseErrors: filteredParseErrors,
-        warnings
+        warnings,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       return next(new Error(err.message));
     });
 };

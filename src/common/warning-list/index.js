@@ -16,7 +16,7 @@ const WarningList = ({ invalidOptionWarnings, parseErrors, warnings }) => {
   ) {
     messages = <li className={styles.success}>✔ No warnings</li>;
   } else {
-    messages = invalidOptionWarnings.map(io => {
+    messages = invalidOptionWarnings.map((io) => {
       return (
         <li key={io.text} className={styles.item}>
           <SeverityLabel severity="invalid option" />
@@ -26,7 +26,7 @@ const WarningList = ({ invalidOptionWarnings, parseErrors, warnings }) => {
     });
 
     messages = messages.concat(
-      parseErrors.map(pe => {
+      parseErrors.map((pe) => {
         const selector = pe.node && pe.node.selector;
 
         return (
@@ -43,7 +43,7 @@ const WarningList = ({ invalidOptionWarnings, parseErrors, warnings }) => {
     );
 
     messages = messages.concat(
-      warnings.map(w => {
+      warnings.map((w) => {
         return (
           <li key={`${w.line}${w.column}${w.rule}`} className={styles.item}>
             <LintWarning
@@ -65,7 +65,7 @@ const WarningList = ({ invalidOptionWarnings, parseErrors, warnings }) => {
 WarningList.propTypes = {
   invalidOptionWarnings: PropTypes.array.isRequired,
   parseErrors: PropTypes.array.isRequired,
-  warnings: PropTypes.array.isRequired
+  warnings: PropTypes.array.isRequired,
 };
 
 export default WarningList;

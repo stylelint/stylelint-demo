@@ -10,14 +10,14 @@ const SeverityLabel = ({ severity }) => {
   const severityClassName = cx("", {
     [styles.errorSeverity]: errorSeverityList.includes(severity),
     [styles.warningSeverity]: severity === "warning",
-    [styles.severity]: severity !== "warning" && severity !== "error"
+    [styles.severity]: severity !== "warning" && severity !== "error",
   });
 
   return <span className={severityClassName}>{severity}</span>;
 };
 
 SeverityLabel.propTypes = {
-  severity: PropTypes.string.isRequired
+  severity: PropTypes.string.isRequired,
 };
 
 export default SeverityLabel;

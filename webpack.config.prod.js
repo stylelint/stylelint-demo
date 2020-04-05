@@ -8,14 +8,14 @@ module.exports = {
   output: {
     filename: "[name]-[hash:5].js",
     path: path.join(__dirname, "/dist/"),
-    publicPath: "/"
+    publicPath: "/",
   },
   module: {
     rules: [
       {
         test: /\.js$/,
         use: ["babel-loader"],
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         test: /\.css$/,
@@ -26,21 +26,21 @@ module.exports = {
             loader: "css-loader",
             options: {
               modules: {
-                localIdentName: "[folder]-[local]-[hash:base64:5]"
-              }
-            }
+                localIdentName: "[folder]-[local]-[hash:base64:5]",
+              },
+            },
           },
-          "postcss-loader"
-        ]
-      }
-    ]
+          "postcss-loader",
+        ],
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: "index.html",
       inject: "body",
-      template: "src/client/index.ejs"
+      template: "src/client/index.ejs",
     }),
-    new webpack.EnvironmentPlugin("NODE_ENV")
-  ]
+    new webpack.EnvironmentPlugin("NODE_ENV"),
+  ],
 };

@@ -42,18 +42,18 @@ const parseErrorsConfig = `{
 test("valid, no warnings", () => {
   const body = {
     code: validCSS,
-    config: validConfig
+    config: validConfig,
   };
 
   return request(app)
     .post("/lint")
     .send(body)
     .expect(200)
-    .then(res => {
+    .then((res) => {
       expect(res.body).toEqual({
         invalidOptionWarnings: [],
         parseErrors: [],
-        warnings: []
+        warnings: [],
       });
     });
 });
@@ -69,18 +69,18 @@ test("valid, no warnings, custom syntax", () => {
         "no-invalid-double-slash-comments": true
       }
     }`,
-    syntax: "scss"
+    syntax: "scss",
   };
 
   return request(app)
     .post("/lint")
     .send(body)
     .expect(200)
-    .then(res => {
+    .then((res) => {
       expect(res.body).toEqual({
         invalidOptionWarnings: [],
         parseErrors: [],
-        warnings: []
+        warnings: [],
       });
     });
 });
@@ -88,14 +88,14 @@ test("valid, no warnings, custom syntax", () => {
 test("CSS warning", () => {
   const body = {
     code: warningCSS,
-    config: validConfig
+    config: validConfig,
   };
 
   return request(app)
     .post("/lint")
     .send(body)
     .expect(200)
-    .then(res => {
+    .then((res) => {
       const expected = {
         invalidOptionWarnings: [],
         parseErrors: [],
@@ -105,9 +105,9 @@ test("CSS warning", () => {
             column: 12,
             rule: "color-hex-length",
             severity: "error",
-            text: 'Expected "#ffffff" to be "#fff" (color-hex-length)'
-          }
-        ]
+            text: 'Expected "#ffffff" to be "#fff" (color-hex-length)',
+          },
+        ],
       };
 
       expect(res.body).toEqual(expected);
@@ -117,14 +117,14 @@ test("CSS warning", () => {
 test("CSSSyntaxError warning", () => {
   const body = {
     code: invalidCSS,
-    config: validConfig
+    config: validConfig,
   };
 
   return request(app)
     .post("/lint")
     .send(body)
     .expect(200)
-    .then(res => {
+    .then((res) => {
       const expected = {
         invalidOptionWarnings: [],
         parseErrors: [],
@@ -134,9 +134,9 @@ test("CSSSyntaxError warning", () => {
             column: 1,
             rule: "CssSyntaxError",
             severity: "error",
-            text: "Unclosed block (CssSyntaxError)"
-          }
-        ]
+            text: "Unclosed block (CssSyntaxError)",
+          },
+        ],
       };
 
       expect(res.body).toEqual(expected);
@@ -146,16 +146,16 @@ test("CSSSyntaxError warning", () => {
 test("parse config error", () => {
   const body = {
     code: validCSS,
-    config: invalidConfig
+    config: invalidConfig,
   };
 
   return request(app)
     .post("/lint")
     .send(body)
     .expect(500)
-    .then(res => {
+    .then((res) => {
       expect(res.body).toEqual({
-        error: "Could not parse stylelint config"
+        error: "Could not parse stylelint config",
       });
     });
 });
@@ -163,14 +163,14 @@ test("parse config error", () => {
 test("undefined rule error", () => {
   const body = {
     code: validCSS,
-    config: nonExistentRuleConfig
+    config: nonExistentRuleConfig,
   };
 
   return request(app)
     .post("/lint")
     .send(body)
     .expect(200)
-    .then(res => {
+    .then((res) => {
       const expected = {
         invalidOptionWarnings: [],
         parseErrors: [],
@@ -180,9 +180,9 @@ test("undefined rule error", () => {
             column: 1,
             rule: "this-rule-does-not-exist",
             severity: "error",
-            text: "Unknown rule this-rule-does-not-exist."
-          }
-        ]
+            text: "Unknown rule this-rule-does-not-exist.",
+          },
+        ],
       };
 
       expect(res.body).toEqual(expected);
@@ -192,23 +192,23 @@ test("undefined rule error", () => {
 test("invalid option warnings", () => {
   const body = {
     code: validCSS,
-    config: invalidOptionConfig
+    config: invalidOptionConfig,
   };
 
   return request(app)
     .post("/lint")
     .send(body)
     .expect(200)
-    .then(res => {
+    .then((res) => {
       const expected = {
         invalidOptionWarnings: [
           {
             text:
-              'Invalid value "all" for option "ignore" of rule "at-rule-empty-line-before"'
-          }
+              'Invalid value "all" for option "ignore" of rule "at-rule-empty-line-before"',
+          },
         ],
         parseErrors: [],
-        warnings: []
+        warnings: [],
       };
 
       expect(res.body).toEqual(expected);
@@ -218,20 +218,20 @@ test("invalid option warnings", () => {
 test("invalid option and warning css", () => {
   const body = {
     code: warningCSS,
-    config: invalidOptionConfig
+    config: invalidOptionConfig,
   };
 
   return request(app)
     .post("/lint")
     .send(body)
     .expect(200)
-    .then(res => {
+    .then((res) => {
       const expected = {
         invalidOptionWarnings: [
           {
             text:
-              'Invalid value "all" for option "ignore" of rule "at-rule-empty-line-before"'
-          }
+              'Invalid value "all" for option "ignore" of rule "at-rule-empty-line-before"',
+          },
         ],
         parseErrors: [],
         warnings: [
@@ -240,9 +240,9 @@ test("invalid option and warning css", () => {
             column: 12,
             rule: "color-hex-length",
             severity: "error",
-            text: 'Expected "#ffffff" to be "#fff" (color-hex-length)'
-          }
-        ]
+            text: 'Expected "#ffffff" to be "#fff" (color-hex-length)',
+          },
+        ],
       };
 
       expect(res.body).toEqual(expected);
@@ -252,14 +252,14 @@ test("invalid option and warning css", () => {
 test("parse errors warnings", () => {
   const body = {
     code: parseErrorsCss,
-    config: parseErrorsConfig
+    config: parseErrorsConfig,
   };
 
   return request(app)
     .post("/lint")
     .send(body)
     .expect(200)
-    .then(res => {
+    .then((res) => {
       const expected = {
         invalidOptionWarnings: [],
         parseErrors: [
@@ -273,32 +273,32 @@ test("parse errors warnings", () => {
               raws: {
                 after: "",
                 before: "",
-                between: " "
+                between: " ",
               },
               selector: "a:b(a:(f))",
               source: {
                 end: {
                   column: 13,
-                  line: 1
+                  line: 1,
                 },
                 input: {
                   css: "a:b(a:(f)) {}",
                   hasBOM: false,
-                  id: "<input css 7>"
+                  id: "<input css 7>",
                 },
                 start: {
                   column: 1,
-                  line: 1
-                }
+                  line: 1,
+                },
               },
-              type: "rule"
+              type: "rule",
             },
             stylelintType: "parseError",
             text: "Cannot parse selector",
-            type: "warning"
-          }
+            type: "warning",
+          },
         ],
-        warnings: []
+        warnings: [],
       };
 
       expect(res.body).toEqual(expected);
