@@ -1,4 +1,4 @@
-import request from "supertest";
+import request from "supertest"; // eslint-disable-line node/no-unpublished-import
 import app from "../index";
 
 const validCSS = "a { color: #fff; }";

@@ -38,6 +38,7 @@
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
     "prismjs": "^1.20.0",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-css-modules": "^4.7.11",
     "react-dom": "^16.13.1",
@@ -53,9 +54,8 @@
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
     "eslint": "~6.8.0",
-    "eslint-config-stylelint": "~11.1.0",
+    "eslint-config-stylelint": "~12.0.0",
     "eslint-plugin-react": "~7.19.0",
     "eslint-plugin-react-hooks": "~3.0.0",
     "husky": "^4.2.3",
@@ -93,7 +93,6 @@
     }
   },
   "eslintConfig": {
-    "parser": "babel-eslint",
     "extends": [
       "stylelint",
       "plugin:react/recommended"
@@ -103,11 +102,7 @@
       "react-hooks"
     ],
     "parserOptions": {
-      "ecmaVersion": 6,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "jsx": true
-      }
+      "sourceType": "module"
     },
     "rules": {
       "react-hooks/rules-of-hooks": "error",
@@ -122,7 +117,7 @@
     },
     "settings": {
       "react": {
-        "version": "16.5"
+        "version": "detect"
       }
     }
   },
