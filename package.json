@@ -82,11 +82,13 @@
     ],
     "extends": "stylelint-config-standard",
     "rules": {
+      "alpha-value-notation": "percentage",
       "at-rule-no-vendor-prefix": true,
       "at-rule-whitelist": [
         "import",
         "media"
       ],
+      "color-function-notation": "modern",
       "color-named": "always-where-possible",
       "custom-media-pattern": "^([a-z]+-?)*([a-z]+)$",
       "custom-property-pattern": "^([a-z]+-?)*([a-z]+)$",
@@ -97,9 +99,10 @@
       "function-whitelist": [
         "color",
         "counter",
-        "hsla",
+        "hsl",
         "linear-gradient"
       ],
+      "hue-degree-notation": "angle",
       "media-feature-name-no-vendor-prefix": true,
       "no-descending-specificity": true,
       "no-duplicate-selectors": true,
@@ -138,6 +141,7 @@
       "string-quotes": "double",
       "unit-whitelist": [
         "%",
+        "deg",
         "px",
         "em",
         "vh"
@@ -173,7 +177,7 @@
     "rimraf": "^3.0.2",
     "serve-favicon": "^2.5.0",
     "style-loader": "^1.2.1",
-    "stylelint": "^13.4.1",
+    "stylelint": "^13.5.0",
     "stylelint-config-recommended": "^3.0.0",
     "stylelint-config-standard": "^20.0.0",
     "use-debounce": "^3.4.2",
