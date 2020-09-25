@@ -177,7 +177,7 @@
     "rimraf": "^3.0.2",
     "serve-favicon": "^2.5.0",
     "style-loader": "^1.2.1",
-    "stylelint": "^13.7.1",
+    "stylelint": "^13.7.2",
     "stylelint-config-recommended": "^3.0.0",
     "stylelint-config-standard": "^20.0.0",
     "use-debounce": "^3.4.3",
