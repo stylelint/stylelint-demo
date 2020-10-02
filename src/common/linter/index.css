@@ -85,6 +85,7 @@
 .editor {
   counter-reset: line;
   min-height: 240px;
+  tab-size: 4;
 }
 
 /* stylelint-disable-next-line selector-max-type */
