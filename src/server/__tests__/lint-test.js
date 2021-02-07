@@ -282,7 +282,7 @@ test('parse errors warnings', () => {
 								input: {
 									css: 'a:b(a:(f)) {}',
 									hasBOM: false,
-									id: '<input css 7>',
+									id: '<input css 8>',
 								},
 								start: {
 									column: 1,
