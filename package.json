@@ -201,7 +201,7 @@
     "remark-cli": "^8.0.1",
     "stylelint-order": "^4.1.0",
     "supertest": "^4.0.2",
-    "webpack-cli": "^3.3.12",
+    "webpack-cli": "^4.5.0",
     "webpack-dev-middleware": "^3.7.2",
     "webpack-hot-middleware": "^2.25.0"
   },
