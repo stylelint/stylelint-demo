@@ -1,9 +1,7 @@
 function uniqueParseErrors(parseErrors) {
-	return parseErrors.filter((parseError, i, parseErrors) => {
+	return parseErrors.filter((parseError, i, arr) => {
 		return (
-			parseErrors.findIndex(
-				(pe) => pe.line === parseError.line && pe.column === parseError.column,
-			) === i
+			arr.findIndex((pe) => pe.line === parseError.line && pe.column === parseError.column) === i
 		);
 	});
 }
