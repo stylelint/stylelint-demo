@@ -206,7 +206,7 @@
     "webpack-hot-middleware": "^2.25.0"
   },
   "engines": {
-    "node": "10"
+    "node": "12"
   },
   "postcss": {
     "map": true,
