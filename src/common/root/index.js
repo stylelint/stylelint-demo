@@ -68,8 +68,8 @@ export default function Root() {
 
 				setError(false);
 			})
-			.catch((error) => {
-				setError(`Unable to lint CSS: \n\n ${error}`);
+			.catch((err) => {
+				setError(`Unable to lint CSS: \n\n ${err}`);
 			});
 	}
 
