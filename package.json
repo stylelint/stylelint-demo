@@ -167,7 +167,7 @@
     "html-webpack-plugin": "^4.4.1",
     "lz-string": "^1.4.4",
     "morgan": "^1.10.0",
-    "postcss": "^7.0.35",
+    "postcss": "^7.0.36",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
     "prismjs": "^1.21.0",
