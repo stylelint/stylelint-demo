@@ -170,7 +170,7 @@
     "postcss": "^7.0.35",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
-    "prismjs": "^1.21.0",
+    "prismjs": "^1.25.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-css-modules": "^4.7.11",
