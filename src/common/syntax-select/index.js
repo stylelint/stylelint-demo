@@ -24,7 +24,7 @@ const syntaxes = [
 		name: 'SugarSS',
 		id: 'sugarss',
 	},
-	{
+	/*{
 		name: 'HTML',
 		id: 'html',
 	},
@@ -35,7 +35,7 @@ const syntaxes = [
 	{
 		name: 'CSS-in-JS',
 		id: 'css-in-js',
-	},
+	},*/
 ];
 
 const SyntaxSelect = ({ selectedSyntax, onSyntaxChange }) => {

@@ -1,10 +1,10 @@
-import 'prismjs/components/prism-css';
-import 'prismjs/components/prism-json';
-
 import { highlight, languages } from 'prismjs/components/prism-core';
 import Editor from 'react-simple-code-editor';
 import PropTypes from 'prop-types';
 import React from 'react';
+
+import 'prismjs/components/prism-css';
+import 'prismjs/components/prism-json';
 
 import SyntaxSelect from '../syntax-select';
 import WarningList from '../warning-list/';
