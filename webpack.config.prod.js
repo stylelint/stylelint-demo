@@ -37,8 +37,6 @@ module.exports = {
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			filename: 'index.html',
-			inject: 'body',
 			template: 'src/client/index.ejs',
 		}),
 		new webpack.EnvironmentPlugin('NODE_ENV'),

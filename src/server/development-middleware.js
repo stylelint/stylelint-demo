@@ -8,7 +8,7 @@ const config = require(path.join(__dirname, '../../webpack.config.dev.js'));
 const compiler = webpack(config);
 const dev = webpackMiddleware(compiler, {
 	publicPath: config.output.publicPath,
-	contentBase: 'src',
+	//static: 'src',
 	stats: {
 		colors: true,
 		hash: false,
