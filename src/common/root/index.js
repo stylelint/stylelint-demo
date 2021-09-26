@@ -78,7 +78,7 @@ export default function Root() {
 			});
 	}
 
-	const [debouncedLint] = useDebouncedCallback(() => {
+	const debouncedLint = useDebouncedCallback(() => {
 		lint();
 		const query = compress({ code, syntax, config });
 
