@@ -158,7 +158,7 @@
     "serve-favicon": "^2.5.0",
     "style-loader": "^3.3.0",
     "stylelint": "github:stylelint/stylelint#v14",
-    "stylelint-config-recommended": "github:AndreasNasman/stylelint-config-recommended#remove-function-calc-no-invalid",
+    "stylelint-config-recommended": "github:stylelint/stylelint-config-recommended#prepare-6",
     "stylelint-config-standard": "github:stylelint/stylelint-config-standard#add-rules",
     "sugarss": "^4.0.1",
     "use-debounce": "^7.0.0",
