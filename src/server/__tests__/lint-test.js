@@ -1,4 +1,5 @@
 import request from 'supertest'; // eslint-disable-line node/no-unpublished-import
+
 import app from '../index';
 
 const validCSS = 'a { color: #fff; }';
@@ -266,6 +267,12 @@ test('parse errors warnings', () => {
 						line: 1,
 						node: {
 							indexes: {},
+							inputs: [
+								{
+									css: 'a:b(a:(f)) {}',
+									hasBOM: false,
+								},
+							],
 							lastEach: 3,
 							nodes: [],
 							raws: {
@@ -278,15 +285,13 @@ test('parse errors warnings', () => {
 								end: {
 									column: 13,
 									line: 1,
+									offset: 12,
 								},
-								input: {
-									css: 'a:b(a:(f)) {}',
-									hasBOM: false,
-									id: '<input css 8>',
-								},
+								inputId: 0,
 								start: {
 									column: 1,
 									line: 1,
+									offset: 0,
 								},
 							},
 							type: 'rule',
@@ -299,6 +304,6 @@ test('parse errors warnings', () => {
 				warnings: [],
 			};
 
-			expect(res.body).toEqual(expected);
+			expect(res.body).toMatchObject(expected);
 		});
 });

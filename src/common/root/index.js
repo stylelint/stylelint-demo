@@ -1,12 +1,15 @@
 /* global fetch:false */
 /* global window:true */
-import React, { useState, useEffect } from 'react';
-import Linter from '../linter';
+import 'whatwg-fetch';
+
+import React, { useEffect, useState } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
+
 import recommendedConfig from 'stylelint-config-recommended';
 import standardConfig from 'stylelint-config-standard';
+
 import { compress, decompress } from '../utils';
-import 'whatwg-fetch';
-import { useDebouncedCallback } from 'use-debounce';
+import Linter from '../linter';
 
 const inputDelayMs = 250;
 const defaultCSS = 'a {color: #FFF; }\n';
@@ -16,9 +19,11 @@ const defaultConfig = {
 };
 
 const hashData = window.location.hash.slice(window.location.hash.indexOf('#') + 1);
-const { code: codeQueryParam, syntax: syntaxQueryParam, config: configQueryParam } = decompress(
-	hashData,
-);
+const {
+	code: codeQueryParam,
+	syntax: syntaxQueryParam,
+	config: configQueryParam,
+} = decompress(hashData);
 
 export default function Root() {
 	const [code, setCode] = useState(codeQueryParam || defaultCSS);
@@ -73,7 +78,7 @@ export default function Root() {
 			});
 	}
 
-	const [debouncedLint] = useDebouncedCallback(() => {
+	const debouncedLint = useDebouncedCallback(() => {
 		lint();
 		const query = compress({ code, syntax, config });
 

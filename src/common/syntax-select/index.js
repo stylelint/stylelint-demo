@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import styles from './index.css';
 
@@ -24,7 +24,7 @@ const syntaxes = [
 		name: 'SugarSS',
 		id: 'sugarss',
 	},
-	{
+	/*{
 		name: 'HTML',
 		id: 'html',
 	},
@@ -35,7 +35,7 @@ const syntaxes = [
 	{
 		name: 'CSS-in-JS',
 		id: 'css-in-js',
-	},
+	},*/
 ];
 
 const SyntaxSelect = ({ selectedSyntax, onSyntaxChange }) => {

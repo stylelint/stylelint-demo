@@ -14,8 +14,15 @@ module.exports = (req, res, next) => {
 	const opts = {
 		code: req.body.code,
 		config,
-		syntax: req.body.syntax,
 	};
+
+	if (req.body.syntax && req.body.syntax !== 'css') {
+		if (req.body.syntax === 'sugarss') {
+			opts.customSyntax = require('sugarss');
+		} else {
+			opts.customSyntax = require(`postcss-${req.body.syntax}`);
+		}
+	}
 
 	stylelint
 		.lint(opts)
