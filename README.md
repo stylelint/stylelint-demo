@@ -21,4 +21,4 @@ It consists of two parts:
 
 ## Deployment
 
-Commits to `master` will be tested by [GitHub Actions](https://github.com/stylelint/stylelint-demo/actions). Successful builds will automatically be deployed to [https://stylelint-demo.herokuapp.com/](https://stylelint-demo.herokuapp.com/).
+Commits to `main` will be tested by [GitHub Actions](https://github.com/stylelint/stylelint-demo/actions). Successful builds will automatically be deployed to [https://stylelint-demo.herokuapp.com/](https://stylelint-demo.herokuapp.com/).
