@@ -142,7 +142,7 @@
     "html-webpack-plugin": "^5.5.0",
     "lz-string": "^1.4.4",
     "morgan": "^1.10.0",
-    "postcss": "^8.3.11",
+    "postcss": "^8.4.4",
     "postcss-less": "^5.0.0",
     "postcss-loader": "^6.2.0",
     "postcss-nesting": "^9.0.0",
