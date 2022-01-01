@@ -145,7 +145,7 @@
     "postcss": "^8.4.5",
     "postcss-less": "^5.0.0",
     "postcss-loader": "^6.2.1",
-    "postcss-nesting": "^10.0.3",
+    "postcss-nesting": "^10.1.0",
     "postcss-sass": "^0.5.0",
     "postcss-scss": "^4.0.2",
     "prismjs": "^1.25.0",
