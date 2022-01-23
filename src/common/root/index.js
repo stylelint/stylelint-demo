@@ -12,7 +12,7 @@ import { compress, decompress } from '../utils';
 import Linter from '../linter';
 
 const inputDelayMs = 250;
-const defaultCSS = 'a {color: #FFF; }\n';
+const defaultCSS = 'a { colr: #ff; }\n';
 const defaultSyntax = 'css';
 const defaultConfig = {
 	rules: Object.assign(recommendedConfig.rules, standardConfig.rules),
