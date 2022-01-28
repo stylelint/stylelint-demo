@@ -24,10 +24,11 @@ const syntaxes = [
 		name: 'SugarSS',
 		id: 'sugarss',
 	},
-	/*{
+	{
 		name: 'HTML',
 		id: 'html',
 	},
+	/*
 	{
 		name: 'Markdown',
 		id: 'markdown',
