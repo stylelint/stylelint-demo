@@ -19,10 +19,10 @@ module.exports = (req, res, next) => {
 	if (req.body.syntax && req.body.syntax !== 'css') {
 		if (req.body.syntax === 'sugarss') {
 			opts.customSyntax = require('sugarss');
-		} else if (req.body.syntax === 'postcss-html') {
+		} else if (req.body.syntax === 'html') {
 			opts.customSyntax = require('postcss-html')();
 		} else {
-			opts.customSyntax = require(`postcss-${req.body.syntax}`)();
+			opts.customSyntax = require(`postcss-${req.body.syntax}`);
 		}
 	}
 
