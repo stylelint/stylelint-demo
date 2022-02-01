@@ -163,7 +163,7 @@
     "stylelint-config-standard": "^24.0.0",
     "sugarss": "^4.0.1",
     "use-debounce": "^7.0.1",
-    "webpack": "^5.67.0",
+    "webpack": "^5.68.0",
     "whatwg-fetch": "^3.6.2"
   },
   "devDependencies": {
