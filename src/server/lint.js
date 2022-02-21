@@ -32,6 +32,11 @@ module.exports = (req, res, next) => {
 			const { invalidOptionWarnings, parseErrors, warnings } = result.results[0];
 			const filteredParseErrors = uniqueParseErrors(parseErrors);
 
+			// Sort by line and column
+			warnings.sort((a, b) => {
+				return a.line - b.line || a.column - b.column;
+			});
+
 			res.send({
 				invalidOptionWarnings,
 				parseErrors: filteredParseErrors,

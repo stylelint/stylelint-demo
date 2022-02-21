@@ -3,7 +3,10 @@ import request from 'supertest'; // eslint-disable-line node/no-unpublished-impo
 import app from '../index';
 
 const validCSS = 'a { color: #fff; }';
-const warningCSS = 'a { color: #ffffff; }';
+const warningCSS = `a {
+  color: #ffffff;
+  color: #000000;
+}`;
 const invalidCSS = 'a {';
 const validConfig = `{
   "rules": {
@@ -102,11 +105,18 @@ test('CSS warning', () => {
 				parseErrors: [],
 				warnings: [
 					{
-						line: 1,
-						column: 12,
+						line: 2,
+						column: 10,
 						rule: 'color-hex-length',
 						severity: 'error',
 						text: 'Expected "#ffffff" to be "#fff" (color-hex-length)',
+					},
+					{
+						line: 3,
+						column: 10,
+						rule: 'color-hex-length',
+						severity: 'error',
+						text: 'Expected "#000000" to be "#000" (color-hex-length)',
 					},
 				],
 			};
@@ -235,11 +245,18 @@ test('invalid option and warning css', () => {
 				parseErrors: [],
 				warnings: [
 					{
-						line: 1,
-						column: 12,
+						line: 2,
+						column: 10,
 						rule: 'color-hex-length',
 						severity: 'error',
 						text: 'Expected "#ffffff" to be "#fff" (color-hex-length)',
+					},
+					{
+						line: 3,
+						column: 10,
+						rule: 'color-hex-length',
+						severity: 'error',
+						text: 'Expected "#000000" to be "#000" (color-hex-length)',
 					},
 				],
 			};
@@ -297,7 +314,7 @@ test('parse errors warnings', () => {
 							type: 'rule',
 						},
 						stylelintType: 'parseError',
-						text: 'Cannot parse selector',
+						text: 'Cannot parse selector (Error: Expected a pseudo-class or pseudo-element.)',
 						type: 'warning',
 					},
 				],

@@ -7,7 +7,7 @@ import 'prismjs/components/prism-css';
 import 'prismjs/components/prism-json';
 
 import SyntaxSelect from '../syntax-select';
-import WarningList from '../warning-list/';
+import WarningList from '../warning-list';
 
 import styles from './index.css';
 
