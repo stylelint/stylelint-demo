@@ -1,4 +1,5 @@
 const stylelint = require('stylelint');
+const { version: stylelintVersion } = require('stylelint/package.json');
 
 const { uniqueParseErrors } = require('./utils');
 
@@ -41,6 +42,7 @@ module.exports = (req, res, next) => {
 				invalidOptionWarnings,
 				parseErrors: filteredParseErrors,
 				warnings,
+				stylelintVersion,
 			});
 		})
 		.catch((err) => {

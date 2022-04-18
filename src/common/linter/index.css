@@ -45,6 +45,18 @@
   padding: 16px 8px;
 }
 
+.version {
+  color: darkgray;
+  font: 12px/16px sans-serif;
+  margin-top: auto;
+  padding: 8px;
+  text-align: right;
+}
+
+.versionLink {
+  color: inherit;
+}
+
 @media (width > 54em) {
   .root {
     position: relative;
@@ -65,6 +77,9 @@
   .codeInput { width: 50%; }
 
   .output {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     min-height: 100vh;
     position: absolute;
     right: 0;

@@ -146,6 +146,7 @@
     "postcss-html": "^1.4.1",
     "postcss-less": "^6.0.0",
     "postcss-loader": "^6.2.1",
+    "postcss-media-minmax": "^5.0.0",
     "postcss-nesting": "^10.1.4",
     "postcss-sass": "^0.5.0",
     "postcss-scss": "^4.0.3",
@@ -192,6 +193,7 @@
   "postcss": {
     "map": true,
     "plugins": {
+      "postcss-media-minmax": {},
       "postcss-nesting": {}
     }
   }

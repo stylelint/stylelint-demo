@@ -13,7 +13,9 @@
 }
 
 .message {
+  display: inline-flex;
   font-size: 12px;
+  gap: 0.5em;
   margin: 0;
 }
 

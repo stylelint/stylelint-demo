@@ -58,6 +58,7 @@ test('valid, no warnings', () => {
 				invalidOptionWarnings: [],
 				parseErrors: [],
 				warnings: [],
+				stylelintVersion: expect.stringMatching(/^\d+\.\d+\.\d+$/),
 			});
 		});
 });
@@ -85,6 +86,7 @@ test('valid, no warnings, custom syntax', () => {
 				invalidOptionWarnings: [],
 				parseErrors: [],
 				warnings: [],
+				stylelintVersion: expect.stringMatching(/^\d+\.\d+\.\d+$/),
 			});
 		});
 });
@@ -123,6 +125,7 @@ test('CSS warning', () => {
 						text: 'Expected "#000000" to be "#000" (color-hex-length)',
 					},
 				],
+				stylelintVersion: expect.stringMatching(/^\d+\.\d+\.\d+$/),
 			};
 
 			expect(res.body).toEqual(expected);
@@ -152,6 +155,7 @@ test('CSSSyntaxError warning', () => {
 						text: 'Unclosed block (CssSyntaxError)',
 					},
 				],
+				stylelintVersion: expect.stringMatching(/^\d+\.\d+\.\d+$/),
 			};
 
 			expect(res.body).toEqual(expected);
@@ -200,6 +204,7 @@ test('undefined rule error', () => {
 						text: 'Unknown rule this-rule-does-not-exist.',
 					},
 				],
+				stylelintVersion: expect.stringMatching(/^\d+\.\d+\.\d+$/),
 			};
 
 			expect(res.body).toEqual(expected);
@@ -225,6 +230,7 @@ test('invalid option warnings', () => {
 				],
 				parseErrors: [],
 				warnings: [],
+				stylelintVersion: expect.stringMatching(/^\d+\.\d+\.\d+$/),
 			};
 
 			expect(res.body).toEqual(expected);
@@ -269,6 +275,7 @@ test('invalid option and warning css', () => {
 						text: 'Expected "#000000" to be "#000" (color-hex-length)',
 					},
 				],
+				stylelintVersion: expect.stringMatching(/^\d+\.\d+\.\d+$/),
 			};
 
 			expect(res.body).toEqual(expected);

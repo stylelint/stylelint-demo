@@ -29,6 +29,7 @@ const Linter = ({
 	parseErrors,
 	warnings,
 	error,
+	stylelintInfo,
 }) => {
 	const errorOutput = <div className={styles.error}>{error}</div>;
 
@@ -66,6 +67,18 @@ const Linter = ({
 				<span className={styles.caption}>{'Result'}</span>
 
 				{error ? errorOutput : warningOutput}
+
+				{stylelintInfo.version && (
+					<div className={styles.version}>
+						{'Powered by '}
+						<a
+							className={styles.versionLink}
+							href={stylelintInfo.versionUrl}
+							target="_blank"
+							rel="noopener noreferrer"
+						>{`Stylelint ${stylelintInfo.version}`}</a>
+					</div>
+				)}
 			</div>
 
 			<div className={styles.configInput}>
@@ -96,6 +109,10 @@ Linter.propTypes = {
 	parseErrors: PropTypes.array.isRequired,
 	warnings: PropTypes.array.isRequired,
 	error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
+	stylelintInfo: PropTypes.exact({
+		version: PropTypes.string,
+		versionUrl: PropTypes.string,
+	}),
 };
 
 export default Linter;
