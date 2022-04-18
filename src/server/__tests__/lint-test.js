@@ -107,6 +107,8 @@ test('CSS warning', () => {
 					{
 						line: 2,
 						column: 10,
+						endLine: 2,
+						endColumn: 17,
 						rule: 'color-hex-length',
 						severity: 'error',
 						text: 'Expected "#ffffff" to be "#fff" (color-hex-length)',
@@ -114,6 +116,8 @@ test('CSS warning', () => {
 					{
 						line: 3,
 						column: 10,
+						endLine: 3,
+						endColumn: 17,
 						rule: 'color-hex-length',
 						severity: 'error',
 						text: 'Expected "#000000" to be "#000" (color-hex-length)',
@@ -189,6 +193,8 @@ test('undefined rule error', () => {
 					{
 						line: 1,
 						column: 1,
+						endLine: 1,
+						endColumn: 2,
 						rule: 'this-rule-does-not-exist',
 						severity: 'error',
 						text: 'Unknown rule this-rule-does-not-exist.',
@@ -247,6 +253,8 @@ test('invalid option and warning css', () => {
 					{
 						line: 2,
 						column: 10,
+						endLine: 2,
+						endColumn: 17,
 						rule: 'color-hex-length',
 						severity: 'error',
 						text: 'Expected "#ffffff" to be "#fff" (color-hex-length)',
@@ -254,6 +262,8 @@ test('invalid option and warning css', () => {
 					{
 						line: 3,
 						column: 10,
+						endLine: 3,
+						endColumn: 17,
 						rule: 'color-hex-length',
 						severity: 'error',
 						text: 'Expected "#000000" to be "#000" (color-hex-length)',
