@@ -6,7 +6,7 @@ module.exports = {
 	mode: 'production',
 	entry: './src/client/index.js',
 	output: {
-		filename: '[name]-[hash:5].js',
+		filename: '[name]-[contenthash:5].js',
 		path: path.join(__dirname, '/dist/'),
 		publicPath: '/',
 	},
@@ -26,7 +26,7 @@ module.exports = {
 						loader: 'css-loader',
 						options: {
 							modules: {
-								localIdentName: '[folder]-[local]-[hash:base64:5]',
+								localIdentName: '[folder]-[local]-[contenthash:base64:5]',
 							},
 						},
 					},

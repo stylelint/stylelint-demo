@@ -7,7 +7,7 @@ import styles from './index.css';
 
 const LintWarning = ({ line, column, text, rule, severity }) => {
 	const location = `${line}:${column}`;
-	const warningText = text.replace(`(${rule})`, '');
+	const warningText = text.replace(`(${rule})`, '').trim();
 	const url = `http://stylelint.io/user-guide/rules/list/${rule}/`;
 
 	return (
@@ -15,7 +15,7 @@ const LintWarning = ({ line, column, text, rule, severity }) => {
 			<span className={styles.location}> {location} </span>
 			<SeverityLabel severity={severity} />
 			<span className={styles.message}>
-				{warningText}
+				<span>{warningText}</span>
 				{rule ? (
 					<span className={styles.ruleName}>
 						{'('}

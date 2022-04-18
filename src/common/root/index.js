@@ -34,6 +34,7 @@ export default function Root() {
 	const [invalidOptionWarnings, setInvalidOptionWarnings] = useState([]);
 	const [parseErrors, setParseErrors] = useState([]);
 	const [warnings, setWarnings] = useState([]);
+	const [stylelintInfo, setStylelintInfo] = useState({});
 	const [error, setError] = useState(false);
 
 	function lint() {
@@ -69,6 +70,13 @@ export default function Root() {
 
 				if (data.warnings) {
 					setWarnings(data.warnings);
+				}
+
+				if (data.stylelintVersion) {
+					setStylelintInfo({
+						version: data.stylelintVersion,
+						versionUrl: `https://github.com/stylelint/stylelint/releases/tag/${data.stylelintVersion}`,
+					});
 				}
 
 				setError(false);
@@ -109,6 +117,7 @@ export default function Root() {
 			parseErrors={parseErrors}
 			warnings={warnings}
 			error={error}
+			stylelintInfo={stylelintInfo}
 		/>
 	);
 }

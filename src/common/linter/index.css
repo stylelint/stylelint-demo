@@ -45,6 +45,17 @@
   padding: 16px 8px;
 }
 
+.version {
+  color: darkgray;
+  font-size: 12px;
+  padding: 20px 8px;
+  text-align: right;
+}
+
+.versionLink {
+  color: inherit;
+}
+
 @media (width > 54em) {
   .root {
     position: relative;
