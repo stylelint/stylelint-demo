@@ -21,4 +21,11 @@ It consists of two parts:
 
 ## Deployment
 
-Commits to `main` will be tested by [GitHub Actions](https://github.com/stylelint/stylelint-demo/actions). Successful builds will automatically be deployed to [https://stylelint-demo.herokuapp.com/](https://stylelint-demo.herokuapp.com/).
+Commits to `main` will be tested by [GitHub Actions](https://github.com/stylelint/stylelint-demo/actions).
+
+Successful builds can be deployed to [https://stylelint-demo.herokuapp.com/](https://stylelint-demo.herokuapp.com/) using the Heroku CLI and git:
+
+1. Install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli#install-the-heroku-cli)
+2. Login using the Stylelint Heroku account: `heroku login`
+3. Set up a remote: `heroku git:remote -a stylelint-demo`
+4. Push the code: `git push heroku main`
