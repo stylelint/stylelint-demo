@@ -20,7 +20,8 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Get Node.js version from package.json
-        run: node -p 'require("./package.json").engines.node' > /tmp/node-version
+        run: |
+          node -p 'require("./package.json").engines.node' | tee /tmp/node-version
 
       - name: Install Node.js
         uses: actions/setup-node@v3
