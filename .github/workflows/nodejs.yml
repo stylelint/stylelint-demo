@@ -21,12 +21,12 @@ jobs:
 
       - name: Get Node.js version from package.json
         run: |
-          node -p 'require("./package.json").engines.node' | tee /tmp/node-version
+          node -p 'require("./package.json").engines.node' | tee .node-version
 
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version-file: /tmp/node-version
+          node-version-file: .node-version
           cache: npm
 
       - name: Install latest npm
