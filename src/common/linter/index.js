@@ -1,22 +1,11 @@
-import { highlight, languages } from 'prismjs/components/prism-core';
-import Editor from 'react-simple-code-editor';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import 'prismjs/components/prism-css';
-import 'prismjs/components/prism-json';
-
+import Editor from '../editor';
 import SyntaxSelect from '../syntax-select';
 import WarningList from '../warning-list';
 
 import styles from './index.css';
-
-function hightlightWithLineNumbers(input, language) {
-	return highlight(input, language)
-		.split('\n')
-		.map((line) => `<span class=${styles.editorLineNumber}></span>${line}`)
-		.join('\n');
-}
 
 const Linter = ({
 	onCodeChange,
@@ -52,15 +41,7 @@ const Linter = ({
 					{'input'}
 				</span>
 
-				<div className={styles.editorWrapper}>
-					<Editor
-						value={code}
-						onValueChange={onCodeChange}
-						highlight={(input) => hightlightWithLineNumbers(input, languages.css)}
-						className={styles.editor}
-						padding={10}
-					/>
-				</div>
+				<Editor code={code} language={syntax} height="40vh" onChange={onCodeChange} />
 			</div>
 
 			<div className={styles.output}>
@@ -84,15 +65,7 @@ const Linter = ({
 			<div className={styles.configInput}>
 				<span className={styles.caption}>{'Config input'}</span>
 
-				<div className={styles.editorWrapper}>
-					<Editor
-						value={config}
-						onValueChange={onConfigChange}
-						highlight={(input) => hightlightWithLineNumbers(input, languages.json)}
-						className={`${styles.editor} language-json`}
-						padding={10}
-					/>
-				</div>
+				<Editor code={config} language="json" height="60vh" onChange={onConfigChange} />
 			</div>
 		</div>
 	);

@@ -45,6 +45,8 @@ const WarningList = ({ invalidOptionWarnings, parseErrors, warnings }) => {
 						<LintWarning
 							line={w.line}
 							column={w.column}
+							endLine={w.endLine}
+							endColumn={w.endColumn}
 							text={w.text}
 							rule={w.rule}
 							severity={w.severity}
