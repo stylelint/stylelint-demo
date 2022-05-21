@@ -1,4 +1,3 @@
-/* global fetch:false */
 /* global window:true */
 import 'whatwg-fetch';
 
