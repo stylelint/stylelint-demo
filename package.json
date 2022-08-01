@@ -149,7 +149,7 @@
     "postcss-less": "^6.0.0",
     "postcss-loader": "^7.0.0",
     "postcss-media-minmax": "^5.0.0",
-    "postcss-nesting": "^10.1.7",
+    "postcss-nesting": "^10.1.10",
     "postcss-sass": "^0.5.0",
     "postcss-scss": "^4.0.4",
     "prop-types": "^15.8.1",
