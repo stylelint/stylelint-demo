@@ -95,7 +95,8 @@
         "color",
         "counter",
         "hsl",
-        "linear-gradient"
+        "linear-gradient",
+        "var"
       ],
       "order/properties-alphabetical-order": true,
       "property-no-unknown": [
