@@ -41,7 +41,13 @@ const Linter = ({
 					{'input'}
 				</span>
 
-				<Editor code={code} language={syntax} height="40vh" onChange={onCodeChange} />
+				<Editor
+					code={code}
+					language={syntax}
+					height="40vh"
+					warnings={warnings}
+					onChange={onCodeChange}
+				/>
 			</div>
 
 			<div className={styles.output}>
@@ -74,10 +80,10 @@ const Linter = ({
 Linter.propTypes = {
 	onCodeChange: PropTypes.func.isRequired,
 	onConfigChange: PropTypes.func.isRequired,
-	onSyntaxChange: PropTypes.any,
+	onSyntaxChange: PropTypes.func,
 	code: PropTypes.string.isRequired,
 	config: PropTypes.string.isRequired,
-	syntax: PropTypes.any,
+	syntax: PropTypes.string,
 	invalidOptionWarnings: PropTypes.array.isRequired,
 	parseErrors: PropTypes.array.isRequired,
 	warnings: PropTypes.array.isRequired,
