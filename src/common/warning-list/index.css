@@ -1,5 +1,5 @@
 .root {
-  font-family: Monaco, Menlo, "Ubuntu Mono", Consolas, source-code-pro, monospace;
+  font-family: var(--demo-font-family-monospace);
   font-size: 12px;
   list-style-type: none;
   margin: 0;

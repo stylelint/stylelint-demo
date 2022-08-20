@@ -1,7 +1,7 @@
 .result {
   align-items: baseline;
   display: flex;
-  font-family: Monaco, Menlo, "Ubuntu Mono", Consolas, source-code-pro, monospace;
+  font-family: var(--demo-font-family-monospace);
 }
 
 .location {

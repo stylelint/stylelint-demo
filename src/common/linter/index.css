@@ -41,7 +41,8 @@
   border-width: 1px 0;
   color: white;
   display: block;
-  font: 12px/16px Monaco, Menlo, "Ubuntu Mono", Consolas, source-code-pro, monospace;
+  font-family: var(--demo-font-family-monospace);
+  font-size: 12px;
   padding: 16px 8px;
 }
 
