@@ -114,6 +114,7 @@ test('CSS warning', () => {
 						rule: 'color-hex-length',
 						severity: 'error',
 						text: 'Expected "#ffffff" to be "#fff" (color-hex-length)',
+						url: 'https://stylelint.io/user-guide/rules/list/color-hex-length',
 					},
 					{
 						line: 3,
@@ -123,6 +124,7 @@ test('CSS warning', () => {
 						rule: 'color-hex-length',
 						severity: 'error',
 						text: 'Expected "#000000" to be "#000" (color-hex-length)',
+						url: 'https://stylelint.io/user-guide/rules/list/color-hex-length',
 					},
 				],
 				stylelintVersion: expect.stringMatching(/^\d+\.\d+\.\d+$/),
@@ -264,6 +266,7 @@ test('invalid option and warning css', () => {
 						rule: 'color-hex-length',
 						severity: 'error',
 						text: 'Expected "#ffffff" to be "#fff" (color-hex-length)',
+						url: 'https://stylelint.io/user-guide/rules/list/color-hex-length',
 					},
 					{
 						line: 3,
@@ -273,6 +276,7 @@ test('invalid option and warning css', () => {
 						rule: 'color-hex-length',
 						severity: 'error',
 						text: 'Expected "#000000" to be "#000" (color-hex-length)',
+						url: 'https://stylelint.io/user-guide/rules/list/color-hex-length',
 					},
 				],
 				stylelintVersion: expect.stringMatching(/^\d+\.\d+\.\d+$/),

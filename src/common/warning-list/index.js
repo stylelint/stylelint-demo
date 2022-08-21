@@ -50,6 +50,7 @@ const WarningList = ({ invalidOptionWarnings, parseErrors, warnings }) => {
 							text={w.text}
 							rule={w.rule}
 							severity={w.severity}
+							url={w.url}
 						/>
 					</li>
 				);

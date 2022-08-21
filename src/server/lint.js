@@ -31,12 +31,17 @@ module.exports = (req, res, next) => {
 		.lint(opts)
 		.then((result) => {
 			const { invalidOptionWarnings, parseErrors, warnings } = result.results[0];
+			const { ruleMetadata } = result;
 			const filteredParseErrors = uniqueParseErrors(parseErrors);
 
 			// Sort by line and column
 			warnings.sort((a, b) => {
 				return a.line - b.line || a.column - b.column;
 			});
+
+			for (const warning of warnings) {
+				warning.url = ruleMetadata[warning.rule]?.url;
+			}
 
 			res.send({
 				invalidOptionWarnings,
