@@ -20,8 +20,7 @@
     "start": "NODE_ENV=production node index.js",
     "start-dev": "NODE_ENV=development nodemon --ignore src/common/ index.js",
     "pretest": "npm run lint",
-    "test": "jest",
-    "posttest": "npm run bundle"
+    "test": "jest && npm run bundle"
   },
   "lint-staged": {
     "*.css": "stylelint --cache --fix",

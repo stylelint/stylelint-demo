@@ -10,6 +10,9 @@ on:
       - '**'
 
 jobs:
+  lint:
+    uses: stylelint/.github/.github/workflows/lint.yml@main
+
   test:
     uses: stylelint/.github/.github/workflows/test.yml@main
     with:
