@@ -172,7 +172,7 @@
   "devDependencies": {
     "@stylelint/prettier-config": "^2.0.0",
     "@stylelint/remark-preset": "^4.0.0",
-    "eslint": "^8.27.0",
+    "eslint": "^8.28.0",
     "eslint-config-stylelint": "^17.0.0",
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
