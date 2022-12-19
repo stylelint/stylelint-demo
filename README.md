@@ -10,7 +10,7 @@ An online demo of [stylelint](https://github.com/stylelint/stylelint).
 - `npm run start-dev`
 - Go to `http://localhost:8080`
 
-Or view the live version at [https://stylelint-demo.herokuapp.com/](https://stylelint-demo.herokuapp.com/).
+Or view the live version at [https://stylelint.io/demo/](https://stylelint.io/demo/).
 
 Commits to `main` will be tested by [GitHub Actions](https://github.com/stylelint/stylelint-demo/actions).
 
