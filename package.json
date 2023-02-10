@@ -80,13 +80,19 @@
     ]
   },
   "stylelint": {
-    "extends": "stylelint-config-standard",
+    "extends": [
+      "stylelint-config-standard"
+    ],
+    "plugins": [
+      "stylelint-order"
+    ],
     "rules": {
       "at-rule-allowed-list": [
         "import",
         "media"
       ],
       "color-named": "always-where-possible",
+      "declaration-property-value-no-unknown": true,
       "font-weight-notation": "numeric",
       "function-allowed-list": [
         "color",
@@ -94,6 +100,23 @@
         "hsl",
         "linear-gradient",
         "var"
+      ],
+      "order/order": [
+        [
+          "custom-properties",
+          "declarations",
+          "rules",
+          "at-rules"
+        ],
+        {
+          "severity": "warning"
+        }
+      ],
+      "order/properties-alphabetical-order": [
+        true,
+        {
+          "severity": "warning"
+        }
       ],
       "property-no-unknown": [
         true,
@@ -179,6 +202,7 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.4",
     "remark-cli": "^11.0.0",
+    "stylelint-order": "^6.0.2",
     "supertest": "^6.3.3",
     "webpack-cli": "^5.0.1",
     "webpack-dev-middleware": "^6.0.1",
