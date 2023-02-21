@@ -4,7 +4,7 @@
 
 An online demo of [stylelint](https://github.com/stylelint/stylelint).
 
-## Getting started
+## Development
 
 - `npm install`
 - `npm run dev`
@@ -12,11 +12,13 @@ An online demo of [stylelint](https://github.com/stylelint/stylelint).
 
 ## Build static files
 
+- `npm install`
 - `npm run build`
 - Output `./dist/demo/`
 
 ## Build lib
 
+- `npm install`
 - `npm run build:lib`
 - Output `./dist/lib`
 
