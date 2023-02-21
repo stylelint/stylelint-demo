@@ -22,6 +22,4 @@ An online demo of [stylelint](https://github.com/stylelint/stylelint).
 
 ## About
 
-This demo works by calling stylelint in a Node.js process launched inside the browser using [WebContainers].
-
-[WebContainers]: https://webcontainers.io/
+This demo works by calling stylelint in a Node.js process launched inside the browser using [WebContainers](https://webcontainers.io/).
