@@ -4,7 +4,6 @@ import type {
 	MonacoEditorLanguages,
 	MonacoEditorRange,
 } from './types.js';
-import type { IDisposable } from 'monaco-editor';
 import { loadMonacoEditor } from './monaco-loader.js';
 
 export type ProvideCodeActions = (
