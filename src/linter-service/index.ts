@@ -1,8 +1,8 @@
 import type { FileSystemTree, WebContainerProcess } from '@webcontainer/api';
+import type { LintResult, RuleMeta } from 'stylelint';
 import { createJsonPayload, extractJson } from './server/extract-json.mjs';
 import type { ConfigFormat } from '../components/config-editor.js';
 import type { ConsoleOutput } from '../components/console';
-import type { LintResult } from 'stylelint';
 import type { Tab } from '../components/output-tabs';
 import { WebContainer } from '@webcontainer/api';
 
@@ -13,6 +13,7 @@ export type LinterServiceResultSuccess = {
 	result: LintResult;
 	fixResult: LintResult;
 	output: string;
+	ruleMetadata: { [ruleName: string]: Partial<RuleMeta> };
 };
 export type LinterServiceResultError = {
 	version: number;
@@ -30,7 +31,7 @@ export type LintInput = {
 export interface LinterService {
 	lint: (input: LintInput) => Promise<LinterServiceResult>;
 	updateDependencies: (pkg: any) => Promise<void>;
-	reinstall: () => Promise<void>;
+	reinstallAndRestart: () => Promise<void>;
 }
 
 export async function setupLinter({
@@ -127,7 +128,7 @@ export async function setupLinter({
 			);
 			await updatingDependencies;
 		},
-		async reinstall() {
+		async reinstallAndRestart() {
 			await installDeps();
 			await server.restart();
 		},

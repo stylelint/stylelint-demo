@@ -1,13 +1,18 @@
 :root {
 	--stylelint-demo-background-color: #1b1b1d;
-	--stylelint-demo-color-content: #e3e3e3;
+	--stylelint-demo-color: #e3e3e3;
 	--stylelint-demo-outputs-height: max(150px, 25vh);
-	--stylelint-demo-active-tab-color: #3578e5;
-	--stylelint-demo-focus-tab-background-color: #ffffff0d;
+	--stylelint-demo-inactive-tab-color: #aaa;
+	--stylelint-demo-inactive-tab-background-color: #393e46;
+	--stylelint-demo-active-tab-color: var(--stylelint-demo-color);
+	--stylelint-demo-active-tab-background-color: var(--stylelint-demo-background-color);
+	--stylelint-demo-focus-tab-background-color: var(--stylelint-demo-background-color);
+	--stylelint-demo-warning-item-hover-background-color: #393e46;
 }
 
 .stylelint-demo {
 	align-items: stretch;
+	color: var(--stylelint-demo-color);
 	display: flex;
 	flex-direction: column;
 	height: 100%;
@@ -20,7 +25,6 @@
 
 .stylelint-demo-inputs {
 	background-color: var(--stylelint-demo-background-color);
-	color: var(--stylelint-demo-color-content);
 	display: flex;
 	flex-grow: 1;
 }
@@ -53,7 +57,6 @@
 
 .stylelint-demo-outputs {
 	background-color: var(--stylelint-demo-background-color);
-	color: var(--stylelint-demo-color-content);
 	height: var(--stylelint-demo-outputs-height);
 }
 
@@ -66,6 +69,14 @@
 	height: 100%;
 	overflow: auto;
 	white-space: pre;
+}
+
+.stylelint-demo-warning-item {
+	cursor: pointer;
+}
+
+.stylelint-demo-warning-item:hover {
+	background-color: var(--stylelint-demo-warning-item-hover-background-color);
 }
 
 .stylelint-demo-console {
@@ -89,17 +100,20 @@
 
 :is(.stylelint-demo-input-tabs, .stylelint-demo-output-tabs) {
 	background-color: var(--stylelint-demo-background-color);
-	color: var(--stylelint-demo-color-content);
 	margin-top: 8px;
 	width: fit-content;
 }
 
 :is(.stylelint-demo-input-tabs, .stylelint-demo-output-tabs) label {
+	background-color: var(--stylelint-demo-inactive-tab-background-color);
+	color: var(--stylelint-demo-inactive-tab-color);
+	cursor: pointer;
 	padding: 0 16px;
 }
 
 :is(.stylelint-demo-input-tabs, .stylelint-demo-output-tabs)
 	label:has(input[type='radio']:checked) {
+	background-color: var(--stylelint-demo-active-tab-background-color);
 	color: var(--stylelint-demo-active-tab-color);
 }
 

@@ -108,6 +108,7 @@ export async function setupMonacoEditor({
 		renderValidationDecorations: 'on' as const,
 		renderWhitespace: 'boundary' as const,
 		scrollBeyondLastLine: false,
+		scrollbar: { alwaysConsumeMouseWheel: false },
 	};
 
 	if (useDiffEditor) {

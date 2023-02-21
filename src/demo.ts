@@ -1,5 +1,6 @@
 import './demo.css';
 import type { ConfigFormat } from './components/config-editor';
+import type { LinterServiceResultSuccess } from './linter-service';
 import type { Warning } from 'stylelint';
 import { debounce } from './utils/debounce';
 import type { editor } from 'monaco-editor';
@@ -13,29 +14,35 @@ import { setupLinter } from './linter-service';
 import { setupTabs } from './components/output-tabs';
 import { setupWarningsPanel } from './components/warnings';
 
-export async function mount({
-	element,
-	init,
-	listeners,
-}: {
+export type InputValues = {
+	/** Code text to lint. */
+	code: string;
+	/** The file name of the code. */
+	fileName: string;
+	/** Config text. */
+	config: string;
+	/** Config text format. */
+	configFormat: ConfigFormat;
+	/** Dependency packages text. */
+	deps: string;
+};
+
+export type MountOptions = {
+	/** Specify a target element to mount the Stylelint demo. */
 	element: HTMLElement;
-	init?: {
-		code?: string;
-		config?: string;
-		deps?: string;
-		fileName?: string;
-		configFormat?: ConfigFormat;
-	};
+	/** Specify the initial value used for the demo. */
+	init?: Partial<InputValues>;
+	/** Event listeners. */
 	listeners?: {
-		onChange?: (values: {
-			code: string;
-			fileName: string;
-			config: string;
-			deps: string;
-			configFormat: ConfigFormat;
-		}) => void;
+		/** Notifies that the input values have changed. */
+		onChange?: (values: InputValues) => void;
 	};
-}) {
+};
+
+/**
+ * Mount the Stylelint demo.
+ */
+export async function mount({ element, init, listeners }: MountOptions) {
 	element.innerHTML = html;
 
 	const outputTabs = setupTabs({
@@ -50,39 +57,33 @@ export async function mount({
 
 	const warningsPanel = setupWarningsPanel({
 		element: element.querySelector<HTMLDivElement>('.stylelint-demo-warnings')!,
+		listeners: {
+			onClickWaning(warning) {
+				const editor = codeEditor.getLeftEditor();
+
+				// Focus on the warning part.
+				editor.setSelection({
+					startLineNumber: warning.line,
+					startColumn: warning.column,
+					endLineNumber: warning.endLine ?? warning.line,
+					endColumn: warning.endColumn ?? warning.column,
+				});
+				editor.revealLineInCenter(warning.line);
+			},
+		},
 	});
 	const [codeEditor, configEditor, depsEditor, linter, monaco] = await Promise.all([
 		setupCodeEditor({
 			element: element.querySelector<HTMLDivElement>('.stylelint-demo-code')!,
 			listeners: {
 				onChangeValue: debounce(async (value) => {
-					listeners?.onChange?.({
+					onChangeValues({
 						code: value,
-						fileName: codeEditor.getFileName(),
-						config: configEditor.getValue(),
-						configFormat: configEditor.getFormat(),
-						deps: depsEditor.getValue(),
-					});
-					lint({
-						code: value,
-						fileName: codeEditor.getFileName(),
-						config: configEditor.getValue(),
-						configFormat: configEditor.getFormat(),
 					});
 				}),
-				onChangeFileName: debounce(async (value) => {
-					listeners?.onChange?.({
-						code: codeEditor.getLeftValue(),
-						fileName: value,
-						config: configEditor.getValue(),
-						configFormat: configEditor.getFormat(),
-						deps: depsEditor.getValue(),
-					});
-					lint({
-						code: codeEditor.getLeftValue(),
-						fileName: value,
-						config: configEditor.getValue(),
-						configFormat: configEditor.getFormat(),
+				onChangeFileName: debounce(async (fileName) => {
+					onChangeValues({
+						fileName,
 					});
 				}),
 			},
@@ -92,35 +93,15 @@ export async function mount({
 			element: element.querySelector<HTMLDivElement>('.stylelint-demo-config')!,
 			listeners: {
 				onChangeValue: debounce(async (value) => {
-					listeners?.onChange?.({
-						code: codeEditor.getLeftValue(),
-						fileName: codeEditor.getFileName(),
+					onChangeValues({
 						config: value,
-						configFormat: configEditor.getFormat(),
-						deps: depsEditor.getValue(),
-					});
-					lint({
-						code: codeEditor.getLeftValue(),
-						fileName: codeEditor.getFileName(),
-						config: value,
-						configFormat: configEditor.getFormat(),
 					});
 				}),
-				onChangeFormat(format) {
-					listeners?.onChange?.({
-						code: codeEditor.getLeftValue(),
-						fileName: codeEditor.getFileName(),
-						config: configEditor.getValue(),
-						configFormat: format,
-						deps: depsEditor.getValue(),
-					});
-					lint({
-						code: codeEditor.getLeftValue(),
-						fileName: codeEditor.getFileName(),
-						config: configEditor.getValue(),
+				onChangeFormat: debounce((format) => {
+					onChangeValues({
 						configFormat: format,
 					});
-				},
+				}),
 			},
 			init: { value: init?.config, format: init?.configFormat },
 		}),
@@ -128,13 +109,7 @@ export async function mount({
 			element: element.querySelector<HTMLDivElement>('.stylelint-demo-deps')!,
 			listeners: {
 				onChangeValue: debounce(async (value) => {
-					try {
-						await linter.updateDependencies(JSON.parse(value));
-					} catch (e) {
-						outputTabs.setChecked('console');
-						consoleOutput.clear();
-						consoleOutput.appendLine((e as Error).message);
-
+					if (!(await updateDependencies(value))) {
 						return;
 					}
 
@@ -146,7 +121,8 @@ export async function mount({
 						deps: value,
 					});
 
-					await linter.reinstall();
+					consoleOutput.clear();
+					await linter.reinstallAndRestart();
 					lint({
 						code: codeEditor.getLeftValue(),
 						fileName: codeEditor.getFileName(),
@@ -163,23 +139,57 @@ export async function mount({
 
 	let seq = 0;
 
-	try {
-		await linter.updateDependencies(JSON.parse(depsEditor.getValue()));
-	} catch (e) {
-		outputTabs.setChecked('console');
-		consoleOutput.clear();
-		consoleOutput.appendLine((e as Error).message);
-
-		return;
+	if (await updateDependencies(depsEditor.getValue())) {
+		lint({
+			code: codeEditor.getLeftValue(),
+			fileName: codeEditor.getFileName(),
+			config: configEditor.getValue(),
+			configFormat: configEditor.getFormat(),
+		});
 	}
 
-	lint({
-		code: codeEditor.getLeftValue(),
-		fileName: codeEditor.getFileName(),
-		config: configEditor.getValue(),
-		configFormat: configEditor.getFormat(),
-	});
+	async function updateDependencies(deps: string) {
+		try {
+			await linter.updateDependencies(JSON.parse(deps));
 
+			return true;
+		} catch (e) {
+			outputTabs.setChecked('console');
+			consoleOutput.clear();
+			consoleOutput.appendLine((e as Error).message);
+
+			return false;
+		}
+	}
+
+	/** Handle input values change events. */
+	function onChangeValues({
+		code = codeEditor.getLeftValue(),
+		fileName = codeEditor.getFileName(),
+		config = configEditor.getValue(),
+		configFormat = configEditor.getFormat(),
+	}: {
+		code?: string;
+		fileName?: string;
+		config?: string;
+		configFormat?: ConfigFormat;
+	}) {
+		listeners?.onChange?.({
+			code,
+			fileName,
+			config,
+			configFormat,
+			deps: depsEditor.getValue(),
+		});
+		lint({
+			code,
+			fileName,
+			config,
+			configFormat,
+		});
+	}
+
+	/** Run the linting and display the results in the results panel and as markers in the editor. */
 	async function lint({
 		code,
 		fileName,
@@ -210,20 +220,26 @@ export async function mount({
 			return;
 		}
 
-		codeEditor.setLeftMarkers(result.result.warnings.map(messageToMarker));
-		codeEditor.setRightMarkers(result.fixResult.warnings.map(messageToMarker));
+		codeEditor.setLeftMarkers(
+			result.result.warnings.map((w) => messageToMarker(w, result.ruleMetadata)),
+		);
+		codeEditor.setRightMarkers(
+			result.fixResult.warnings.map((w) => messageToMarker(w, result.ruleMetadata)),
+		);
 		codeEditor.setRightValue(result.output);
 	}
 
-	function messageToMarker(warning: Warning): editor.IMarkerData {
+	function messageToMarker(
+		warning: Warning,
+		ruleMetadata: LinterServiceResultSuccess['ruleMetadata'],
+	): editor.IMarkerData {
 		const startLineNumber = ensurePositiveInt(warning.line, 1);
 		const startColumn = ensurePositiveInt(warning.column, 1);
 		const endLineNumber = ensurePositiveInt(warning.endLine, startLineNumber);
 		const endColumn = ensurePositiveInt(warning.endColumn, startColumn);
-		const docUrl = `https://stylelint.io/user-guide/rules/${warning.rule}`;
-		const code = docUrl
-			? { value: warning.rule, link: docUrl, target: docUrl }
-			: warning.rule || 'FATAL';
+		const meta = ruleMetadata[warning.rule];
+		const docUrl = meta?.url;
+		const code = docUrl ? { value: warning.rule, target: docUrl } : warning.rule || 'FATAL';
 
 		return {
 			code: code as any,

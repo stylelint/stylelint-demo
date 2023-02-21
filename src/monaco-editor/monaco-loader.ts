@@ -6,7 +6,9 @@ async function setupMonaco(): Promise<void> {
 		const monacoScript =
 			Array.from(document.head.querySelectorAll('script')).find(
 				(script) => script.src && script.src.includes('monaco') && script.src.includes('vs/loader'),
-			) || (await appendMonacoEditorScript());
+			) ||
+			// If the script tag that loads the Monaco editor is not found, insert the script tag.
+			(await appendMonacoEditorScript());
 
 		// @ts-expect-error -- global Monaco's require
 		window.require.config({
@@ -17,6 +19,7 @@ async function setupMonaco(): Promise<void> {
 	}
 }
 
+/** Appends a script tag that loads the Monaco editor. */
 async function appendMonacoEditorScript(): Promise<HTMLScriptElement> {
 	const script = document.createElement('script');
 
@@ -48,6 +51,8 @@ let editorLoaded: Promise<Monaco> | null = null;
 export function loadMonacoEngine(): Promise<void> {
 	return setupedMonaco || (setupedMonaco = setupMonaco());
 }
+
+/** Load the Monaco editor object. */
 export function loadMonacoEditor(): Promise<Monaco> {
 	if (editorLoaded) {
 		return editorLoaded;

@@ -1,7 +1,16 @@
 import type { LinterServiceResult } from '../linter-service';
+import type { Warning } from 'stylelint';
 import ansiRegex from 'ansi-regex';
 
-export function setupWarningsPanel({ element }: { element: HTMLElement }) {
+export function setupWarningsPanel({
+	element,
+	listeners,
+}: {
+	element: HTMLElement;
+	listeners: {
+		onClickWaning: (warning: Warning) => void;
+	};
+}) {
 	return {
 		setResult: (result: LinterServiceResult) => {
 			element.innerHTML = '';
@@ -18,7 +27,9 @@ export function setupWarningsPanel({ element }: { element: HTMLElement }) {
 			for (const w of result.result.warnings) {
 				const li = document.createElement('li');
 
+				li.classList.add('stylelint-demo-warning-item');
 				li.textContent = `[${w.line}:${w.column}] ${w.text}`;
+				li.addEventListener('click', () => listeners.onClickWaning(w));
 				element.appendChild(li);
 			}
 		},

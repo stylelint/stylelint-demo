@@ -126,6 +126,7 @@ async function lint(input) {
 			result: result.results[0],
 			fixResult: fixResult.results[0],
 			output: fixedFile,
+			ruleMetadata: result.ruleMetadata,
 		};
 
 		// Write the linting result to the stdout.
