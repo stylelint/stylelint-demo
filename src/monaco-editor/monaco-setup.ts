@@ -130,15 +130,11 @@ export async function setupMonacoEditor({
 			listeners?.onChangeValue?.(value);
 		});
 
-		const registerCodeActionProvider = buildRegisterCodeActionProvider(leftEditor, language);
-
 		const result: MonacoDiffEditorResult = {
 			setModelLanguage: (lang) => {
 				for (const model of [original, modified]) {
 					monaco.editor.setModelLanguage(model, lang);
 				}
-
-				registerCodeActionProvider.setLanguage(lang);
 			},
 			setLeftValue: (code) => {
 				const value = original.getValue();
@@ -165,7 +161,6 @@ export async function setupMonacoEditor({
 			getRightEditor: () => rightEditor,
 
 			disposeEditor: () => {
-				registerCodeActionProvider.dispose();
 				leftEditor.getModel()?.dispose();
 				rightEditor.getModel()?.dispose();
 				leftEditor.dispose();
@@ -185,7 +180,6 @@ export async function setupMonacoEditor({
 		listeners?.onChangeValue?.(value);
 	});
 
-	const registerCodeActionProvider = buildRegisterCodeActionProvider(standaloneEditor, language);
 	const result: MonacoEditorResult = {
 		setModelLanguage: (lang) => {
 			const model = standaloneEditor.getModel();
@@ -193,8 +187,6 @@ export async function setupMonacoEditor({
 			if (model) {
 				monaco.editor.setModelLanguage(model, lang);
 			}
-
-			registerCodeActionProvider.setLanguage(lang);
 		},
 		setValue: (code) => {
 			const value = standaloneEditor.getValue();
@@ -210,7 +202,6 @@ export async function setupMonacoEditor({
 		getEditor: () => standaloneEditor,
 
 		disposeEditor: () => {
-			registerCodeActionProvider.dispose();
 			standaloneEditor.getModel()?.dispose();
 			standaloneEditor.dispose();
 		},
@@ -231,54 +222,5 @@ export async function setupMonacoEditor({
 			id,
 			JSON.parse(JSON.stringify(markers)) as MonacoEditor.IMarkerData[],
 		);
-	}
-
-	function buildRegisterCodeActionProvider(
-		editor: MonacoEditor.IStandaloneCodeEditor,
-		initLanguage: string,
-	): {
-		setLanguage: (lang: string) => void;
-		register: (provideCodeActions: ProvideCodeActions) => void;
-		dispose: () => void;
-	} {
-		let codeActionProviderDisposable: IDisposable = {
-			dispose: () => {
-				// void
-			},
-		};
-		let currProvideCodeActions: ProvideCodeActions | null = null;
-		let currLanguage = initLanguage;
-
-		function register() {
-			codeActionProviderDisposable.dispose();
-			codeActionProviderDisposable = monaco.languages.registerCodeActionProvider(currLanguage, {
-				provideCodeActions(model, ...args) {
-					if (!currProvideCodeActions || editor.getModel()!.uri !== model.uri) {
-						return {
-							actions: [],
-							dispose() {
-								/* nop */
-							},
-						};
-					}
-
-					return currProvideCodeActions(model, ...args);
-				},
-			});
-		}
-
-		return {
-			setLanguage: (lang) => {
-				currLanguage = lang;
-				register();
-			},
-			register: (provideCodeActions) => {
-				currProvideCodeActions = provideCodeActions;
-				register();
-			},
-			dispose() {
-				codeActionProviderDisposable.dispose();
-			},
-		};
 	}
 }
