@@ -12,7 +12,13 @@ jobs:
   lint:
     uses: stylelint/.github/.github/workflows/lint.yml@main
 
-  test:
-    uses: stylelint/.github/.github/workflows/test.yml@main
-    with:
-      node-version: '["18"]'
+  test-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - name: Install Packages
+        run: npm install
+      - name: Build
+        run: |+
+          npm run build

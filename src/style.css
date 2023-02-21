@@ -1,0 +1,7 @@
+#app {
+	height: calc(100vh - 16px);
+}
+
+body {
+	background-color: #555;
+}

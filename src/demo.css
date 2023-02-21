@@ -1,0 +1,109 @@
+:root {
+	--stylelint-demo-background-color: #1b1b1d;
+	--stylelint-demo-color-content: #e3e3e3;
+	--stylelint-demo-outputs-height: max(150px, 25vh);
+	--stylelint-demo-active-tab-color: #3578e5;
+	--stylelint-demo-focus-tab-background-color: #ffffff0d;
+}
+
+.stylelint-demo {
+	align-items: stretch;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.stylelint-demo-input-tabs,
+.stylelint-demo-output-tabs {
+	display: flex;
+}
+
+.stylelint-demo-inputs {
+	background-color: var(--stylelint-demo-background-color);
+	color: var(--stylelint-demo-color-content);
+	display: flex;
+	flex-grow: 1;
+}
+
+.stylelint-demo-inputs > *,
+.stylelint-demo-code-monaco {
+	width: 100%;
+}
+
+.stylelint-demo-code,
+.stylelint-demo-config {
+	display: flex;
+	flex-direction: column;
+}
+
+:is(.stylelint-demo-code, .stylelint-demo-config) label {
+	padding: 4px;
+}
+
+.stylelint-demo-code-monaco,
+.stylelint-demo-config-monaco {
+	flex-grow: 1;
+}
+
+.stylelint-demo:not(:has(.stylelint-demo-code-tab:checked)) .stylelint-demo-code,
+.stylelint-demo:not(:has(.stylelint-demo-config-tab:checked)) .stylelint-demo-config,
+.stylelint-demo:not(:has(.stylelint-demo-deps-tab:checked)) .stylelint-demo-deps {
+	display: none;
+}
+
+.stylelint-demo-outputs {
+	background-color: var(--stylelint-demo-background-color);
+	color: var(--stylelint-demo-color-content);
+	height: var(--stylelint-demo-outputs-height);
+}
+
+.stylelint-demo-outputs > * {
+	width: 100%;
+}
+
+.stylelint-demo-warnings {
+	box-sizing: border-box;
+	height: 100%;
+	overflow: auto;
+	white-space: pre;
+}
+
+.stylelint-demo-console {
+	box-sizing: border-box;
+	height: 100%;
+	overflow: auto;
+	padding: 8px;
+	white-space: pre;
+}
+
+.stylelint-demo:not(:has(.stylelint-demo-warning-tab:checked)) .stylelint-demo-warnings,
+.stylelint-demo:not(:has(.stylelint-demo-console-tab:checked)) .stylelint-demo-console {
+	display: none;
+}
+
+:is(.stylelint-demo-input-tabs, .stylelint-demo-output-tabs) input[type='radio'] {
+	margin: 0;
+	opacity: 0;
+	width: 0;
+}
+
+:is(.stylelint-demo-input-tabs, .stylelint-demo-output-tabs) {
+	background-color: var(--stylelint-demo-background-color);
+	color: var(--stylelint-demo-color-content);
+	margin-top: 8px;
+	width: fit-content;
+}
+
+:is(.stylelint-demo-input-tabs, .stylelint-demo-output-tabs) label {
+	padding: 0 16px;
+}
+
+:is(.stylelint-demo-input-tabs, .stylelint-demo-output-tabs)
+	label:has(input[type='radio']:checked) {
+	color: var(--stylelint-demo-active-tab-color);
+}
+
+:is(.stylelint-demo-input-tabs, .stylelint-demo-output-tabs)
+	label:has(input[type='radio']:focus, input[type='radio']:hover) {
+	background-color: var(--stylelint-demo-focus-tab-background-color);
+}

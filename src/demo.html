@@ -1,0 +1,66 @@
+<div class="stylelint-demo">
+	<div class="stylelint-demo-input-tabs">
+		<label>
+			<input
+				type="radio"
+				name="stylelint_input_tabs"
+				class="stylelint-demo-code-tab"
+				data-radio-name="code"
+				checked
+			/>Code
+		</label>
+		<label>
+			<input
+				type="radio"
+				name="stylelint_input_tabs"
+				class="stylelint-demo-config-tab"
+				data-radio-name="config"
+			/>Config
+		</label>
+		<label>
+			<input
+				type="radio"
+				name="stylelint_input_tabs"
+				class="stylelint-demo-deps-tab"
+				data-radio-name="deps"
+			/>Dependencies
+		</label>
+	</div>
+	<div class="stylelint-demo-inputs">
+		<div class="stylelint-demo-code">
+			<label>File Name: <input type="text" class="stylelint-demo-code-file-name" /></label>
+			<div class="stylelint-demo-code-monaco"></div>
+		</div>
+		<div class="stylelint-demo-config">
+			<label
+				>Config Format:
+				<select type="text" class="stylelint-demo-config-format"></select>
+			</label>
+			<div class="stylelint-demo-config-monaco"></div>
+		</div>
+		<div class="stylelint-demo-deps"></div>
+	</div>
+	<div class="stylelint-demo-output-tabs">
+		<label>
+			<input
+				type="radio"
+				name="stylelint_output_tabs"
+				class="stylelint-demo-warning-tab"
+				data-radio-name="warnings"
+				checked
+			/>Warnings
+		</label>
+		<label>
+			<input
+				type="radio"
+				name="stylelint_output_tabs"
+				class="stylelint-demo-console-tab"
+				data-radio-name="console"
+			/>Console
+		</label>
+	</div>
+	<div class="stylelint-demo-outputs">
+		<ul class="stylelint-demo-warnings"></ul>
+		<div class="stylelint-demo-console"></div>
+	</div>
+</div>
