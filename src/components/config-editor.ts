@@ -5,21 +5,30 @@ const FORMATS: ConfigFormat[] = ['json', 'js', 'yaml'];
 
 export type ConfigFormat = 'json' | 'js' | 'yaml';
 
-export async function setupConfigEditor({
-	element,
-	listeners,
-	init,
-}: {
+export type ConfigEditorOptions = {
+	/** Specify a target element to set up the config editor. */
 	element: HTMLElement;
-	listeners: {
-		onChangeValue: (value: string) => void;
-		onChangeFormat: (format: ConfigFormat) => void;
-	};
-	init?: {
+	/** Specify the initial values. */
+	init: {
+		/** Config text. */
 		value?: string;
+		/** Config text format. */
 		format?: ConfigFormat;
 	};
-}) {
+	/** Event listeners. */
+	listeners: {
+		/** Notifies that the config value have changed. */
+		onChangeValue: (value: string) => void;
+		/** Notifies that the config format have changed. */
+		onChangeFormat: (format: ConfigFormat) => void;
+	};
+};
+
+/**
+ * Setup a config editor component.
+ * This component has a config format select and a config editor.
+ */
+export async function setupConfigEditor({ element, listeners, init }: ConfigEditorOptions) {
 	const formatSelect = element.querySelector<HTMLSelectElement>('.stylelint-demo-config-format')!;
 
 	formatSelect.innerHTML = '';

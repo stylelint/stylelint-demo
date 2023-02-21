@@ -30,7 +30,7 @@ export type InputValues = {
 export type MountOptions = {
 	/** Specify a target element to mount the Stylelint demo. */
 	element: HTMLElement;
-	/** Specify the initial value used for the demo. */
+	/** Specify the initial values used for the demo. */
 	init?: Partial<InputValues>;
 	/** Event listeners. */
 	listeners?: {

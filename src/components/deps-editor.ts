@@ -1,19 +1,22 @@
 import defaultDeps from './defaults/deps';
 import { setupMonacoEditor } from '../monaco-editor/monaco-setup.js';
 
-export function setupDepsEditor({
-	element,
-	listeners,
-	init,
-}: {
+export type DepsEditorOptions = {
+	/** Specify a target element to set up the dependencies editor. */
 	element: HTMLElement;
-	listeners: {
-		onChangeValue: (value: string) => void;
-	};
-	init?: {
+	/** Specify the initial values. */
+	init: {
+		/** Dependency packages text. */
 		value?: string;
 	};
-}) {
+	/** Event listeners. */
+	listeners: {
+		/** Notifies that the dependency packages text have changed. */
+		onChangeValue: (value: string) => void;
+	};
+};
+/** Setup a dependencies editor component. */
+export function setupDepsEditor({ element, listeners, init }: DepsEditorOptions) {
 	return setupMonacoEditor({
 		element,
 		init: {

@@ -4,9 +4,15 @@ export type ConsoleOutput = {
 	append: (string: string) => void;
 	clear: () => void;
 };
+export type ConsoleOutputOptions = {
+	/** Specify a target element to set up the console output. */
+	element: HTMLElement;
+};
+
 const CHA = '\u001b[1G';
 
-export function setupConsoleOutput({ element }: { element: HTMLElement }): ConsoleOutput {
+/** Setup a console output component. */
+export function setupConsoleOutput({ element }: ConsoleOutputOptions): ConsoleOutput {
 	let nextCHA = false;
 	const consoleOutput: ConsoleOutput = {
 		appendLine: (string: string) => {

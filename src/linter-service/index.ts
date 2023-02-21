@@ -3,7 +3,7 @@ import type { LintResult, RuleMeta } from 'stylelint';
 import { createJsonPayload, extractJson } from './server/extract-json.mjs';
 import type { ConfigFormat } from '../components/config-editor.js';
 import type { ConsoleOutput } from '../components/console';
-import type { Tab } from '../components/output-tabs';
+import type { Tabs } from '../components/output-tabs';
 import { WebContainer } from '@webcontainer/api';
 
 export type LinterServiceResult = LinterServiceResultSuccess | LinterServiceResultError;
@@ -29,17 +29,25 @@ export type LintInput = {
 };
 
 export interface LinterService {
+	/**
+	 * Run linting.
+	 * However, if called consecutively, it returns the result of the last call.
+	 * Check the `version` and qualitatively check if it is the desired result.
+	 */
 	lint: (input: LintInput) => Promise<LinterServiceResult>;
+	/** Update dependency packages. */
 	updateDependencies: (pkg: any) => Promise<void>;
+	/** Install dependencies and restart the server. */
 	reinstallAndRestart: () => Promise<void>;
 }
 
+/** Setup a linter service. */
 export async function setupLinter({
 	consoleOutput,
 	outputTabs,
 }: {
 	consoleOutput: ConsoleOutput;
-	outputTabs: Tab;
+	outputTabs: Tabs;
 }): Promise<LinterService> {
 	outputTabs.setChecked('console');
 	consoleOutput.appendLine('Starting WebContainer...');
@@ -168,7 +176,7 @@ function buildServer(
 		outputTabs,
 	}: {
 		consoleOutput: ConsoleOutput;
-		outputTabs: Tab;
+		outputTabs: Tabs;
 	},
 ): Server {
 	let server: Awaited<ReturnType<typeof startServerInternal>> | null = null;

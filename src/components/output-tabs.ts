@@ -1,7 +1,13 @@
-export type Tab = {
+export type Tabs = {
 	setChecked: (dataRadioName: string) => void;
 };
-export function setupTabs({ element }: { element: HTMLElement }): Tab {
+export type TabsOptions = {
+	/** Specify a target element to set up the tabs component. */
+	element: HTMLElement;
+};
+
+/** Setup tabs component. */
+export function setupTabs({ element }: TabsOptions): Tabs {
 	return {
 		setChecked: (dataRadioName) => {
 			const radio = element.querySelector<HTMLInputElement>(

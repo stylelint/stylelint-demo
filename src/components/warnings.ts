@@ -2,15 +2,17 @@ import type { LinterServiceResult } from '../linter-service';
 import type { Warning } from 'stylelint';
 import ansiRegex from 'ansi-regex';
 
-export function setupWarningsPanel({
-	element,
-	listeners,
-}: {
+export type WarningsPanelOptions = {
+	/** Specify a target element to set up the warnings panel component. */
 	element: HTMLElement;
+	/** Event listeners. */
 	listeners: {
+		/** Notify the click event of the warning element. */
 		onClickWaning: (warning: Warning) => void;
 	};
-}) {
+};
+/** Setup a component to display warnings. */
+export function setupWarningsPanel({ element, listeners }: WarningsPanelOptions) {
 	return {
 		setResult: (result: LinterServiceResult) => {
 			element.innerHTML = '';
