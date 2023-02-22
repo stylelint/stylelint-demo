@@ -1,8 +1,9 @@
-import type { FileSystemTree, WebContainerProcess } from '@webcontainer/api';
 import type { LintResult, RuleMeta } from 'stylelint';
-import { createJsonPayload, extractJson } from './server/extract-json.mjs';
 import type { ConfigFormat } from '../components/config-editor.js';
 import type { ConsoleOutput } from '../components/console';
+import type { FileSystemTree } from '@webcontainer/api';
+import { Installer } from './installer';
+import { Server } from './server';
 import type { Tabs } from '../components/output-tabs';
 import { WebContainer } from '@webcontainer/api';
 
@@ -70,22 +71,15 @@ export async function setupLinter({
 	await webContainer.mount(serverFiles);
 
 	let updatingDependencies = Promise.resolve();
-	let installProcess: Promise<WebContainerProcess> | null = null;
+	const installer = new Installer({ webContainer, consoleOutput, outputTabs });
 
 	async function installDeps() {
-		if (installProcess != null) {
-			(await installProcess).kill();
-		}
-
 		await updatingDependencies;
-		outputTabs.setChecked('console');
-		consoleOutput.appendLine('Installing dependencies...');
-		installProcess = installDependencies(webContainer, consoleOutput);
 
-		return installProcess;
+		return installer.install();
 	}
 
-	const server = buildServer(webContainer, { consoleOutput, outputTabs });
+	const server = new Server({ webContainer, consoleOutput, outputTabs });
 
 	let processing: Promise<void> | null = null;
 	let next: (() => Promise<LinterServiceResult>) | null = null;
@@ -120,7 +114,11 @@ export async function setupLinter({
 
 	return {
 		async lint(input: LintInput) {
-			const exitCode = await (await (installProcess || installDeps())).exit;
+			if (!installer.haveRunInstallation()) {
+				await installDeps();
+			}
+
+			const exitCode = await installer.getExitCode();
 
 			if (exitCode !== 0) {
 				throw new Error('Installation failed');
@@ -141,146 +139,6 @@ export async function setupLinter({
 			await server.restart();
 		},
 	};
-}
-
-async function installDependencies(webContainer: WebContainer, consoleOutput: ConsoleOutput) {
-	const installProcess = await webContainer.spawn('npm', ['install']);
-
-	void installProcess.output.pipeTo(
-		new WritableStream({
-			write(data) {
-				consoleOutput.append(data);
-			},
-		}),
-	);
-	installProcess.exit.then((exitCode) => {
-		if (exitCode !== 0) {
-			consoleOutput.appendLine('Installation failed');
-		} else {
-			consoleOutput.appendLine('Installation succeeded');
-		}
-	});
-
-	return installProcess;
-}
-
-type Server = {
-	request: (data: any, test: (res: any) => boolean) => Promise<any>;
-	restart: () => Promise<void>;
-};
-
-function buildServer(
-	webContainer: WebContainer,
-	{
-		consoleOutput,
-		outputTabs,
-	}: {
-		consoleOutput: ConsoleOutput;
-		outputTabs: Tabs;
-	},
-): Server {
-	let server: Awaited<ReturnType<typeof startServerInternal>> | null = null;
-
-	let waitPromise = Promise.resolve(undefined as any);
-
-	function restart() {
-		return (waitPromise = waitPromise.then(async () => {
-			if (server) {
-				server.process.kill();
-				await server.process.exit;
-			}
-
-			server = await startServerInternal();
-		}));
-	}
-
-	return {
-		async request(data, test) {
-			return (waitPromise = waitPromise.then(async () => {
-				if (!server) {
-					server = await startServerInternal();
-				}
-
-				await server.ready;
-				while (server.isExit) {
-					await restart();
-					await server.ready;
-				}
-
-				return server.request(data, test);
-			}));
-		},
-		restart,
-	};
-
-	async function startServerInternal() {
-		outputTabs.setChecked('console');
-		consoleOutput.appendLine(server ? 'Restarting server...' : 'Starting server...');
-		const serverProcess = await webContainer.spawn('node', ['./server.mjs']);
-
-		let boot = false;
-		const callbacks: ((json: string) => void)[] = [];
-
-		serverProcess.output.pipeTo(
-			new WritableStream({
-				write(str) {
-					if (!callbacks.length) {
-						// eslint-disable-next-line no-console
-						if (!boot) console.log(str);
-
-						return;
-					}
-
-					const output = extractJson(str);
-
-					if (!output) {
-						// eslint-disable-next-line no-console
-						if (!boot) console.log(str);
-
-						return;
-					}
-
-					callbacks.forEach((f) => f(output));
-				},
-			}),
-		);
-
-		const writer = serverProcess.input.getWriter();
-
-		async function request(data: any, test: (data: any) => boolean): Promise<string> {
-			writer.write(createJsonPayload(data));
-
-			return new Promise((resolve) => {
-				const callback = (output: string) => {
-					if (test(output)) {
-						const i = callbacks.indexOf(callback);
-
-						if (i > 0) callbacks.splice(i);
-
-						resolve(output);
-					}
-				};
-
-				callbacks.push(callback);
-			});
-		}
-
-		const serverInternal = {
-			process: serverProcess,
-			request,
-			ready: request('ok?', (res) => res === 'ok' || res === 'boot').then(() => {
-				consoleOutput.appendLine('Server started');
-				boot = true;
-			}),
-			isExit: false,
-		};
-
-		serverProcess.exit.then(() => {
-			serverInternal.isExit = true;
-		});
-
-		return serverInternal;
-	}
 }
 
 async function lint(server: Server, input: LintInput) {

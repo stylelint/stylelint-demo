@@ -74,7 +74,7 @@ export async function setupConfigEditor({ element, listeners, init }: ConfigEdit
 		return FORMATS.includes(str) ? str : 'json';
 	}
 
-	function getLanguage(format: string) {
-		return format === '.js' ? 'javascript' : format;
+	function getLanguage(format: ConfigFormat) {
+		return format === 'js' ? 'javascript' : format;
 	}
 }

@@ -20,7 +20,16 @@ const RESERVED_FILE_NAMES = [
 	'package.json',
 	'package-lock.json',
 	'node_modules',
-].map((name) => path.join(SRC_DIR, name));
+	'.stylelintrc',
+	'.stylelintrc.cjs',
+	'.stylelintrc.js',
+	'.stylelintrc.json',
+	'.stylelintrc.yaml',
+	'.stylelintrc.yml',
+	'stylelint.config.cjs',
+	'stylelint.config.js',
+	'.stylelintignore',
+];
 
 const CONFIG_FORMATS = [
 	{
@@ -88,8 +97,12 @@ async function lint(input) {
 		}
 
 		if (
-			RESERVED_FILE_NAMES.includes(targetFile) ||
-			RESERVED_FILE_NAMES.some((f) => targetFile.startsWith(`${f}/`))
+			RESERVED_FILE_NAMES.some(
+				(f) =>
+					targetFile.endsWith(f) ||
+					targetFile.includes(`/${f}/`) ||
+					targetFile.includes(`\\${f}\\`),
+			)
 		) {
 			throw new Error(
 				'The specified file name cannot be used as a linting file name on this demo site.',

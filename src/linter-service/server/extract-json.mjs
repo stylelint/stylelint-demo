@@ -1,7 +1,8 @@
-const DIRECTIVE_OPEN = '{{{stylelint-json-start}}}';
-const DIRECTIVE_CLOSE = '{{{stylelint-json-end}}}';
+const DIRECTIVE_OPEN = '{{{stylelint-demo-json-start}}}';
+const DIRECTIVE_CLOSE = '{{{stylelint-demo-json-end}}}';
 
 /**
+ * If the value is JSON enclosed in directives, extract the value and parse the JSON to get the value.
  * @param {string} str
  */
 export function extractJson(str) {
@@ -13,6 +14,7 @@ export function extractJson(str) {
 }
 
 /**
+ * Make the payload a string enclosed in directives.
  * @param {any} payload
  * @param {(key: string, value: any) => any} [replacer]
  */

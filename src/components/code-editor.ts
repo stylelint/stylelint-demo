@@ -25,7 +25,7 @@ export type CodeEditorOptions = {
  */
 export async function setupCodeEditor({ element, listeners, init }: CodeEditorOptions) {
 	const fileNameInput = element.querySelector<HTMLInputElement>('.stylelint-demo-code-file-name')!;
-	const initFileName = adjustFileName(init.fileName || 'example.css');
+	const initFileName = adjustFileName(init.fileName);
 	const monacoEditor = await setupMonacoEditor({
 		element: element.querySelector<HTMLDivElement>('.stylelint-demo-code-monaco')!,
 		init: {
@@ -42,6 +42,10 @@ export async function setupCodeEditor({ element, listeners, init }: CodeEditorOp
 	fileNameInput.addEventListener('input', () => {
 		const fileName = adjustFileName(fileNameInput.value);
 
+		if (fileNameInput.value && fileNameInput.value !== fileName) {
+			fileNameInput.value = fileName;
+		}
+
 		monacoEditor.setModelLanguage(getLanguage(fileName));
 		listeners.onChangeFileName(fileName);
 	});
@@ -53,7 +57,7 @@ export async function setupCodeEditor({ element, listeners, init }: CodeEditorOp
 		},
 	};
 
-	function adjustFileName(fileName: string) {
+	function adjustFileName(fileName: string | undefined) {
 		return fileName?.trim() || 'example.css';
 	}
 
@@ -72,8 +76,12 @@ export async function setupCodeEditor({ element, listeners, init }: CodeEditorOp
 			? 'html'
 			: lower.endsWith('.js') || lower.endsWith('.mjs') || lower.endsWith('.cjs')
 			? 'javascript'
+			: lower.endsWith('.jsx')
+			? 'javascriptreact'
 			: lower.endsWith('.ts') || lower.endsWith('.mts') || lower.endsWith('.cts')
 			? 'typescript'
+			: lower.endsWith('.tsx')
+			? 'typescriptreact'
 			: 'css';
 	}
 }
