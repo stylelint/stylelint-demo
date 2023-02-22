@@ -5,7 +5,7 @@
   "description": "Stylelint Demo",
   "repository": "stylelint/stylelint-demo",
   "license": "MIT",
-  "main": "dist/lib/stylelint-demo.mjs",
+  "main": "dist/stylelint-demo.mjs",
   "files": [
     "dist"
   ],

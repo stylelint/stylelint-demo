@@ -14,13 +14,13 @@ An online demo of [stylelint](https://github.com/stylelint/stylelint).
 
 - `npm install`
 - `npm run build`
-- Output `./dist/demo/`
+- Output `./dist/`
 
 ## Build lib
 
 - `npm install`
 - `npm run build:lib`
-- Output `./dist/lib`
+- Output `./dist/`
 
 ## About
 

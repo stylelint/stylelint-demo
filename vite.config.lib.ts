@@ -22,7 +22,6 @@ export default defineConfig(async (env) => {
 			rollupOptions: {
 				external: Object.keys(pkg.dependencies),
 			},
-			outDir: 'dist/lib',
 		},
 	};
 });

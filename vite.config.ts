@@ -7,8 +7,4 @@ export default defineConfig(() => ({
 			'Cross-Origin-Opener-Policy': 'same-origin',
 		},
 	},
-	base: '/demo/',
-	build: {
-		outDir: 'dist/demo',
-	},
 }));
