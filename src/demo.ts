@@ -45,6 +45,9 @@ export type MountOptions = {
 export async function mount({ element, init, listeners }: MountOptions) {
 	element.innerHTML = html;
 
+	const inputTabs = setupTabs({
+		element: element.querySelector<HTMLDivElement>('.stylelint-demo-input-tabs')!,
+	});
 	const outputTabs = setupTabs({
 		element: element.querySelector<HTMLDivElement>('.stylelint-demo-output-tabs')!,
 	});
@@ -69,6 +72,8 @@ export async function mount({ element, init, listeners }: MountOptions) {
 					endColumn: warning.endColumn ?? warning.column,
 				});
 				editor.revealLineInCenter(warning.line);
+
+				inputTabs.setChecked('code');
 			},
 		},
 	});
@@ -147,6 +152,16 @@ export async function mount({ element, init, listeners }: MountOptions) {
 			configFormat: configEditor.getFormat(),
 		});
 	}
+
+	return {
+		async dispose() {
+			codeEditor.disposeEditor();
+			configEditor.disposeEditor();
+			depsEditor.disposeEditor();
+			await linter.teardown();
+			element.innerHTML = '';
+		},
+	};
 
 	async function updateDependencies(deps: string) {
 		try {

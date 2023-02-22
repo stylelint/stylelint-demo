@@ -8,7 +8,7 @@ An online demo of [stylelint](https://github.com/stylelint/stylelint).
 
 - `npm install`
 - `npm run dev`
-- Go to `http://localhost:5174/demo/`
+- Go to `http://localhost:5174/`
 
 ## Build static files
 

@@ -40,6 +40,8 @@ export interface LinterService {
 	updateDependencies: (pkg: any) => Promise<void>;
 	/** Install dependencies and restart the server. */
 	reinstallAndRestart: () => Promise<void>;
+
+	teardown: () => Promise<void>;
 }
 
 /** Setup a linter service. */
@@ -137,6 +139,10 @@ export async function setupLinter({
 		async reinstallAndRestart() {
 			await installDeps();
 			await server.restart();
+		},
+
+		async teardown() {
+			webContainer.teardown();
 		},
 	};
 }
