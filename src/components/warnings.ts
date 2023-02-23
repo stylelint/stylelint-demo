@@ -26,7 +26,14 @@ export function setupWarningsPanel({ element, listeners }: WarningsPanelOptions)
 				return;
 			}
 
-			for (const w of result.result.warnings) {
+			for (const w of [...result.result.warnings].sort(
+				(a, b) =>
+					a.line - b.line ||
+					a.column - b.column ||
+					(a.endLine != null && b.endLine != null && a.endLine - b.endLine) ||
+					(a.endColumn != null && b.endColumn != null && a.endColumn - b.endColumn) ||
+					0,
+			)) {
 				const li = document.createElement('li');
 
 				li.classList.add('stylelint-demo-warning-item');
