@@ -17,7 +17,7 @@ export function setupWarningsPanel({ element, listeners }: WarningsPanelOptions)
 		setResult: (result: LinterServiceResult) => {
 			element.innerHTML = '';
 
-			if (result.exit !== 0) {
+			if (result.returnCode !== 0) {
 				const li = document.createElement('li');
 
 				li.textContent = result.result.replace(ansiRegex(), '');

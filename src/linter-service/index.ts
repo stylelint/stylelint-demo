@@ -10,7 +10,7 @@ import { WebContainer } from '@webcontainer/api';
 export type LinterServiceResult = LinterServiceResultSuccess | LinterServiceResultError;
 export type LinterServiceResultSuccess = {
 	version: number;
-	exit: 0;
+	returnCode: 0;
 	result: LintResult;
 	fixResult: LintResult;
 	output: string;
@@ -18,10 +18,11 @@ export type LinterServiceResultSuccess = {
 };
 export type LinterServiceResultError = {
 	version: number;
-	exit: 1;
+	returnCode: 1;
 	result: string;
 };
 export type LintInput = {
+	/** Input version. Check if it matches the version returned. */
 	version: number;
 	code: string;
 	fileName: string;
@@ -38,14 +39,18 @@ export interface LinterService {
 	lint: (input: LintInput) => Promise<LinterServiceResult>;
 	/** Update dependency packages. */
 	updateDependencies: (pkg: any) => Promise<void>;
-	/** Install dependencies and restart the server. */
-	reinstallAndRestart: () => Promise<void>;
+	/** Install dependencies. */
+	install: () => Promise<void>;
+	/** Restart the server. */
+	restart: () => Promise<void>;
+	/** Read a file in the server. */
+	readFile: (path: string) => Promise<string>;
 
 	teardown: () => Promise<void>;
 }
 
 /** Setup a linter service. */
-export async function setupLinter({
+export async function setupLintServer({
 	consoleOutput,
 	outputTabs,
 }: {
@@ -78,7 +83,11 @@ export async function setupLinter({
 	async function installDeps() {
 		await updatingDependencies;
 
-		return installer.install();
+		const exitCode = await installer.install();
+
+		if (exitCode !== 0) {
+			throw new Error('Installation failed');
+		}
 	}
 
 	const server = new Server({ webContainer, consoleOutput, outputTabs });
@@ -116,10 +125,6 @@ export async function setupLinter({
 
 	return {
 		async lint(input: LintInput) {
-			if (!installer.haveRunInstallation()) {
-				await installDeps();
-			}
-
 			const exitCode = await installer.getExitCode();
 
 			if (exitCode !== 0) {
@@ -136,9 +141,14 @@ export async function setupLinter({
 			);
 			await updatingDependencies;
 		},
-		async reinstallAndRestart() {
+		async install() {
 			await installDeps();
+		},
+		async restart() {
 			await server.restart();
+		},
+		readFile: async (path) => {
+			return webContainer.fs.readFile(path, 'utf8');
 		},
 
 		async teardown() {

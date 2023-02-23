@@ -1,5 +1,39 @@
-import type { Monaco } from './types.js';
+import type * as _monaco from 'monaco-editor';
+type Monaco = typeof _monaco;
 import { version as monacoVersion } from 'monaco-editor/package.json';
+
+let monacoPromise: Promise<Monaco> | null = null;
+
+/** Load the Monaco editor object. */
+export function loadMonaco(): Promise<Monaco> {
+	return (
+		monacoPromise ||
+		(monacoPromise = (async () => {
+			const monaco: Monaco = await loadModuleFromMonaco('vs/editor/editor.main');
+
+			monaco.languages.css.cssDefaults.setOptions({
+				validate: false, //Turn off CSS built-in validation.
+			});
+
+			setupEnhancedLanguages(monaco);
+
+			return monaco;
+		})())
+	);
+}
+
+async function loadModuleFromMonaco<T>(moduleName: string): Promise<T> {
+	await setupMonaco();
+
+	return new Promise((resolve) => {
+		if (typeof window !== 'undefined') {
+			// @ts-expect-error -- global Monaco's require
+			window.require([moduleName], (r: T) => {
+				resolve(r);
+			});
+		}
+	});
+}
 
 async function setupMonaco(): Promise<void> {
 	if (typeof window !== 'undefined') {
@@ -45,39 +79,29 @@ async function appendMonacoEditorScript(): Promise<HTMLScriptElement> {
 	});
 }
 
-let setupedMonaco: Promise<void> | null = null;
-let editorLoaded: Promise<Monaco> | null = null;
+function setupEnhancedLanguages(monaco: Monaco) {
+	monaco.languages.register({ id: 'astro' });
+	monaco.languages.registerTokensProviderFactory('astro', {
+		async create() {
+			const astro = await import('./monarch-syntaxes/astro');
 
-export function loadMonacoEngine(): Promise<void> {
-	return setupedMonaco || (setupedMonaco = setupMonaco());
-}
+			return astro.language;
+		},
+	});
+	monaco.languages.register({ id: 'stylus', aliases: ['styl'] });
+	monaco.languages.registerTokensProviderFactory('stylus', {
+		async create() {
+			const stylus = await import('./monarch-syntaxes/stylus');
 
-/** Load the Monaco editor object. */
-export function loadMonacoEditor(): Promise<Monaco> {
-	if (editorLoaded) {
-		return editorLoaded;
-	}
+			return stylus.language;
+		},
+	});
+	monaco.languages.register({ id: 'svelte' });
+	monaco.languages.registerTokensProviderFactory('svelte', {
+		async create() {
+			const svelte = await import('./monarch-syntaxes/svelte');
 
-	return (editorLoaded = (async () => {
-		const monaco: Monaco = await loadModuleFromMonaco('vs/editor/editor.main');
-
-		monaco.languages.css.cssDefaults.setOptions({
-			validate: false, //Turn off CSS built-in validation.
-		});
-
-		return monaco;
-	})());
-}
-
-export async function loadModuleFromMonaco<T>(moduleName: string): Promise<T> {
-	await loadMonacoEngine();
-
-	return new Promise((resolve) => {
-		if (typeof window !== 'undefined') {
-			// @ts-expect-error -- global Monaco's require
-			window.require([moduleName], (r: T) => {
-				resolve(r);
-			});
-		}
+			return svelte.language;
+		},
 	});
 }

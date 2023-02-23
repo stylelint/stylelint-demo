@@ -1,4 +1,8 @@
 export { setupMonacoEditor } from './monaco-setup.js';
-export type { ProvideCodeActions, MonacoEditorResult } from './monaco-setup.js';
-export * from './types.js';
-export { loadMonacoEditor } from './monaco-loader.js';
+export { loadMonaco } from './monaco-loader.js';
+export type {
+	MonacoEditor,
+	MonacoDiffEditor,
+	MonacoEditorOptions,
+	MonacoDiffEditorOptions,
+} from './monaco-setup.js';

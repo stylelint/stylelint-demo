@@ -8,6 +8,8 @@
 	--stylelint-demo-active-tab-background-color: var(--stylelint-demo-background-color);
 	--stylelint-demo-focus-tab-background-color: var(--stylelint-demo-background-color);
 	--stylelint-demo-warning-item-hover-background-color: #393e46;
+	--stylelint-demo-link-color: #3578e5;
+	--stylelint-demo-link-hover-background-color: #393e46;
 }
 
 .stylelint-demo {
@@ -16,6 +18,16 @@
 	display: flex;
 	flex-direction: column;
 	height: 100%;
+}
+
+.stylelint-demo a {
+	color: var(--stylelint-demo-link-color);
+	padding: 2px 4px;
+	text-decoration: none;
+}
+
+.stylelint-demo a:hover {
+	background-color: var(--stylelint-demo-link-hover-background-color);
 }
 
 .stylelint-demo-input-tabs,
@@ -27,6 +39,7 @@
 	background-color: var(--stylelint-demo-background-color);
 	display: flex;
 	flex-grow: 1;
+	min-height: 1px;
 }
 
 .stylelint-demo-inputs > *,
@@ -35,7 +48,8 @@
 }
 
 .stylelint-demo-code,
-.stylelint-demo-config {
+.stylelint-demo-config,
+.stylelint-demo-deps {
 	display: flex;
 	flex-direction: column;
 }
@@ -44,9 +58,15 @@
 	padding: 4px;
 }
 
+.stylelint-demo-deps label {
+	padding: 0 4px;
+}
+
 .stylelint-demo-code-monaco,
-.stylelint-demo-config-monaco {
+.stylelint-demo-config-monaco,
+.stylelint-demo-deps-monaco {
 	flex-grow: 1;
+	min-height: 1px;
 }
 
 .stylelint-demo:not(:has(.stylelint-demo-code-tab:checked)) .stylelint-demo-code,
@@ -57,6 +77,7 @@
 
 .stylelint-demo-outputs {
 	background-color: var(--stylelint-demo-background-color);
+	flex-shrink: 0;
 	height: var(--stylelint-demo-outputs-height);
 }
 

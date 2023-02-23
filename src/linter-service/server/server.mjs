@@ -135,7 +135,7 @@ async function lint(input) {
 		/** @type {LinterServiceResult} */
 		const output = {
 			version: input.version,
-			exit: 0,
+			returnCode: 0,
 			result: result.results[0],
 			fixResult: fixResult.results[0],
 			output: fixedFile,
@@ -155,7 +155,7 @@ async function lint(input) {
 		/** @type {LinterServiceResult} */
 		const output = {
 			version: input.version,
-			exit: 1,
+			returnCode: 1,
 			result: /** @type {any} */ (e).message,
 		};
 

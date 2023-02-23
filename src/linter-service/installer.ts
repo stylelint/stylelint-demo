@@ -32,11 +32,8 @@ export class Installer {
 		}
 
 		this.installProcess = installDependencies(this.webContainer, this.consoleOutput);
-	}
 
-	/** Check whether have installed it even once. */
-	public haveRunInstallation() {
-		return this.installProcess != null;
+		return (await this.installProcess).exit;
 	}
 
 	/** Returns the exit code for the install command process. */

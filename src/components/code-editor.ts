@@ -72,7 +72,7 @@ export async function setupCodeEditor({ element, listeners, init }: CodeEditorOp
 			? 'less'
 			: lower.endsWith('.sass')
 			? 'sass'
-			: lower.endsWith('.html') || lower.endsWith('.vue') || lower.endsWith('.svelte')
+			: lower.endsWith('.html') || lower.endsWith('.vue')
 			? 'html'
 			: lower.endsWith('.js') || lower.endsWith('.mjs') || lower.endsWith('.cjs')
 			? 'javascript'
@@ -82,6 +82,12 @@ export async function setupCodeEditor({ element, listeners, init }: CodeEditorOp
 			? 'typescript'
 			: lower.endsWith('.tsx')
 			? 'typescriptreact'
+			: lower.endsWith('.svelte')
+			? 'svelte'
+			: lower.endsWith('.astro')
+			? 'astro'
+			: lower.endsWith('.stylus') || lower.endsWith('.styl')
+			? 'stylus'
 			: 'css';
 	}
 }

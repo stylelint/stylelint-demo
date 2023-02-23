@@ -1,16 +1,17 @@
 import './demo.css';
 import type { ConfigFormat } from './components/config-editor';
 import type { LinterServiceResultSuccess } from './linter-service';
+import type { PackageJsonData } from './components/deps-editor';
 import type { Warning } from 'stylelint';
 import { debounce } from './utils/debounce';
 import type { editor } from 'monaco-editor';
 import html from './demo.html?raw';
-import { loadMonacoEditor } from './monaco-editor';
+import { loadMonaco } from './monaco-editor';
 import { setupCodeEditor } from './components/code-editor';
 import { setupConfigEditor } from './components/config-editor';
 import { setupConsoleOutput } from './components/console';
 import { setupDepsEditor } from './components/deps-editor';
-import { setupLinter } from './linter-service';
+import { setupLintServer } from './linter-service';
 import { setupTabs } from './components/output-tabs';
 import { setupWarningsPanel } from './components/warnings';
 
@@ -77,7 +78,7 @@ export async function mount({ element, init, listeners }: MountOptions) {
 			},
 		},
 	});
-	const [codeEditor, configEditor, depsEditor, linter, monaco] = await Promise.all([
+	const [codeEditor, configEditor, depsEditor, lintServer, monaco] = await Promise.all([
 		setupCodeEditor({
 			element: element.querySelector<HTMLDivElement>('.stylelint-demo-code')!,
 			listeners: {
@@ -127,7 +128,9 @@ export async function mount({ element, init, listeners }: MountOptions) {
 					});
 
 					consoleOutput.clear();
-					await linter.reinstallAndRestart();
+					await lintServer.install();
+					updateInstalledPackages();
+					await lintServer.restart();
 					lint({
 						code: codeEditor.getLeftValue(),
 						fileName: codeEditor.getFileName(),
@@ -138,13 +141,15 @@ export async function mount({ element, init, listeners }: MountOptions) {
 			},
 			init: { value: init?.deps },
 		}),
-		setupLinter({ consoleOutput, outputTabs }),
-		loadMonacoEditor(),
+		setupLintServer({ consoleOutput, outputTabs }),
+		loadMonaco(),
 	]);
 
 	let seq = 0;
 
 	if (await updateDependencies(depsEditor.getValue())) {
+		await lintServer.install();
+		updateInstalledPackages();
 		lint({
 			code: codeEditor.getLeftValue(),
 			fileName: codeEditor.getFileName(),
@@ -158,14 +163,14 @@ export async function mount({ element, init, listeners }: MountOptions) {
 			codeEditor.disposeEditor();
 			configEditor.disposeEditor();
 			depsEditor.disposeEditor();
-			await linter.teardown();
+			await lintServer.teardown();
 			element.innerHTML = '';
 		},
 	};
 
 	async function updateDependencies(deps: string) {
 		try {
-			await linter.updateDependencies(JSON.parse(deps));
+			await lintServer.updateDependencies(JSON.parse(deps));
 
 			return true;
 		} catch (e) {
@@ -175,6 +180,34 @@ export async function mount({ element, init, listeners }: MountOptions) {
 
 			return false;
 		}
+	}
+
+	/** Read the actual installed packages and display version information. */
+	async function updateInstalledPackages() {
+		const depsText = depsEditor.getValue();
+
+		let deps = {};
+
+		try {
+			deps = JSON.parse(depsText);
+		} catch (e) {
+			console.warn(e);
+		}
+
+		const packages: PackageJsonData[] = [];
+
+		for (const packageName of Object.keys(deps)) {
+			try {
+				const json = await lintServer.readFile(`/node_modules/${packageName}/package.json`);
+				const packageJson = JSON.parse(json);
+
+				packages.push(packageJson);
+			} catch (e) {
+				console.warn(e);
+			}
+		}
+
+		depsEditor.setPackages(packages);
 	}
 
 	/** Handle input values change events. */
@@ -221,7 +254,7 @@ export async function mount({ element, init, listeners }: MountOptions) {
 		codeEditor.setRightValue(code);
 		codeEditor.setLeftMarkers([]);
 		codeEditor.setRightMarkers([]);
-		const result = await linter.lint({ version, code, fileName, config, configFormat });
+		const result = await lintServer.lint({ version, code, fileName, config, configFormat });
 
 		if (result.version > version) {
 			// Overtaken by the next linting
@@ -231,7 +264,7 @@ export async function mount({ element, init, listeners }: MountOptions) {
 		warningsPanel.setResult(result);
 		outputTabs.setChecked('warnings');
 
-		if (result.exit !== 0) {
+		if (result.returnCode !== 0) {
 			return;
 		}
 
@@ -248,16 +281,23 @@ export async function mount({ element, init, listeners }: MountOptions) {
 		warning: Warning,
 		ruleMetadata: LinterServiceResultSuccess['ruleMetadata'],
 	): editor.IMarkerData {
-		const startLineNumber = ensurePositiveInt(warning.line, 1);
-		const startColumn = ensurePositiveInt(warning.column, 1);
-		const endLineNumber = ensurePositiveInt(warning.endLine, startLineNumber);
-		const endColumn = ensurePositiveInt(warning.endColumn, startColumn);
+		const startLineNumber = warning.line;
+		const startColumn = warning.column;
+		const endLineNumber = warning.endLine ?? startLineNumber;
+		const endColumn = warning.endColumn ?? startColumn;
 		const meta = ruleMetadata[warning.rule];
 		const docUrl = meta?.url;
-		const code = docUrl ? { value: warning.rule, target: docUrl } : warning.rule || 'FATAL';
+		const code = docUrl
+			? {
+					value: warning.rule,
+					target:
+						// Maybe monaco type bug
+						docUrl as any,
+			  }
+			: warning.rule || 'FATAL';
 
 		return {
-			code: code as any,
+			code,
 			severity:
 				warning.severity === 'warning'
 					? monaco.MarkerSeverity.Warning
@@ -269,15 +309,5 @@ export async function mount({ element, init, listeners }: MountOptions) {
 			endLineNumber,
 			endColumn,
 		};
-	}
-
-	/**
-	 * Ensure that a given value is a positive value.
-	 * @param value The value to check.
-	 * @param defaultValue The default value which is used if the `value` is undefined.
-	 * @returns {number} The positive value as the result.
-	 */
-	function ensurePositiveInt(value: number | undefined, defaultValue: number) {
-		return Math.max(1, (value !== undefined ? value : defaultValue) | 0);
 	}
 }

@@ -1,91 +1,78 @@
-import type {
-	CancellationToken,
-	MonacoEditor,
-	MonacoEditorLanguages,
-	MonacoEditorRange,
-} from './types.js';
-import { loadMonacoEditor } from './monaco-loader.js';
+import type { editor } from 'monaco-editor';
+import { loadMonaco } from './monaco-loader.js';
 
-export type ProvideCodeActions = (
-	model: MonacoEditor.ITextModel,
-	range: MonacoEditorRange,
-	context: MonacoEditorLanguages.CodeActionContext,
-	token: CancellationToken,
-) => MonacoEditorLanguages.ProviderResult<MonacoEditorLanguages.CodeActionList>;
-export type MonacoEditorResult = {
+export type MonacoEditor = {
+	/** Set the language. */
 	setModelLanguage: (language: string) => void;
+	/** Sets the value text of the editor. */
 	setValue: (value: string) => void;
+	/** Gets the value text of the editor. */
 	getValue: () => string;
-	setMarkers: (markers: MonacoEditor.IMarkerData[]) => void;
-	getEditor: () => MonacoEditor.IStandaloneCodeEditor;
+	/** Set markers to the editor. */
+	setMarkers: (markers: editor.IMarkerData[]) => void;
+	/** Gets the editor. */
+	getEditor: () => editor.IStandaloneCodeEditor;
+	/** Dispose the editor. */
 	disposeEditor: () => void;
 };
-export type MonacoDiffEditorResult = {
+export type MonacoDiffEditor = {
+	/** Set the language. */
 	setModelLanguage: (language: string) => void;
+	/** Sets the value text of the original editor. */
 	setLeftValue: (value: string) => void;
+	/** Gets the value text of the original editor. */
 	getLeftValue: () => string;
+	/** Sets the value text of the modified editor. */
 	setRightValue: (value: string) => void;
-	setLeftMarkers: (markers: MonacoEditor.IMarkerData[]) => void;
-	setRightMarkers: (markers: MonacoEditor.IMarkerData[]) => void;
-	getLeftEditor: () => MonacoEditor.IStandaloneCodeEditor;
-	getRightEditor: () => MonacoEditor.IStandaloneCodeEditor | null;
+	/** Set markers to the original editor. */
+	setLeftMarkers: (markers: editor.IMarkerData[]) => void;
+	/** Set markers to the modified editor. */
+	setRightMarkers: (markers: editor.IMarkerData[]) => void;
+	/** Gets the original editor. */
+	getLeftEditor: () => editor.IStandaloneCodeEditor;
+	/** Gets the modified editor. */
+	getRightEditor: () => editor.IStandaloneCodeEditor;
+	/** Dispose the all editors. */
 	disposeEditor: () => void;
 };
-/** Setup editor */
-export async function setupMonacoEditor({
-	init,
-	listeners,
-	element,
-	useDiffEditor,
-}: {
+export type BaseMonacoEditorOptions = {
+	/** Specify a target element to set up the code editor. */
+	element: HTMLElement;
+	/** Specify the initial values. */
 	init: {
+		/** Code value. */
 		value: string;
+		/** Code language. */
 		language: string;
-		readOnly?: boolean;
 	};
+	/** Event listeners. */
 	listeners?: {
+		/** Notifies that the code value have changed. */
 		onChangeValue?: (value: string) => void;
 	};
-	element: HTMLElement;
+};
+export type MonacoEditorOptions = BaseMonacoEditorOptions & {
 	useDiffEditor: false;
-}): Promise<MonacoEditorResult>;
-export async function setupMonacoEditor({
-	init,
-	listeners,
-	element,
-	useDiffEditor,
-}: {
-	init: {
-		value: string;
-		language: string;
-		readOnly?: boolean;
-	};
-	listeners?: {
-		onChangeValue?: (value: string) => void;
-	};
-	element: HTMLElement;
+};
+export type MonacoDiffEditorOptions = BaseMonacoEditorOptions & {
 	useDiffEditor: true;
-}): Promise<MonacoDiffEditorResult>;
+};
+
+/** Setup editor */
+export async function setupMonacoEditor(options: MonacoEditorOptions): Promise<MonacoEditor>;
+export async function setupMonacoEditor(
+	options: MonacoDiffEditorOptions,
+): Promise<MonacoDiffEditor>;
+
 export async function setupMonacoEditor({
 	init,
 	listeners,
 	element,
 	useDiffEditor,
-}: {
-	init: {
-		value: string;
-		language: string;
-		readOnly?: boolean;
-	};
-	listeners?: {
-		onChangeValue?: (value: string) => void;
-	};
-	element: HTMLElement;
-	useDiffEditor: boolean;
-}): Promise<MonacoEditorResult | MonacoDiffEditorResult> {
+}: MonacoEditorOptions | MonacoDiffEditorOptions): Promise<MonacoEditor | MonacoDiffEditor> {
 	element.textContent = 'Loading...';
 	element.style.padding = '0 8px';
-	const monaco = await loadMonacoEditor();
+	const monaco = await loadMonaco();
 
 	element.textContent = '';
 	element.style.padding = '';
@@ -93,12 +80,10 @@ export async function setupMonacoEditor({
 
 	const options = {
 		value: init.value,
-		readOnly: init.readOnly,
 		theme: 'vs-dark',
 		language,
 		automaticLayout: true,
 		fontSize: 14,
-		// tabSize: 2,
 		minimap: {
 			enabled: false,
 		},
@@ -129,26 +114,18 @@ export async function setupMonacoEditor({
 			listeners?.onChangeValue?.(value);
 		});
 
-		const result: MonacoDiffEditorResult = {
+		const result: MonacoDiffEditor = {
 			setModelLanguage: (lang) => {
 				for (const model of [original, modified]) {
 					monaco.editor.setModelLanguage(model, lang);
 				}
 			},
-			setLeftValue: (code) => {
-				const value = original.getValue();
-
-				if (code !== value) {
-					original.setValue(code);
-				}
+			setLeftValue: (value) => {
+				updateValue(leftEditor, value);
 			},
 			getLeftValue: () => original.getValue(),
-			setRightValue: (code) => {
-				const value = modified.getValue();
-
-				if (code !== value) {
-					modified.setValue(code);
-				}
+			setRightValue: (value) => {
+				updateValue(rightEditor, value);
 			},
 			setLeftMarkers: (markers) => {
 				void updateMarkers(leftEditor, markers);
@@ -179,7 +156,7 @@ export async function setupMonacoEditor({
 		listeners?.onChangeValue?.(value);
 	});
 
-	const result: MonacoEditorResult = {
+	const result: MonacoEditor = {
 		setModelLanguage: (lang) => {
 			const model = standaloneEditor.getModel();
 
@@ -187,12 +164,8 @@ export async function setupMonacoEditor({
 				monaco.editor.setModelLanguage(model, lang);
 			}
 		},
-		setValue: (code) => {
-			const value = standaloneEditor.getValue();
-
-			if (code !== value) {
-				standaloneEditor.setValue(code);
-			}
+		setValue: (value) => {
+			updateValue(standaloneEditor, value);
 		},
 		getValue: () => standaloneEditor.getValue(),
 		setMarkers: (markers) => {
@@ -208,18 +181,24 @@ export async function setupMonacoEditor({
 
 	return result;
 
+	/** Update value */
+	function updateValue(editor: editor.IStandaloneCodeEditor, value: string) {
+		const old = editor.getValue();
+
+		if (old !== value) {
+			editor.setValue(value);
+		}
+	}
+
 	/** Update markers */
-	function updateMarkers(
-		editor: MonacoEditor.IStandaloneCodeEditor,
-		markers: MonacoEditor.IMarkerData[],
-	) {
+	function updateMarkers(editor: editor.IStandaloneCodeEditor, markers: editor.IMarkerData[]) {
 		const model = editor.getModel()!;
 		const id = editor.getId();
 
 		monaco.editor.setModelMarkers(
 			model,
 			id,
-			JSON.parse(JSON.stringify(markers)) as MonacoEditor.IMarkerData[],
+			JSON.parse(JSON.stringify(markers)) as editor.IMarkerData[],
 		);
 	}
 }
