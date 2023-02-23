@@ -92,11 +92,12 @@
 	white-space: pre;
 }
 
-.stylelint-demo-warning-item {
+.stylelint-demo-warning-item > span {
 	cursor: pointer;
+	padding: 2px 4px;
 }
 
-.stylelint-demo-warning-item:hover {
+.stylelint-demo-warning-item > span:hover {
 	background-color: var(--stylelint-demo-warning-item-hover-background-color);
 }
 

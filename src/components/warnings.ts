@@ -26,7 +26,9 @@ export function setupWarningsPanel({ element, listeners }: WarningsPanelOptions)
 				return;
 			}
 
-			for (const w of [...result.result.warnings].sort(
+			const ruleMetadata = result.ruleMetadata;
+
+			for (const warning of [...result.result.warnings].sort(
 				(a, b) =>
 					a.line - b.line ||
 					a.column - b.column ||
@@ -34,11 +36,32 @@ export function setupWarningsPanel({ element, listeners }: WarningsPanelOptions)
 					(a.endColumn != null && b.endColumn != null && a.endColumn - b.endColumn) ||
 					0,
 			)) {
+				const ruleLinkText = `(${warning.rule})`;
+				const ruleUrl = ruleMetadata[warning.rule]?.url;
+
 				const li = document.createElement('li');
 
 				li.classList.add('stylelint-demo-warning-item');
-				li.textContent = `[${w.line}:${w.column}] ${w.text}`;
-				li.addEventListener('click', () => listeners.onClickWaning(w));
+				const span = document.createElement('span');
+
+				li.appendChild(span);
+
+				if (warning.text.includes(ruleLinkText) && ruleUrl) {
+					const index = warning.text.lastIndexOf(ruleLinkText);
+
+					span.textContent = `[${warning.line}:${warning.column}] ${warning.text.slice(0, index)}`;
+					const ruleLink = document.createElement('a');
+
+					ruleLink.textContent = ruleLinkText;
+					ruleLink.href = ruleUrl;
+					ruleLink.target = '_blank';
+					li.appendChild(ruleLink);
+				} else {
+					span.textContent = `[${warning.line}:${warning.column}] ${warning.text}`;
+				}
+
+				span.addEventListener('click', () => listeners.onClickWaning(warning));
+
 				element.appendChild(li);
 			}
 		},
