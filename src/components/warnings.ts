@@ -65,14 +65,16 @@ export function setupWarningsPanel({ element, listeners }: WarningsPanelOptions)
 					li.appendChild(ruleLink);
 
 					// Add a span if the message is included after the rule name.
-					const afterMessage = warning.text.slice(index + ruleLinkText.length).trim();
+					if (index >= 0) {
+						const afterMessage = warning.text.slice(index + ruleLinkText.length).trim();
 
-					if (afterMessage) {
-						const afterSpan = document.createElement('span');
+						if (afterMessage) {
+							const afterSpan = document.createElement('span');
 
-						afterSpan.textContent = afterMessage;
-						li.appendChild(afterSpan);
-						afterSpan.addEventListener('click', () => listeners.onClickWaning(warning));
+							afterSpan.textContent = afterMessage;
+							li.appendChild(afterSpan);
+							afterSpan.addEventListener('click', () => listeners.onClickWaning(warning));
+						}
 					}
 				} else {
 					span.textContent = `[${warning.line}:${warning.column}] ${warning.text.trim()}`;
