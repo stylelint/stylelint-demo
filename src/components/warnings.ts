@@ -46,18 +46,36 @@ export function setupWarningsPanel({ element, listeners }: WarningsPanelOptions)
 
 				li.appendChild(span);
 
-				if (warning.text.includes(ruleLinkText) && ruleUrl) {
+				if (ruleUrl) {
 					const index = warning.text.lastIndexOf(ruleLinkText);
 
-					span.textContent = `[${warning.line}:${warning.column}] ${warning.text.slice(0, index)}`;
+					if (index >= 0) {
+						span.textContent = `[${warning.line}:${warning.column}] ${warning.text
+							.slice(0, index)
+							.trim()}`;
+					} else {
+						span.textContent = `[${warning.line}:${warning.column}] ${warning.text.trim()}`;
+					}
+
 					const ruleLink = document.createElement('a');
 
 					ruleLink.textContent = ruleLinkText;
 					ruleLink.href = ruleUrl;
 					ruleLink.target = '_blank';
 					li.appendChild(ruleLink);
+
+					// Add a span if the message is included after the rule name.
+					const afterMessage = warning.text.slice(index + ruleLinkText.length).trim();
+
+					if (afterMessage) {
+						const afterSpan = document.createElement('span');
+
+						afterSpan.textContent = afterMessage;
+						li.appendChild(afterSpan);
+						afterSpan.addEventListener('click', () => listeners.onClickWaning(warning));
+					}
 				} else {
-					span.textContent = `[${warning.line}:${warning.column}] ${warning.text}`;
+					span.textContent = `[${warning.line}:${warning.column}] ${warning.text.trim()}`;
 				}
 
 				span.addEventListener('click', () => listeners.onClickWaning(warning));
