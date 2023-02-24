@@ -30,12 +30,6 @@
     "*.{js,mjs,ts}": "eslint --cache --fix",
     "*.{css,js,mjs,ts,json,md,yml}": "prettier --write"
   },
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react"
-    ]
-  },
   "browserslist": [
     "defaults"
   ],
