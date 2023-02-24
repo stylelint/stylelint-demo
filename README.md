@@ -2,7 +2,7 @@
 
 [![Build Status](https://github.com/stylelint/stylelint-demo/workflows/CI/badge.svg)](https://github.com/stylelint/stylelint-demo/actions)
 
-An online demo of [stylelint](https://github.com/stylelint/stylelint).
+An online demo of [Stylelint](https://github.com/stylelint/stylelint).
 
 ## Development
 
@@ -24,4 +24,4 @@ An online demo of [stylelint](https://github.com/stylelint/stylelint).
 
 ## About
 
-This demo works by calling stylelint in a Node.js process launched inside the browser using [WebContainers](https://webcontainers.io/).
+This demo works by calling Stylelint in a Node.js process launched inside the browser using [WebContainers](https://webcontainers.io/).
