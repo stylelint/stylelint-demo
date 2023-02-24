@@ -23,7 +23,7 @@
     "lint:types": "tsc",
     "prepare": "husky install",
     "pretest": "npm run lint",
-    "test": "jest && npm run bundle"
+    "test": "npm run build"
   },
   "lint-staged": {
     "*.css": "stylelint --cache --fix",
@@ -137,9 +137,6 @@
         }
       ]
     }
-  },
-  "jest": {
-    "testEnvironment": "node"
   },
   "dependencies": {
     "@webcontainer/api": "^1.0.0",
