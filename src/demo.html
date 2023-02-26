@@ -1,10 +1,10 @@
-<div class="stylelint-demo">
-	<div class="stylelint-demo-input-tabs">
+<div class="sd">
+	<div class="sd-input-tabs">
 		<label>
 			<input
 				type="radio"
 				name="stylelint_input_tabs"
-				class="stylelint-demo-code-tab"
+				class="sd-code-tab"
 				data-radio-name="code"
 				checked
 			/>Code
@@ -13,7 +13,7 @@
 			<input
 				type="radio"
 				name="stylelint_input_tabs"
-				class="stylelint-demo-config-tab"
+				class="sd-config-tab"
 				data-radio-name="config"
 			/>Config
 		</label>
@@ -21,51 +21,53 @@
 			<input
 				type="radio"
 				name="stylelint_input_tabs"
-				class="stylelint-demo-deps-tab"
+				class="sd-deps-tab"
 				data-radio-name="deps"
 			/>Dependencies
 		</label>
 	</div>
-	<div class="stylelint-demo-inputs">
-		<div class="stylelint-demo-code">
-			<label>File Name: <input type="text" class="stylelint-demo-code-file-name" /></label>
-			<div class="stylelint-demo-code-monaco"></div>
+	<div class="sd-inputs">
+		<div class="sd-code">
+			<label>› <input type="text" class="sd-code-file-name" /></label>
+			<div class="sd-code-monaco"></div>
 		</div>
-		<div class="stylelint-demo-config">
+		<div class="sd-config">
 			<label
-				>Config Format:
-				<select type="text" class="stylelint-demo-config-format"></select>
+				>› .stylelintrc.
+				<select type="text" class="sd-config-format"></select>
 			</label>
-			<div class="stylelint-demo-config-monaco"></div>
+			<div class="sd-config-monaco"></div>
 		</div>
-		<div class="stylelint-demo-deps">
-			<div class="stylelint-demo-deps-monaco"></div>
-
-			<label>Installed Versions:</label>
-			<ul class="stylelint-demo-deps-versions"></ul>
+		<div class="sd-deps">
+			<label>› package.json</label>
+			<div class="sd-deps-monaco"></div>
+			<div class="sd-deps-installed">
+				<label>Installed:</label>
+				<ul class="sd-deps-versions"></ul>
+			</div>
 		</div>
 	</div>
-	<div class="stylelint-demo-output-tabs">
+	<div class="sd-output-tabs">
 		<label>
 			<input
 				type="radio"
 				name="stylelint_output_tabs"
-				class="stylelint-demo-warning-tab"
+				class="sd-warning-tab"
 				data-radio-name="warnings"
 				checked
-			/>Warnings
+			/>Problems
 		</label>
 		<label>
 			<input
 				type="radio"
 				name="stylelint_output_tabs"
-				class="stylelint-demo-console-tab"
+				class="sd-console-tab"
 				data-radio-name="console"
 			/>Console
 		</label>
 	</div>
-	<div class="stylelint-demo-outputs">
-		<ul class="stylelint-demo-warnings"></ul>
-		<div class="stylelint-demo-console"></div>
+	<div class="sd-outputs">
+		<ul class="sd-warnings"></ul>
+		<div class="sd-console"></div>
 	</div>
 </div>

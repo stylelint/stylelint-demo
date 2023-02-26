@@ -29,7 +29,7 @@ export type ConfigEditorOptions = {
  * This component has a config format select and a config editor.
  */
 export async function setupConfigEditor({ element, listeners, init }: ConfigEditorOptions) {
-	const formatSelect = element.querySelector<HTMLSelectElement>('.stylelint-demo-config-format')!;
+	const formatSelect = element.querySelector<HTMLSelectElement>('.sd-config-format')!;
 
 	formatSelect.innerHTML = '';
 
@@ -44,7 +44,7 @@ export async function setupConfigEditor({ element, listeners, init }: ConfigEdit
 	const initFormat = adjustFormat(init?.format || 'json');
 
 	const monacoEditor = await setupMonacoEditor({
-		element: element.querySelector<HTMLDivElement>('.stylelint-demo-config-monaco')!,
+		element: element.querySelector<HTMLDivElement>('.sd-config-monaco')!,
 		init: {
 			language: getLanguage(initFormat),
 			value: init?.value ?? JSON.stringify(defaultConfig, null, 2),

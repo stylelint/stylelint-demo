@@ -1,7 +1,12 @@
-#app {
-	height: calc(100vh - 16px);
+body {
+	background-color: whitesmoke;
+	margin: 0;
+	overscroll-behavior-y: none;
 }
 
-body {
-	background-color: #555;
+#app {
+	block-size: 100dvb;
+	display: grid;
+	min-inline-size: 48rem;
+	overflow-x: scroll;
 }

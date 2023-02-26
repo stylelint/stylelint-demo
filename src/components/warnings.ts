@@ -41,20 +41,25 @@ export function setupWarningsPanel({ element, listeners }: WarningsPanelOptions)
 
 				const li = document.createElement('li');
 
-				li.classList.add('stylelint-demo-warning-item');
-				const span = document.createElement('span');
+				li.classList.add('sd-warning-item');
 
-				li.appendChild(span);
+				const severity = document.createElement('span');
+
+				severity.textContent = warning.severity;
+				severity.classList.add(`sd-severity-${warning.severity}`);
+				li.appendChild(severity);
+
+				const message = document.createElement('span');
+
+				li.appendChild(message);
 
 				if (ruleUrl) {
 					const index = warning.text.lastIndexOf(ruleLinkText);
 
 					if (index >= 0) {
-						span.textContent = `[${warning.line}:${warning.column}] ${warning.text
-							.slice(0, index)
-							.trim()}`;
+						message.textContent = `${warning.text.slice(0, index).trim()}`;
 					} else {
-						span.textContent = `[${warning.line}:${warning.column}] ${warning.text.trim()}`;
+						message.textContent = `${warning.text.trim()}`;
 					}
 
 					const ruleLink = document.createElement('a');
@@ -77,13 +82,25 @@ export function setupWarningsPanel({ element, listeners }: WarningsPanelOptions)
 						}
 					}
 				} else {
-					span.textContent = `[${warning.line}:${warning.column}] ${warning.text.trim()}`;
+					message.textContent = `${warning.text.trim()}`;
 				}
 
-				span.addEventListener('click', () => listeners.onClickWaning(warning));
+				const lineNumbers = document.createElement('span');
+				const ln = formatPosition(warning.line, warning.endLine);
+				const col = formatPosition(warning.column, warning.endColumn);
+
+				lineNumbers.textContent = `[${ln}:${col}]`;
+				lineNumbers.classList.add('sd-line-numbers');
+				li.appendChild(lineNumbers);
+
+				lineNumbers.addEventListener('click', () => listeners.onClickWaning(warning));
 
 				element.appendChild(li);
 			}
 		},
 	};
+}
+
+function formatPosition(start: number, end: number | undefined) {
+	return start === end || !end ? String(start) : [start, end].join('-');
 }

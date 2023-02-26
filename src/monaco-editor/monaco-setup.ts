@@ -71,7 +71,8 @@ export async function setupMonacoEditor({
 	useDiffEditor,
 }: MonacoEditorOptions | MonacoDiffEditorOptions): Promise<MonacoEditor | MonacoDiffEditor> {
 	element.textContent = 'Loading...';
-	element.style.padding = '0 8px';
+	element.style.padding = '1rem';
+	element.style.fontFamily = 'monospace';
 	const monaco = await loadMonaco();
 
 	element.textContent = '';
@@ -80,15 +81,18 @@ export async function setupMonacoEditor({
 
 	const options = {
 		value: init.value,
-		theme: 'vs-dark',
+		theme: 'vs',
 		language,
 		automaticLayout: true,
-		fontSize: 14,
+		tabSize: 2,
+		fontSize: 12,
 		minimap: {
 			enabled: false,
 		},
-		renderControlCharacters: true,
-		renderIndentGuides: true,
+		quickSuggestions: false,
+		colorDecorators: false,
+		renderControlCharacters: false,
+		renderIndentGuides: false,
 		renderValidationDecorations: 'on' as const,
 		renderWhitespace: 'boundary' as const,
 		scrollBeyondLastLine: false,

@@ -1,5 +1,5 @@
-const DIRECTIVE_OPEN = '{{{stylelint-demo-json-start}}}';
-const DIRECTIVE_CLOSE = '{{{stylelint-demo-json-end}}}';
+const DIRECTIVE_OPEN = '{{{sd-json-start}}}';
+const DIRECTIVE_CLOSE = '{{{sd-json-end}}}';
 
 /**
  * If the value is JSON enclosed in directives, extract the value and parse the JSON to get the value.

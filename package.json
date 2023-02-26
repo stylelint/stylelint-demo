@@ -95,16 +95,33 @@
       "stylelint-config-standard"
     ],
     "plugins": [
-      "stylelint-order"
+      "stylelint-order",
+      "stylelint-use-logical-spec"
     ],
     "rules": {
-      "at-rule-allowed-list": [
-        "import",
-        "media"
-      ],
-      "color-named": "always-where-possible",
       "declaration-property-value-no-unknown": true,
+      "declaration-property-unit-allowed-list": {
+        "/^border$|^border.*(width$|block$|inline$|start$|end$/|radius$)": [
+          "px"
+        ],
+        "/^((min|max)-)?(block-size$|inline-size$)/": [
+          "%",
+          "ch",
+          "dvb",
+          "rem",
+          "vb"
+        ],
+        "/^font|^gap/|^inset|^margin|^padding/": [
+          "rem"
+        ]
+      },
       "font-weight-notation": "numeric",
+      "liberty/use-logical-spec": "always",
+      "media-feature-name-unit-allowed-list": {
+        "/(width|height)$/": [
+          "em"
+        ]
+      },
       "order/order": [
         [
           "custom-properties",
@@ -120,14 +137,6 @@
         true,
         {
           "severity": "warning"
-        }
-      ],
-      "property-no-unknown": [
-        true,
-        {
-          "ignoreProperties": [
-            "composes"
-          ]
         }
       ]
     }
@@ -157,6 +166,7 @@
     "stylelint": "^15.2.0",
     "stylelint-config-standard": "^30.0.1",
     "stylelint-order": "^6.0.2",
+    "stylelint-use-logical-spec": "^5.0.0",
     "typescript": "^4.9.5",
     "vite": "^4.1.1"
   },
