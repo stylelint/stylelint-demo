@@ -154,7 +154,7 @@
     "@types/node": "^18.13.0",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
-    "eslint": "^8.34.0",
+    "eslint": "^8.35.0",
     "eslint-config-stylelint": "^18.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.2",
