@@ -1,0 +1,188 @@
+:root {
+	--sd-background-color: white;
+	--sd-color: black;
+	--sd-link-color: steelblue;
+	--sd-label-color: gray;
+	--sd-input-color: black;
+	--sd-input-border-color: gainsboro;
+	--sd-inactive-tab-color: slategray;
+	--sd-warning-item-hover-background-color: whitesmoke;
+	--sd-severity-color: white;
+	--sd-severity-error-background-color: crimson;
+	--sd-severity-warning-background-color: goldenrod;
+}
+
+.sd {
+	color: var(--sd-color);
+	display: grid;
+	font-family: system-ui;
+	font-size: 0.875rem;
+	grid-template-rows: min-content 1fr min-content max(10rem, 33vb);
+}
+
+.sd a {
+	color: var(--sd-link-color);
+	text-decoration: none;
+}
+
+.sd a:hover {
+	text-decoration: underline;
+}
+
+/* Inputs */
+
+.sd-inputs {
+	background-color: var(--sd-background-color);
+	display: grid;
+}
+
+:is(.sd-code, .sd-config, .sd-deps) {
+	display: grid;
+	grid-template-rows: min-content 1fr;
+}
+
+:is(.sd-code, .sd-config, .sd-deps) > label {
+	color: var(--sd-label-color);
+	display: flex;
+	gap: 0.25rem;
+	min-block-size: 2rem;
+	padding-inline: 0.25rem;
+	place-items: center;
+}
+
+:is(.sd-code-file-name, .sd-config-format) {
+	border: 1px solid var(--sd-input-border-color);
+	border-radius: 2px;
+}
+
+.sd-deps-installed {
+	padding-block: 0.75rem;
+	padding-inline: 0.5rem;
+}
+
+.sd-deps-versions {
+	list-style: none;
+	margin-block: 0;
+	padding-inline-start: 0;
+}
+
+/* Outputs */
+
+.sd-outputs {
+	background-color: var(--sd-background-color);
+	box-shadow: inset 0 0 6px 0 hsl(0deg 0% 0% / 15%);
+}
+
+:is(.sd-warnings, .sd-console) {
+	block-size: 100%;
+	box-sizing: border-box;
+	font-family: monospace;
+	font-size: 0.75rem;
+	inline-size: 100%;
+	overflow: auto;
+	padding-block: 0.75rem;
+	padding-inline: 0.5rem;
+	white-space: pre;
+}
+
+.sd-warnings {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	list-style: none;
+	margin-block: 0;
+}
+
+.sd-warning-item {
+	display: flex;
+	gap: 0.5rem;
+}
+
+:is(.sd-severity-error, .sd-severity-warning) {
+	color: var(--sd-severity-color);
+	flex-basis: 8ch;
+	font-size: 0.6875rem;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.sd-severity-error {
+	background-color: var(--sd-severity-error-background-color);
+}
+
+.sd-severity-warning {
+	background-color: var(--sd-severity-warning-background-color);
+}
+
+.sd-line-numbers {
+	cursor: pointer;
+}
+
+.sd-line-numbers:hover {
+	background-color: var(--sd-warning-item-hover-background-color);
+}
+
+/* Tabs */
+
+:is(.sd-input-tabs, .sd-output-tabs) {
+	background-color: var(--sd-background-color);
+	display: flex;
+	gap: 1px;
+}
+
+.sd-input-tabs {
+	inline-size: min-content;
+}
+
+.sd-output-tabs {
+	border-block-start: 1px solid var(--sd-input-border-color);
+}
+
+.sd:not(:has(.sd-code-tab:checked)) .sd-code,
+.sd:not(:has(.sd-config-tab:checked)) .sd-config,
+.sd:not(:has(.sd-deps-tab:checked)) .sd-deps {
+	display: none;
+}
+
+.sd:not(:has(.sd-warning-tab:checked)) .sd-warnings,
+.sd:not(:has(.sd-console-tab:checked)) .sd-console {
+	display: none;
+}
+
+:is(.sd-input-tabs, .sd-output-tabs) label {
+	color: var(--sd-inactive-tab-color);
+	cursor: pointer;
+	font-size: 0.75rem;
+	letter-spacing: 0.01em;
+	padding-block: 0.5rem;
+	padding-inline: 1rem;
+	text-transform: uppercase;
+}
+
+.sd-input-tabs label {
+	background-color: var(--sd-warning-item-hover-background-color);
+}
+
+:is(.sd-input-tabs, .sd-output-tabs) input[type='radio'] {
+	inline-size: 0;
+	margin: 0;
+	opacity: 0;
+}
+
+:is(.sd-input-tabs, .sd-output-tabs) label:has(input[type='radio']:checked) {
+	color: var(--sd-color);
+}
+
+.sd-input-tabs label:has(input[type='radio']:checked) {
+	background-color: var(--sd-background-color);
+}
+
+.sd-output-tabs label:has(input[type='radio']:checked) {
+	text-decoration: underline;
+	text-underline-offset: 0.45em;
+}
+
+:is(.sd-input-tabs, .sd-output-tabs)
+	label:has(input[type='radio']:focus, input[type='radio']:hover) {
+	color: var(--sd-color);
+}

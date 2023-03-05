@@ -2,21 +2,26 @@
 
 [![Build Status](https://github.com/stylelint/stylelint-demo/workflows/CI/badge.svg)](https://github.com/stylelint/stylelint-demo/actions)
 
-An online demo of [stylelint](https://github.com/stylelint/stylelint).
+An online demo of [Stylelint](https://github.com/stylelint/stylelint).
 
-## Getting started
+## Development
 
 - `npm install`
-- `npm run start-dev`
-- Go to `http://localhost:8080`
+- `npm run dev`
+- Go to `http://localhost:5174/`
 
-Or view the live version at [https://stylelint-demo.herokuapp.com/](https://stylelint-demo.herokuapp.com/).
+## Build static files
 
-Commits to `main` will be tested by [GitHub Actions](https://github.com/stylelint/stylelint-demo/actions).
+- `npm install`
+- `npm run build`
+- Output `./dist/`
+
+## Build lib
+
+- `npm install`
+- `npm run build:lib`
+- Output `./dist/`
 
 ## About
 
-It consists of two parts:
-
-- A web server that accepts `code` and `config` parameters, passes them to stylelint and then responds with stylelint's output.
-- A frontend for creating `code` and `config` blocks, and rendering server responses.
+This demo works by calling Stylelint in a Node.js process launched inside the browser using [WebContainers](https://webcontainers.io/).
