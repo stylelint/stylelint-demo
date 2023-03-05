@@ -25,3 +25,5 @@ An online demo of [Stylelint](https://github.com/stylelint/stylelint).
 ## About
 
 This demo works by calling Stylelint in a Node.js process launched inside the browser using [WebContainers](https://webcontainers.io/).
+
+It is [deployed to Netlify](https://chimerical-trifle-8d3c21.netlify.app/).
