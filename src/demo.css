@@ -55,8 +55,24 @@
 	border-radius: 2px;
 }
 
+.sd-deps {
+	display: grid;
+	grid:
+		'deps-label deps-label'
+		'deps-monaco deps-installed'
+		/ 1fr 1fr;
+}
+
+.sd-deps > label {
+	grid-area: deps-label;
+}
+
+.sd-deps-monaco {
+	grid-area: deps-monaco;
+}
+
 .sd-deps-installed {
-	padding-block: 0.75rem;
+	grid-area: deps-installed;
 	padding-inline: 0.5rem;
 }
 
