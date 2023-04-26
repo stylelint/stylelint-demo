@@ -109,6 +109,10 @@
 	margin-block: 0;
 }
 
+.sd-warnings:empty::before {
+	content: '✅ No problems!';
+}
+
 .sd-warning-item {
 	display: flex;
 	gap: 0.5rem;
