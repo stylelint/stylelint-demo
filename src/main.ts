@@ -1,4 +1,5 @@
 import './style.css';
+import './polyfills';
 import { compress, decompress } from './utils/compress';
 import type { ConfigFormat } from './components/config-editor';
 import { debounce } from './utils/debounce';
