@@ -164,7 +164,7 @@
     "prettier": "^2.8.8",
     "remark-cli": "^11.0.0",
     "rimraf": "^5.0.1",
-    "stylelint": "^15.7.0",
+    "stylelint": "^15.10.1",
     "stylelint-config-standard": "^33.0.0",
     "stylelint-order": "^6.0.3",
     "stylelint-use-logical-spec": "^5.0.0",
