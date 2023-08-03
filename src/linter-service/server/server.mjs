@@ -8,7 +8,7 @@
 import { createJsonPayload, extractJson } from './extract-json.mjs';
 import fs from 'fs';
 import path from 'path';
-// eslint-disable-next-line node/no-unpublished-import
+// eslint-disable-next-line n/no-unpublished-import
 import stylelint from 'stylelint';
 
 const rootDir = path.resolve();
