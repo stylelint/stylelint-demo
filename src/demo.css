@@ -98,7 +98,7 @@
 	overflow: auto;
 	padding-block: 0.75rem;
 	padding-inline: 0.5rem;
-	white-space: pre;
+	white-space: pre-wrap;
 }
 
 .sd-warnings {
