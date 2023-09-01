@@ -152,7 +152,7 @@
     "@types/lz-string": "^1.5.0",
     "@types/node": "^20.4.6",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
-    "@typescript-eslint/parser": "^6.2.1",
+    "@typescript-eslint/parser": "^6.5.0",
     "css-has-pseudo": "^6.0.0",
     "eslint": "^8.46.0",
     "eslint-config-stylelint": "^19.1.0",
