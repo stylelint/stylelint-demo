@@ -8,6 +8,7 @@
 import { createJsonPayload, extractJson } from './extract-json.mjs';
 import fs from 'fs';
 import path from 'path';
+import process from 'process';
 // eslint-disable-next-line n/no-unpublished-import
 import stylelint from 'stylelint';
 
