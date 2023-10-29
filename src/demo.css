@@ -58,8 +58,8 @@
 .sd-deps {
 	display: grid;
 	grid:
-		'deps-label deps-label'
-		'deps-monaco deps-installed'
+		'deps-label deps-label' min-content
+		'deps-monaco deps-installed' 1fr
 		/ 1fr 1fr;
 }
 
@@ -98,7 +98,6 @@
 	overflow: auto;
 	padding-block: 0.75rem;
 	padding-inline: 0.5rem;
-	white-space: pre-wrap;
 }
 
 .sd-warnings {
@@ -107,6 +106,7 @@
 	gap: 0.25rem;
 	list-style: none;
 	margin-block: 0;
+	white-space: pre-wrap;
 }
 
 .sd-warnings:empty::before {
@@ -140,6 +140,12 @@
 
 .sd-line-numbers:hover {
 	background-color: var(--sd-warning-item-hover-background-color);
+}
+
+.sd-console-xterm-wrapper {
+	block-size: 100%;
+	overflow: hidden;
+	position: relative;
 }
 
 /* Tabs */
