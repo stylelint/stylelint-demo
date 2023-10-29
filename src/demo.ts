@@ -53,7 +53,7 @@ export async function mount({ element, init, listeners }: MountOptions) {
 		element: element.querySelector<HTMLDivElement>('.sd-output-tabs')!,
 	});
 	const consoleOutput = setupConsoleOutput({
-		element: element.querySelector<HTMLDivElement>('.sd-console')!,
+		element: element.querySelector<HTMLDivElement>('.sd-console-xterm-wrapper')!,
 	});
 
 	consoleOutput.clear();

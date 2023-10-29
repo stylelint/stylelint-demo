@@ -1,4 +1,6 @@
-import ansiRegex from 'ansi-regex';
+import 'xterm/css/xterm.css';
+import { FitAddon } from 'xterm-addon-fit';
+import { Terminal } from 'xterm';
 export type ConsoleOutput = {
 	appendLine: (string: string) => void;
 	append: (string: string) => void;
@@ -9,50 +11,39 @@ export type ConsoleOutputOptions = {
 	element: HTMLElement;
 };
 
-const CHA = '\u001b[1G';
-
 /** Setup a console output component. */
 export function setupConsoleOutput({ element }: ConsoleOutputOptions): ConsoleOutput {
-	let nextCHA = false;
+	const elementStyle = window.getComputedStyle(element);
+	const term = new Terminal({
+		fontSize: 12,
+		theme: {
+			background: elementStyle.backgroundColor,
+			foreground: elementStyle.color,
+		},
+	});
+	const fitAddon = new FitAddon();
+
+	term.loadAddon(fitAddon);
+	term.open(element);
+
+	const resizeObserver = new ResizeObserver(() => {
+		if (element.clientWidth) {
+			fitAddon.fit();
+		}
+	});
+
+	resizeObserver.observe(element);
+	fitAddon.fit();
+
 	const consoleOutput: ConsoleOutput = {
 		appendLine: (string: string) => {
-			const currContent = (element.textContent = element.textContent!.trimEnd());
-
-			consoleOutput.append(`${(currContent ? '\n' : '') + string}\n`);
+			term.writeln(string);
 		},
 		append: (string: string) => {
-			const ansiRe = ansiRegex();
-			let start = 0;
-
-			for (const match of string.matchAll(ansiRe)) {
-				if (match[0] === CHA) {
-					nextCHA = true;
-				}
-
-				append(string.slice(start, match.index!));
-				start = match.index! + match[0].length;
-			}
-
-			append(string.slice(start));
-			element.scrollTop = element.scrollHeight;
-
-			function append(s: string) {
-				if (!s) return;
-
-				if (nextCHA) {
-					const lastLinefeed = element.textContent!.lastIndexOf('\n');
-
-					if (lastLinefeed > -1)
-						element.textContent = element.textContent!.slice(0, lastLinefeed + 1);
-
-					nextCHA = false;
-				}
-
-				element.textContent += s;
-			}
+			term.write(string);
 		},
 		clear: () => {
-			element.textContent = '';
+			term.clear();
 		},
 	};
 
