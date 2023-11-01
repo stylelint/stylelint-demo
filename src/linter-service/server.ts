@@ -150,7 +150,8 @@ async function startServerInternal(webContainer: WebContainer): Promise<ServerIn
 	const serverInternal = {
 		process: serverProcess,
 		request,
-		ready: request('ok?', (res) => res === 'ok' || res === 'boot').then(() => {
+		ready: request('ok?', (res) => res === 'ok' || res === 'boot').then(async () => {
+			await new Promise((resolve) => setTimeout(resolve, 100));
 			boot = true;
 		}),
 		isExit: false,
