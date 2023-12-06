@@ -64,6 +64,8 @@ export async function setupCodeEditor({ element, listeners, init }: CodeEditorOp
 	function getLanguage(fileName: string) {
 		const lower = fileName.toLowerCase();
 
+		// TODO: Ternary formatting by Prettier breaks. Maybe https://github.com/prettier/prettier/issues/15655
+		// prettier-ignore
 		return lower.endsWith('.css')
 			? 'css'
 			: lower.endsWith('.scss')
