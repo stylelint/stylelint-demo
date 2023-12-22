@@ -5,10 +5,7 @@
   "description": "Stylelint Demo",
   "repository": "stylelint/stylelint-demo",
   "license": "MIT",
-  "main": "dist/stylelint-demo.mjs",
-  "files": [
-    "dist"
-  ],
+  "type": "module",
   "scripts": {
     "clean": "node -e \"fs.rmSync('dist', {force: true, recursive: true})\"",
     "build": "vite build",
