@@ -293,7 +293,7 @@ export async function mount({ element, init, listeners }: MountOptions) {
 					target:
 						// Maybe monaco type bug
 						docUrl as any,
-			  }
+				}
 			: warning.rule || 'FATAL';
 
 		return {
