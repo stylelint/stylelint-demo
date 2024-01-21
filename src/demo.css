@@ -157,7 +157,7 @@
 }
 
 .sd-input-tabs {
-	inline-size: min-content;
+	inline-size: max-content;
 }
 
 .sd-output-tabs {
