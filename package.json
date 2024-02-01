@@ -32,10 +32,6 @@
   ],
   "prettier": "@stylelint/prettier-config",
   "eslintConfig": {
-    "parserOptions": {
-      "ecmaVersion": 2021,
-      "sourceType": "module"
-    },
     "extends": [
       "stylelint"
     ],
@@ -73,12 +69,6 @@
         }
       }
     ],
-    "globals": {
-      "Headers": true,
-      "Request": true,
-      "Response": true,
-      "self": true
-    },
     "root": true
   },
   "remarkConfig": {
