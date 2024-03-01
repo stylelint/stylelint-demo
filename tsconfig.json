@@ -15,7 +15,7 @@
 		"noImplicitReturns": true,
 		"skipLibCheck": true,
 		"checkJs": true,
-		"allowJs": true,
+		"allowJs": true
 	},
-	"include": ["src"],
+	"include": ["src"]
 }
