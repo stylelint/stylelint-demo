@@ -47,20 +47,20 @@ export async function mount({ element, init, listeners }: MountOptions) {
 	element.innerHTML = html;
 
 	const inputTabs = setupTabs({
-		element: element.querySelector<HTMLDivElement>('.sd-input-tabs')!,
+		element: element.querySelector<HTMLDivElement>('sd-input-tabs')!,
 	});
 	const outputTabs = setupTabs({
-		element: element.querySelector<HTMLDivElement>('.sd-output-tabs')!,
+		element: element.querySelector<HTMLDivElement>('sd-output-tabs')!,
 	});
 	const consoleOutput = setupConsoleOutput({
-		element: element.querySelector<HTMLDivElement>('.sd-console-xterm-wrapper')!,
+		element: element.querySelector<HTMLDivElement>('sd-xterm-wrapper')!,
 	});
 
 	consoleOutput.clear();
 	consoleOutput.appendLine('Setup...');
 
 	const warningsPanel = setupWarningsPanel({
-		element: element.querySelector<HTMLDivElement>('.sd-warnings')!,
+		element: element.querySelector<HTMLDivElement>('sd-warnings')!,
 		listeners: {
 			onClickWaning(warning) {
 				const editor = codeEditor.getLeftEditor();
@@ -80,7 +80,7 @@ export async function mount({ element, init, listeners }: MountOptions) {
 	});
 	const [codeEditor, configEditor, depsEditor, lintServer, monaco] = await Promise.all([
 		setupCodeEditor({
-			element: element.querySelector<HTMLDivElement>('.sd-code')!,
+			element: element.querySelector<HTMLDivElement>('sd-code')!,
 			listeners: {
 				onChangeValue: debounce(async (value) => {
 					onChangeValues({
@@ -96,7 +96,7 @@ export async function mount({ element, init, listeners }: MountOptions) {
 			init: { value: init?.code, fileName: init?.fileName },
 		}),
 		setupConfigEditor({
-			element: element.querySelector<HTMLDivElement>('.sd-config')!,
+			element: element.querySelector<HTMLDivElement>('sd-config')!,
 			listeners: {
 				onChangeValue: debounce(async (value) => {
 					onChangeValues({
@@ -112,7 +112,7 @@ export async function mount({ element, init, listeners }: MountOptions) {
 			init: { value: init?.config, format: init?.configFormat },
 		}),
 		setupDepsEditor({
-			element: element.querySelector<HTMLDivElement>('.sd-deps')!,
+			element: element.querySelector<HTMLDivElement>('sd-deps')!,
 			listeners: {
 				onChangeValue: debounce(async (value) => {
 					if (!(await updateDependencies(value))) {

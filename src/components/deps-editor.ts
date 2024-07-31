@@ -18,10 +18,10 @@ export type DepsEditorOptions = {
 export type PackageJsonData = { name: string; version: string; homepage?: string };
 /** Setup a dependencies editor component. */
 export async function setupDepsEditor({ element, listeners, init }: DepsEditorOptions) {
-	const versionsPanel = element.querySelector<HTMLUListElement>('.sd-deps-versions')!;
+	const versionsPanel = element.querySelector<HTMLUListElement>('sd-deps-installed ul')!;
 
 	const monacoEditor = await setupMonacoEditor({
-		element: element.querySelector('.sd-deps-monaco')!,
+		element: element.querySelector('sd-deps-monaco')!,
 		init: {
 			language: 'json',
 			value: init?.value ?? JSON.stringify(defaultDeps, null, 2),
@@ -37,9 +37,6 @@ export async function setupDepsEditor({ element, listeners, init }: DepsEditorOp
 
 			for (const pkg of packages) {
 				const li = document.createElement('li');
-
-				li.classList.add('sd-deps-item');
-
 				const nameLink = document.createElement('a');
 
 				nameLink.textContent = pkg.name;

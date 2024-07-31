@@ -93,6 +93,8 @@ export async function setupMonacoEditor({
 		colorDecorators: false,
 		renderControlCharacters: false,
 		renderIndentGuides: false,
+		renderOverviewRuler: false,
+		lineNumbersMinChars: 3,
 		renderValidationDecorations: 'on' as const,
 		renderWhitespace: 'boundary' as const,
 		scrollBeyondLastLine: false,
