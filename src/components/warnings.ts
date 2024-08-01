@@ -15,13 +15,14 @@ export type WarningsPanelOptions = {
 export function setupWarningsPanel({ element, listeners }: WarningsPanelOptions) {
 	return {
 		setResult: (result: LinterServiceResult) => {
-			element.innerHTML = '';
+			element.innerHTML = '<ul></ul>';
+			const ul = element.querySelector('ul')!;
 
 			if (result.returnCode !== 0) {
 				const li = document.createElement('li');
 
 				li.textContent = result.result.replace(ansiRegex(), '');
-				element.appendChild(li);
+				ul.appendChild(li);
 
 				return;
 			}
@@ -36,17 +37,24 @@ export function setupWarningsPanel({ element, listeners }: WarningsPanelOptions)
 					(a.endColumn != null && b.endColumn != null && a.endColumn - b.endColumn) ||
 					0,
 			)) {
-				const ruleLinkText = `(${warning.rule})`;
-				const ruleUrl = ruleMetadata[warning.rule]?.url;
-
 				const li = document.createElement('li');
 
-				li.classList.add('sd-warning-item');
+				const lineNumbers = document.createElement('span');
+				const ln = formatPosition(warning.line, warning.endLine);
+				const col = formatPosition(warning.column, warning.endColumn);
+
+				lineNumbers.textContent = `${ln}:${col}`;
+				li.appendChild(lineNumbers);
+
+				lineNumbers.addEventListener('click', () => listeners.onClickWaning(warning));
+
+				const ruleLinkText = `(${warning.rule})`;
+				const ruleUrl = ruleMetadata[warning.rule]?.url;
 
 				const severity = document.createElement('span');
 
 				severity.textContent = warning.severity;
-				severity.classList.add(`sd-severity-${warning.severity}`);
+				severity.setAttribute('data-sd-severity', warning.severity);
 				li.appendChild(severity);
 
 				const message = document.createElement('span');
@@ -85,17 +93,7 @@ export function setupWarningsPanel({ element, listeners }: WarningsPanelOptions)
 					message.textContent = `${warning.text.trim()}`;
 				}
 
-				const lineNumbers = document.createElement('span');
-				const ln = formatPosition(warning.line, warning.endLine);
-				const col = formatPosition(warning.column, warning.endColumn);
-
-				lineNumbers.textContent = `[${ln}:${col}]`;
-				lineNumbers.classList.add('sd-line-numbers');
-				li.appendChild(lineNumbers);
-
-				lineNumbers.addEventListener('click', () => listeners.onClickWaning(warning));
-
-				element.appendChild(li);
+				ul.appendChild(li);
 			}
 		},
 	};
