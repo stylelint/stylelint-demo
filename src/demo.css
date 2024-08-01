@@ -87,6 +87,7 @@
 
 @layer custom-elements {
 	stylelint-demo {
+		background-color: var(--sd-white);
 		block-size: 100dvb;
 		display: grid;
 		grid:
