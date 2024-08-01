@@ -24,10 +24,10 @@ export type CodeEditorOptions = {
  * This component has a filename input and a code editor.
  */
 export async function setupCodeEditor({ element, listeners, init }: CodeEditorOptions) {
-	const fileNameInput = element.querySelector<HTMLInputElement>('.sd-code-file-name')!;
+	const fileNameInput = element.querySelector<HTMLInputElement>('#sd-code-file-name')!;
 	const initFileName = adjustFileName(init.fileName);
 	const monacoEditor = await setupMonacoEditor({
-		element: element.querySelector<HTMLDivElement>('.sd-code-monaco')!,
+		element: element.querySelector<HTMLDivElement>('sd-code-monaco')!,
 		init: {
 			language: getLanguage(initFileName),
 			value: init.value ?? defaultCSS,

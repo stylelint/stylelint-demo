@@ -108,6 +108,7 @@
           "em"
         ]
       },
+      "no-descending-specificity": null,
       "order/order": [
         [
           "custom-properties",
