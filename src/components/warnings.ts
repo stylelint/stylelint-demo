@@ -11,18 +11,28 @@ export type WarningsPanelOptions = {
 		onClickWaning: (warning: Warning) => void;
 	};
 };
+
 /** Setup a component to display warnings. */
 export function setupWarningsPanel({ element, listeners }: WarningsPanelOptions) {
 	return {
 		setResult: (result: LinterServiceResult) => {
-			element.innerHTML = '<ul></ul>';
-			const ul = element.querySelector('ul')!;
+			const ul = document.createElement('ul');
+
+			element.replaceChildren(ul);
 
 			if (result.returnCode !== 0) {
 				const li = document.createElement('li');
 
 				li.textContent = result.result.replace(ansiRegex(), '');
 				ul.appendChild(li);
+
+				return;
+			}
+
+			const { invalidOptionWarnings } = result.result;
+
+			if (invalidOptionWarnings.length > 0) {
+				ul.replaceChildren(...createInvalidOptionWarnings(invalidOptionWarnings));
 
 				return;
 			}
@@ -51,11 +61,7 @@ export function setupWarningsPanel({ element, listeners }: WarningsPanelOptions)
 				const ruleLinkText = `(${warning.rule})`;
 				const ruleUrl = ruleMetadata[warning.rule]?.url;
 
-				const severity = document.createElement('span');
-
-				severity.textContent = warning.severity;
-				severity.setAttribute('data-sd-severity', warning.severity);
-				li.appendChild(severity);
+				li.appendChild(createSeverity(warning.severity));
 
 				const message = document.createElement('span');
 
@@ -101,4 +107,31 @@ export function setupWarningsPanel({ element, listeners }: WarningsPanelOptions)
 
 function formatPosition(start: number, end: number | undefined) {
 	return start === end || !end ? String(start) : [start, end].join('-');
+}
+
+function createSeverity(severity: Warning['severity']) {
+	const el = document.createElement('span');
+
+	el.textContent = severity;
+	el.setAttribute('data-sd-severity', severity);
+
+	return el;
+}
+
+function createInvalidOptionWarnings(optionWarnings: ReadonlyArray<{ text: string }>) {
+	return optionWarnings.map(({ text }) => {
+		const li = document.createElement('li');
+
+		li.appendChild(document.createElement('span')); // dummy
+		li.appendChild(createSeverity('error'));
+
+		const message = document.createElement('span');
+
+		message.textContent = text;
+
+		li.appendChild(message);
+		li.appendChild(document.createElement('span')); // dummy
+
+		return li;
+	});
 }
