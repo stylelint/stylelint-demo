@@ -48,6 +48,7 @@ export async function setupConfigEditor({ element, listeners, init }: ConfigEdit
 		init: {
 			language: getLanguage(initFormat),
 			value: init?.value ?? JSON.stringify(defaultConfig, null, 2),
+			fileName: `.stylelintrc.${initFormat}`,
 		},
 		listeners,
 		useDiffEditor: false,

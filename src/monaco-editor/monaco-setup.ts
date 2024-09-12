@@ -44,6 +44,8 @@ export type BaseMonacoEditorOptions = {
 		value: string;
 		/** Code language. */
 		language: string;
+		/** Code file name. */
+		fileName?: string | undefined;
 	};
 	/** Event listeners. */
 	listeners?: {
@@ -77,12 +79,10 @@ export async function setupMonacoEditor({
 
 	element.textContent = '';
 	element.style.padding = '';
-	const language = init.language;
+	const { value, language, fileName } = init;
 
 	const options = {
-		value: init.value,
 		theme: 'vs',
-		language,
 		automaticLayout: true,
 		tabSize: 2,
 		fontSize: 12,
@@ -107,8 +107,8 @@ export async function setupMonacoEditor({
 			...options,
 			useInlineViewWhenSpaceIsLimited: false,
 		});
-		const original = monaco.editor.createModel(init.value, language);
-		const modified = monaco.editor.createModel(init.value, language);
+		const original = monaco.editor.createModel(value, language);
+		const modified = monaco.editor.createModel(value, language);
 
 		const leftEditor = diffEditor.getOriginalEditor();
 		const rightEditor = diffEditor.getModifiedEditor();
@@ -155,7 +155,12 @@ export async function setupMonacoEditor({
 		return result;
 	}
 
-	const standaloneEditor = monaco.editor.create(element, options);
+	const model = monaco.editor.createModel(
+		value,
+		language,
+		fileName ? monaco.Uri.file(fileName) : undefined,
+	);
+	const standaloneEditor = monaco.editor.create(element, { ...options, model });
 
 	standaloneEditor.onDidChangeModelContent(() => {
 		const value = standaloneEditor.getValue();

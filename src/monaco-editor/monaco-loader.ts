@@ -15,6 +15,17 @@ export function loadMonaco(): Promise<Monaco> {
 				validate: false, //Turn off CSS built-in validation.
 			});
 
+			monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+				validate: true,
+				enableSchemaRequest: true,
+				schemas: [
+					{
+						uri: 'https://json.schemastore.org/stylelintrc',
+						fileMatch: ['.stylelintrc.json'],
+					},
+				],
+			});
+
 			setupEnhancedLanguages(monaco);
 
 			return monaco;
