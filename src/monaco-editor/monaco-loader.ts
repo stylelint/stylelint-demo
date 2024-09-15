@@ -2,6 +2,8 @@ import type * as _monaco from 'monaco-editor';
 type Monaco = typeof _monaco;
 import { version as monacoVersion } from 'monaco-editor/package.json';
 
+import schemaStylelintrc from '../schema/stylelintrc.json';
+
 let monacoPromise: Promise<Monaco> | null = null;
 
 /** Load the Monaco editor object. */
@@ -17,11 +19,16 @@ export function loadMonaco(): Promise<Monaco> {
 
 			monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
 				validate: true,
-				enableSchemaRequest: true,
+				enableSchemaRequest: false, // TODO: When switching a remote schema, enable it.
 				schemas: [
 					{
 						uri: 'https://json.schemastore.org/stylelintrc',
 						fileMatch: ['.stylelintrc.json'],
+
+						// TODO: When switching a remote schema in the future, delete it and its file.
+						// Currently, schemastore.org doesn't support a schema for new Stylelint versions, so we shouldn't use it yet.
+						// See https://github.com/stylelint/stylelint-demo/pull/425#issuecomment-2349046490
+						schema: schemaStylelintrc,
 					},
 				],
 			});
