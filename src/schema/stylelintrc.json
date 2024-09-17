@@ -158,14 +158,20 @@
 		"overrides": {
 			"type": "array",
 			"items": {
-				"$ref": "#",
+				"allOf": [
+					{
+						"$ref": "#"
+					},
+					{
+						"properties": {
+							"files": {
+								"$ref": "#/$defs/arrayOfString"
+							}
+						}
+					}
+				],
 				"not": {
 					"required": ["overrides"]
-				},
-				"properties": {
-					"files": {
-						"$ref": "#/$defs/arrayOfString"
-					}
 				},
 				"unevaluatedProperties": false
 			}
