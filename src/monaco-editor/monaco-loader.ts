@@ -22,10 +22,12 @@ export function loadMonaco(): Promise<Monaco> {
 				enableSchemaRequest: false, // TODO: When switching a remote schema, enable it.
 				schemas: [
 					{
-						uri: 'https://json.schemastore.org/stylelintrc',
+						// TODO: Note that this schema URL is actually absent. It's the same as `schemaStylelintrc.$id`.
+						// We need to rewrite it when switching to a remote schema in the future.
+						uri: 'https://stylelint.io/schema/stylelintrc.json',
 						fileMatch: ['.stylelintrc.json'],
 
-						// TODO: When switching a remote schema in the future, delete it and its file.
+						// TODO: When switching to a remote schema in the future, delete it and its file.
 						// Currently, schemastore.org doesn't support a schema for new Stylelint versions, so we shouldn't use it yet.
 						// See https://github.com/stylelint/stylelint-demo/pull/425#issuecomment-2349046490
 						schema: schemaStylelintrc,
