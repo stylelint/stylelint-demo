@@ -1,0 +1,5849 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://stylelint.io/schema/stylelintrc.json",
+	"$defs": {
+		"arrayOfString": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			}
+		},
+		"stringXorArrayOfString": {
+			"oneOf": [
+				{
+					"type": "string"
+				},
+				{
+					"$ref": "#/$defs/arrayOfString"
+				}
+			]
+		},
+		"literalXorRegexp": {
+			"oneOf": [
+				{
+					"type": "object"
+				},
+				{
+					"type": "string",
+					"pattern": "^\\/.+\\/i?$"
+				}
+			]
+		},
+		"literalOrRegexp": {
+			"anyOf": [
+				{
+					"type": "object"
+				},
+				{
+					"type": "string",
+					"pattern": "^\\/.+\\/i?$"
+				}
+			]
+		},
+		"arrayOfStringOrObject": {
+			"type": "array",
+			"items": {
+				"type": ["string", "object"]
+			}
+		},
+		"severity": {
+			"type": "string",
+			"enum": ["warning", "error"]
+		},
+		"commonOptions": {
+			"type": "object",
+			"properties": {
+				"disableFix": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "string"
+				},
+				"url": {
+					"type": "string",
+					"format": "uri"
+				},
+				"reportDisables": {
+					"type": "boolean"
+				},
+				"severity": {
+					"$ref": "#/$defs/severity"
+				}
+			}
+		},
+		"report": {
+			"oneOf": [
+				{
+					"type": ["null", "boolean"]
+				},
+				{
+					"type": "array",
+					"minItems": 1,
+					"maxItems": 2,
+					"prefixItems": [
+						{
+							"type": ["null", "boolean"]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"except": {
+									"$ref": "#/$defs/arrayOfString"
+								},
+								"severity": {
+									"$ref": "#/$defs/severity"
+								}
+							},
+							"additionalProperties": false
+						}
+					]
+				}
+			]
+		},
+		"syntax": {
+			"type": "object",
+			"properties": {
+				"parse": {},
+				"stringify": {}
+			},
+			"additionalProperties": false
+		},
+		"plugin": {
+			"type": "object",
+			"properties": {
+				"ruleName": {
+					"type": "string"
+				},
+				"rule": {}
+			},
+			"additionalProperties": false
+		}
+	},
+	"type": "object",
+	"properties": {
+		"allowEmptyInput": {
+			"type": "boolean"
+		},
+		"cache": {
+			"type": "boolean"
+		},
+		"customSyntax": {
+			"oneOf": [
+				{
+					"type": "string"
+				},
+				{
+					"$ref": "#/$defs/syntax"
+				}
+			]
+		},
+		"configurationComment": {
+			"type": "string"
+		},
+		"defaultSeverity": {
+			"$ref": "#/$defs/severity"
+		},
+		"extends": {
+			"$ref": "#/$defs/arrayOfString"
+		},
+		"fix": {
+			"type": "boolean"
+		},
+		"ignoreDisables": {
+			"type": "boolean"
+		},
+		"ignoreFiles": {
+			"$ref": "#/$defs/arrayOfString"
+		},
+		"overrides": {
+			"type": "array",
+			"items": {
+				"allOf": [
+					{
+						"$ref": "#"
+					},
+					{
+						"properties": {
+							"files": {
+								"$ref": "#/$defs/arrayOfString"
+							}
+						}
+					}
+				],
+				"not": {
+					"required": ["overrides"]
+				},
+				"unevaluatedProperties": false
+			}
+		},
+		"plugins": {
+			"oneOf": [
+				{
+					"type": "string"
+				},
+				{
+					"oneOf": [
+						{
+							"type": "object",
+							"properties": {
+								"default": {
+									"$ref": "#/$defs/plugin"
+								}
+							},
+							"additionalProperties": false
+						},
+						{
+							"$ref": "#/$defs/plugin"
+						}
+					]
+				}
+			]
+		},
+		"quiet": {
+			"type": "boolean"
+		},
+		"processors": {
+			"$ref": "#/$defs/arrayOfString"
+		},
+		"reportDescriptionlessDisables": {
+			"$ref": "#/$defs/report"
+		},
+		"reportInvalidScopeDisables": {
+			"$ref": "#/$defs/report"
+		},
+		"reportNeedlessDisables": {
+			"$ref": "#/$defs/report"
+		},
+		"rules": {
+			"properties": {
+				"alpha-value-notation": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["number", "percentage"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/alpha-value-notation/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"exceptProperties": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"annotation-no-unknown": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/annotation-no-unknown/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreAnnotations": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"at-rule-allowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string"
+								},
+								{
+									"$ref": "#/$defs/arrayOfString"
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/at-rule-allowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"at-rule-disallowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string"
+								},
+								{
+									"$ref": "#/$defs/arrayOfString"
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/at-rule-disallowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"at-rule-empty-line-before": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["always", "never"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/at-rule-empty-line-before/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"except": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": [
+														"after-same-name",
+														"inside-block",
+														"blockless-after-same-name-blockless",
+														"blockless-after-blockless",
+														"first-nested"
+													]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": [
+															"after-same-name",
+															"inside-block",
+															"blockless-after-same-name-blockless",
+															"blockless-after-blockless",
+															"first-nested"
+														]
+													}
+												}
+											]
+										},
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": [
+														"after-comment",
+														"first-nested",
+														"inside-block",
+														"blockless-after-same-name-blockless",
+														"blockless-after-blockless"
+													]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": [
+															"after-comment",
+															"first-nested",
+															"inside-block",
+															"blockless-after-same-name-blockless",
+															"blockless-after-blockless"
+														]
+													}
+												}
+											]
+										},
+										"ignoreAtRules": {
+											"$ref": "#/$defs/stringXorArrayOfString"
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"at-rule-no-unknown": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/at-rule-no-unknown/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreAtRules": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"at-rule-no-vendor-prefix": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/at-rule-no-vendor-prefix/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"at-rule-property-required-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "object",
+									"additionalProperties": {
+										"$ref": "#/$defs/stringXorArrayOfString"
+									}
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/at-rule-property-required-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"block-no-empty": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/block-no-empty/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["comments"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["comments"]
+													}
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"color-function-notation": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["modern", "legacy"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/color-function-notation/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["with-var-inside"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["with-var-inside"]
+													}
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"color-hex-alpha": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["always", "never"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/color-hex-alpha/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"color-hex-length": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["short", "long"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/color-hex-length/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"color-named": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["never", "always-where-possible"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/color-named/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreProperties": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										},
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["inside-function"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["inside-function"]
+													}
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"color-no-hex": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/color-no-hex/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"color-no-invalid-hex": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/color-no-invalid-hex/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"comment-empty-line-before": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["always", "never"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/comment-empty-line-before/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"except": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["first-nested"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["first-nested"]
+													}
+												}
+											]
+										},
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["stylelint-commands", "after-comment"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["stylelint-commands", "after-comment"]
+													}
+												}
+											]
+										},
+										"ignoreComments": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"comment-no-empty": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/comment-no-empty/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"comment-pattern": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"type": "string"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/comment-pattern/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"comment-whitespace-inside": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["always", "never"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/comment-whitespace-inside/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"comment-word-disallowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"$ref": "#/$defs/arrayOfStringOrObject"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/comment-word-disallowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"custom-media-pattern": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"type": "string"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/custom-media-pattern/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"custom-property-empty-line-before": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["always", "never"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/custom-property-empty-line-before/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"except": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["first-nested", "after-comment", "after-custom-property"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["first-nested", "after-comment", "after-custom-property"]
+													}
+												}
+											]
+										},
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["after-comment", "first-nested", "inside-single-line-block"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["after-comment", "first-nested", "inside-single-line-block"]
+													}
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"custom-property-no-missing-var-function": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/custom-property-no-missing-var-function/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"custom-property-pattern": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"type": "string"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/custom-property-pattern/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"declaration-block-no-duplicate-custom-properties": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/declaration-block-no-duplicate-custom-properties/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreProperties": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"declaration-block-no-duplicate-properties": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/declaration-block-no-duplicate-properties/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": [
+														"consecutive-duplicates",
+														"consecutive-duplicates-with-different-values",
+														"consecutive-duplicates-with-different-syntaxes",
+														"consecutive-duplicates-with-same-prefixless-values"
+													]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": [
+															"consecutive-duplicates",
+															"consecutive-duplicates-with-different-values",
+															"consecutive-duplicates-with-different-syntaxes",
+															"consecutive-duplicates-with-same-prefixless-values"
+														]
+													}
+												}
+											]
+										},
+										"ignoreProperties": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"declaration-block-no-redundant-longhand-properties": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/declaration-block-no-redundant-longhand-properties/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreShorthands": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										},
+										"ignoreLonghands": {
+											"$ref": "#/$defs/stringXorArrayOfString"
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"declaration-block-no-shorthand-property-overrides": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/declaration-block-no-shorthand-property-overrides/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"declaration-block-single-line-max-declarations": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "number"
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/declaration-block-single-line-max-declarations/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"declaration-empty-line-before": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["always", "never"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/declaration-empty-line-before/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"except": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["first-nested", "after-comment", "after-declaration"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["first-nested", "after-comment", "after-declaration"]
+													}
+												}
+											]
+										},
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": [
+														"after-comment",
+														"after-declaration",
+														"first-nested",
+														"inside-single-line-block"
+													]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": [
+															"after-comment",
+															"after-declaration",
+															"first-nested",
+															"inside-single-line-block"
+														]
+													}
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"declaration-no-important": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/declaration-no-important/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"declaration-property-max-values": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "object",
+									"additionalProperties": {
+										"type": "integer",
+										"minimum": 0
+									}
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/declaration-property-max-values/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"declaration-property-unit-allowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "object",
+									"additionalProperties": {
+										"$ref": "#/$defs/stringXorArrayOfString"
+									}
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/declaration-property-unit-allowed-list/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["inside-function"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["inside-function"]
+													}
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"declaration-property-unit-disallowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "object",
+									"additionalProperties": {
+										"$ref": "#/$defs/stringXorArrayOfString"
+									}
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/declaration-property-unit-disallowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"declaration-property-value-allowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "object",
+									"additionalProperties": {
+										"anyOf": [
+											{
+												"$ref": "#/$defs/stringXorArrayOfString"
+											},
+											{
+												"oneOf": [
+													{
+														"$ref": "#/$defs/literalXorRegexp"
+													},
+													{
+														"type": "array",
+														"items": {
+															"$ref": "#/$defs/literalOrRegexp"
+														}
+													}
+												]
+											}
+										]
+									}
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/declaration-property-value-allowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"declaration-property-value-disallowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "object",
+									"additionalProperties": {
+										"anyOf": [
+											{
+												"$ref": "#/$defs/stringXorArrayOfString"
+											},
+											{
+												"oneOf": [
+													{
+														"$ref": "#/$defs/literalXorRegexp"
+													},
+													{
+														"type": "array",
+														"items": {
+															"$ref": "#/$defs/literalOrRegexp"
+														}
+													}
+												]
+											}
+										]
+									}
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/declaration-property-value-disallowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"declaration-property-value-no-unknown": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/declaration-property-value-no-unknown/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreProperties": {
+											"type": "object",
+											"additionalProperties": {
+												"anyOf": [
+													{
+														"$ref": "#/$defs/stringXorArrayOfString"
+													},
+													{
+														"oneOf": [
+															{
+																"$ref": "#/$defs/literalXorRegexp"
+															},
+															{
+																"type": "array",
+																"items": {
+																	"$ref": "#/$defs/literalOrRegexp"
+																}
+															}
+														]
+													}
+												]
+											}
+										},
+										"propertiesSyntax": {
+											"type": "object",
+											"additionalProperties": {
+												"$ref": "#/$defs/stringXorArrayOfString"
+											}
+										},
+										"typesSyntax": {
+											"type": "object",
+											"additionalProperties": {
+												"$ref": "#/$defs/stringXorArrayOfString"
+											}
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"font-family-name-quotes": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": [
+										"always-where-required",
+										"always-where-recommended",
+										"always-unless-keyword"
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/font-family-name-quotes/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"font-family-no-duplicate-names": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/font-family-no-duplicate-names/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreFontFamilyNames": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"font-family-no-missing-generic-family-keyword": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/font-family-no-missing-generic-family-keyword/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreFontFamilies": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"font-weight-notation": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["numeric", "named-where-possible"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/font-weight-notation/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["relative"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["relative"]
+													}
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"function-allowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"$ref": "#/$defs/arrayOfStringOrObject"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/function-allowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"function-calc-no-unspaced-operator": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/function-calc-no-unspaced-operator/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"function-disallowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"$ref": "#/$defs/arrayOfStringOrObject"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/function-disallowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"function-linear-gradient-no-nonstandard-direction": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/function-linear-gradient-no-nonstandard-direction/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"function-name-case": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["lower", "upper"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/function-name-case/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreFunctions": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"function-no-unknown": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/function-no-unknown/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreFunctions": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"function-url-no-scheme-relative": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/function-url-no-scheme-relative/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"function-url-quotes": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["always", "never"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/function-url-quotes/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"except": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["empty"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["empty"]
+													}
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"function-url-scheme-allowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"$ref": "#/$defs/arrayOfStringOrObject"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/function-url-scheme-allowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"function-url-scheme-disallowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"$ref": "#/$defs/arrayOfStringOrObject"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/function-url-scheme-disallowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"hue-degree-notation": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["angle", "number"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/hue-degree-notation/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"import-notation": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["string", "url"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/import-notation/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"keyframe-block-no-duplicate-selectors": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/keyframe-block-no-duplicate-selectors/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"keyframe-declaration-no-important": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/keyframe-declaration-no-important/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"keyframe-selector-notation": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["keyword", "percentage", "percentage-unless-within-keyword-only-block"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/keyframe-selector-notation/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"keyframes-name-pattern": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"type": "string"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/keyframes-name-pattern/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"length-zero-no-unit": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/length-zero-no-unit/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["custom-properties"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["custom-properties"]
+													}
+												}
+											]
+										},
+										"ignoreFunctions": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"lightness-notation": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["percentage", "number"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/lightness-notation/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"max-nesting-depth": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "number"
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/max-nesting-depth/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["blockless-at-rules", "pseudo-classes"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["blockless-at-rules", "pseudo-classes"]
+													}
+												}
+											]
+										},
+										"ignoreAtRules": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										},
+										"ignoreRules": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										},
+										"ignorePseudoClasses": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"media-feature-name-allowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"$ref": "#/$defs/arrayOfStringOrObject"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/media-feature-name-allowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"media-feature-name-disallowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"$ref": "#/$defs/arrayOfStringOrObject"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/media-feature-name-disallowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"media-feature-name-no-unknown": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/media-feature-name-no-unknown/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreMediaFeatureNames": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"media-feature-name-no-vendor-prefix": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/media-feature-name-no-vendor-prefix/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"media-feature-name-unit-allowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "object",
+									"additionalProperties": {
+										"$ref": "#/$defs/stringXorArrayOfString"
+									}
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/media-feature-name-unit-allowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"media-feature-name-value-allowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "object",
+									"additionalProperties": {
+										"anyOf": [
+											{
+												"$ref": "#/$defs/stringXorArrayOfString"
+											},
+											{
+												"oneOf": [
+													{
+														"$ref": "#/$defs/literalXorRegexp"
+													},
+													{
+														"type": "array",
+														"items": {
+															"$ref": "#/$defs/literalOrRegexp"
+														}
+													}
+												]
+											}
+										]
+									}
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/media-feature-name-value-allowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"media-feature-name-value-no-unknown": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/media-feature-name-value-no-unknown/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"media-feature-range-notation": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["prefix", "context"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/media-feature-range-notation/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"media-query-no-invalid": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/media-query-no-invalid/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"named-grid-areas-no-invalid": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/named-grid-areas-no-invalid/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"no-descending-specificity": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/no-descending-specificity/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["selectors-within-list"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["selectors-within-list"]
+													}
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"no-duplicate-at-import-rules": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/no-duplicate-at-import-rules/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"no-duplicate-selectors": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/no-duplicate-selectors/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"disallowInList": {
+											"type": "boolean"
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"no-empty-source": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/no-empty-source/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"no-invalid-double-slash-comments": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/no-invalid-double-slash-comments/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"no-invalid-position-at-import-rule": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/no-invalid-position-at-import-rule/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreAtRules": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"no-irregular-whitespace": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/no-irregular-whitespace/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"no-unknown-animations": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/no-unknown-animations/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"no-unknown-custom-media": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/no-unknown-custom-media/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"no-unknown-custom-properties": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/no-unknown-custom-properties/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"number-max-precision": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "integer",
+									"minimum": 0
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/number-max-precision/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreProperties": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										},
+										"ignoreUnits": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										},
+										"insideFunctions": {
+											"type": "object",
+											"additionalProperties": {
+												"type": "integer",
+												"minimum": 0
+											}
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"property-allowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"$ref": "#/$defs/arrayOfStringOrObject"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/property-allowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"property-disallowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"$ref": "#/$defs/arrayOfStringOrObject"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/property-disallowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"property-no-unknown": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/property-no-unknown/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreProperties": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										},
+										"checkPrefixed": {
+											"type": "boolean"
+										},
+										"ignoreSelectors": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										},
+										"ignoreAtRules": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"property-no-vendor-prefix": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/property-no-vendor-prefix/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreProperties": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"rule-empty-line-before": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["always", "never", "always-multi-line", "never-multi-line"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/rule-empty-line-before/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["after-comment", "first-nested", "inside-block"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["after-comment", "first-nested", "inside-block"]
+													}
+												}
+											]
+										},
+										"except": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": [
+														"after-rule",
+														"after-single-line-comment",
+														"first-nested",
+														"inside-block-and-after-rule",
+														"inside-block"
+													]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": [
+															"after-rule",
+															"after-single-line-comment",
+															"first-nested",
+															"inside-block-and-after-rule",
+															"inside-block"
+														]
+													}
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"rule-selector-property-disallowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "object",
+									"additionalProperties": {
+										"anyOf": [
+											{
+												"$ref": "#/$defs/stringXorArrayOfString"
+											},
+											{
+												"oneOf": [
+													{
+														"$ref": "#/$defs/literalXorRegexp"
+													},
+													{
+														"type": "array",
+														"items": {
+															"$ref": "#/$defs/literalOrRegexp"
+														}
+													}
+												]
+											}
+										]
+									}
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/rule-selector-property-disallowed-list/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["keyframe-selectors"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["keyframe-selectors"]
+													}
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"selector-anb-no-unmatchable": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-anb-no-unmatchable/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"selector-attribute-name-disallowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"$ref": "#/$defs/arrayOfStringOrObject"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-attribute-name-disallowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"selector-attribute-operator-allowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string"
+								},
+								{
+									"type": "null"
+								},
+								{
+									"$ref": "#/$defs/arrayOfString"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-attribute-operator-allowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"selector-attribute-operator-disallowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string"
+								},
+								{
+									"type": "null"
+								},
+								{
+									"$ref": "#/$defs/arrayOfString"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-attribute-operator-disallowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"selector-attribute-quotes": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["always", "never"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-attribute-quotes/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"selector-class-pattern": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"type": "string"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-class-pattern/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"resolveNestedSelectors": {
+											"type": "boolean"
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"selector-combinator-allowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string"
+								},
+								{
+									"type": "null"
+								},
+								{
+									"$ref": "#/$defs/arrayOfString"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-combinator-allowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"selector-combinator-disallowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string"
+								},
+								{
+									"type": "null"
+								},
+								{
+									"$ref": "#/$defs/arrayOfString"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-combinator-disallowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"selector-disallowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"$ref": "#/$defs/arrayOfStringOrObject"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-disallowed-list/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["inside-block", "keyframe-selectors"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["inside-block", "keyframe-selectors"]
+													}
+												}
+											]
+										},
+										"splitList": {
+											"type": "boolean"
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"selector-id-pattern": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"type": "string"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-id-pattern/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"selector-max-attribute": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "integer",
+									"minimum": 0
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-max-attribute/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreAttributes": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"selector-max-class": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "integer",
+									"minimum": 0
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-max-class/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"selector-max-combinators": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "integer",
+									"minimum": 0
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-max-combinators/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"selector-max-compound-selectors": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "integer",
+									"minimum": 0
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-max-compound-selectors/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreSelectors": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"selector-max-id": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "integer",
+									"minimum": 0
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-max-id/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreContextFunctionalPseudoClasses": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										},
+										"checkContextFunctionalPseudoClasses": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"selector-max-pseudo-class": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "integer",
+									"minimum": 0
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-max-pseudo-class/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"selector-max-specificity": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-max-specificity/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreSelectors": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"selector-max-type": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "integer",
+									"minimum": 0
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-max-type/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": [
+														"descendant",
+														"child",
+														"compounded",
+														"next-sibling",
+														"custom-elements"
+													]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": [
+															"descendant",
+															"child",
+															"compounded",
+															"next-sibling",
+															"custom-elements"
+														]
+													}
+												}
+											]
+										},
+										"ignoreTypes": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"selector-max-universal": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "integer",
+									"minimum": 0
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-max-universal/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreAfterCombinators": {
+											"$ref": "#/$defs/stringXorArrayOfString"
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"selector-nested-pattern": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"type": "string"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-nested-pattern/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"splitList": {
+											"type": "boolean"
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"selector-no-qualifying-type": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-no-qualifying-type/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["attribute", "class", "id"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["attribute", "class", "id"]
+													}
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"selector-no-vendor-prefix": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-no-vendor-prefix/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreSelectors": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"selector-not-notation": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["simple", "complex"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-not-notation/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"selector-pseudo-class-allowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"$ref": "#/$defs/arrayOfStringOrObject"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-pseudo-class-allowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"selector-pseudo-class-disallowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"$ref": "#/$defs/arrayOfStringOrObject"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-pseudo-class-disallowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"selector-pseudo-class-no-unknown": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-pseudo-class-no-unknown/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignorePseudoClasses": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"selector-pseudo-element-allowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"$ref": "#/$defs/arrayOfStringOrObject"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-pseudo-element-allowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"selector-pseudo-element-colon-notation": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["single", "double"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-pseudo-element-colon-notation/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"selector-pseudo-element-disallowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"$ref": "#/$defs/arrayOfStringOrObject"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-pseudo-element-disallowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"selector-pseudo-element-no-unknown": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-pseudo-element-no-unknown/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignorePseudoElements": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"selector-type-case": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["lower", "upper"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-type-case/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreTypes": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"selector-type-no-unknown": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/selector-type-no-unknown/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["custom-elements", "default-namespace"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["custom-elements", "default-namespace"]
+													}
+												}
+											]
+										},
+										"ignoreNamespaces": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										},
+										"ignoreTypes": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"shorthand-property-no-redundant-values": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/shorthand-property-no-redundant-values/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"string-no-newline": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/string-no-newline/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"time-min-milliseconds": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "number"
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/time-min-milliseconds/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["delay"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["delay"]
+													}
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"unit-allowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string"
+								},
+								{
+									"type": "null"
+								},
+								{
+									"$ref": "#/$defs/arrayOfString"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/unit-allowed-list/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreFunctions": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										},
+										"ignoreProperties": {
+											"type": "object",
+											"additionalProperties": {
+												"anyOf": [
+													{
+														"$ref": "#/$defs/stringXorArrayOfString"
+													},
+													{
+														"oneOf": [
+															{
+																"$ref": "#/$defs/literalXorRegexp"
+															},
+															{
+																"type": "array",
+																"items": {
+																	"$ref": "#/$defs/literalOrRegexp"
+																}
+															}
+														]
+													}
+												]
+											}
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"unit-disallowed-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string"
+								},
+								{
+									"type": "null"
+								},
+								{
+									"$ref": "#/$defs/arrayOfString"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/unit-disallowed-list/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreFunctions": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										},
+										"ignoreProperties": {
+											"type": "object",
+											"additionalProperties": {
+												"anyOf": [
+													{
+														"$ref": "#/$defs/stringXorArrayOfString"
+													},
+													{
+														"oneOf": [
+															{
+																"$ref": "#/$defs/literalXorRegexp"
+															},
+															{
+																"type": "array",
+																"items": {
+																	"$ref": "#/$defs/literalOrRegexp"
+																}
+															}
+														]
+													}
+												]
+											}
+										},
+										"ignoreMediaFeatureNames": {
+											"type": "object",
+											"additionalProperties": {
+												"anyOf": [
+													{
+														"$ref": "#/$defs/stringXorArrayOfString"
+													},
+													{
+														"oneOf": [
+															{
+																"$ref": "#/$defs/literalXorRegexp"
+															},
+															{
+																"type": "array",
+																"items": {
+																	"$ref": "#/$defs/literalOrRegexp"
+																}
+															}
+														]
+													}
+												]
+											}
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"unit-no-unknown": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/unit-no-unknown/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreUnits": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										},
+										"ignoreFunctions": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"value-keyword-case": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"type": "string",
+									"enum": ["lower", "upper"]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/value-keyword-case/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreProperties": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										},
+										"ignoreKeywords": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										},
+										"ignoreFunctions": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										},
+										"camelCaseSvgKeywords": {
+											"type": "boolean"
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"value-no-vendor-prefix": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"const": true
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/value-no-vendor-prefix/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreValues": {
+											"anyOf": [
+												{
+													"$ref": "#/$defs/stringXorArrayOfString"
+												},
+												{
+													"oneOf": [
+														{
+															"$ref": "#/$defs/literalXorRegexp"
+														},
+														{
+															"$ref": "#/$defs/arrayOfStringOrObject"
+														}
+													]
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			},
+			"additionalProperties": false
+		}
+	}
+}
