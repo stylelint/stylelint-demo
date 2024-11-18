@@ -5843,6 +5843,29 @@
 					]
 				}
 			},
+			"patternProperties": {
+				"@[a-z\\d][\\w.-]+/.+": {
+					"oneOf": [
+						{
+							"oneOf": [{ "const": true }, { "type": ["null", "string", "number", "object"] }]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"oneOf": [{ "const": true }, { "type": ["null", "string", "number", "object"] }]
+								},
+								{
+									"type": "object",
+									"allOf": [{ "$ref": "#/$defs/commonOptions" }]
+								}
+							]
+						}
+					]
+				}
+			},
 			"additionalProperties": false
 		}
 	}
