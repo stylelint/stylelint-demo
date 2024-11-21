@@ -5153,9 +5153,6 @@
 				}
 			},
 			"additionalProperties": false
-		},
-		"validate": {
-			"type": "boolean"
 		}
 	}
 }
