@@ -5847,7 +5847,10 @@
 				"@[a-z\\d][\\w.-]+/.+": {
 					"oneOf": [
 						{
-							"oneOf": [{ "const": true }, { "type": ["null", "string", "number", "object"] }]
+							"oneOf": [
+								{ "const": true },
+								{ "type": ["null", "string", "number", "object", "array"] }
+							]
 						},
 						{
 							"type": "array",
@@ -5855,7 +5858,10 @@
 							"maxItems": 2,
 							"prefixItems": [
 								{
-									"oneOf": [{ "const": true }, { "type": ["null", "string", "number", "object"] }]
+									"oneOf": [
+										{ "const": true },
+										{ "type": ["null", "string", "number", "object", "array"] }
+									]
 								},
 								{
 									"type": "object",
