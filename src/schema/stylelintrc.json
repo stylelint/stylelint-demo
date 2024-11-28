@@ -18,6 +18,26 @@
 				}
 			]
 		},
+		"ignore": {
+			"anyOf": [
+				{
+					"$ref": "#/$defs/stringXorArrayOfString"
+				},
+				{
+					"oneOf": [
+						{
+							"$ref": "#/$defs/literalXorRegexp"
+						},
+						{
+							"type": "array",
+							"items": {
+								"$ref": "#/$defs/literalOrRegexp"
+							}
+						}
+					]
+				}
+			]
+		},
 		"literalXorRegexp": {
 			"oneOf": [
 				{
@@ -149,6 +169,10 @@
 		"fix": {
 			"type": "boolean"
 		},
+		"formatter": {
+			"type": "string",
+			"enum": ["compact", "github", "json", "string", "tap", "unix", "verbose"]
+		},
 		"ignoreDisables": {
 			"type": "boolean"
 		},
@@ -164,6 +188,9 @@
 					},
 					{
 						"properties": {
+							"name": {
+								"type": "string"
+							},
 							"files": {
 								"$ref": "#/$defs/arrayOfString"
 							}
@@ -212,6 +239,9 @@
 			"$ref": "#/$defs/report"
 		},
 		"reportNeedlessDisables": {
+			"$ref": "#/$defs/report"
+		},
+		"reportUnscopedDisables": {
 			"$ref": "#/$defs/report"
 		},
 		"rules": {
@@ -292,23 +322,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreAnnotations": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreAnnotations": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -499,23 +513,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreAtRules": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreAtRules": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -770,23 +768,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreProperties": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										},
+										"ignoreProperties": { "$ref": "#/$defs/ignore" },
 										"ignore": {
 											"oneOf": [
 												{
@@ -924,23 +906,7 @@
 												}
 											]
 										},
-										"ignoreComments": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreComments": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -1270,23 +1236,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreProperties": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreProperties": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -1347,23 +1297,7 @@
 												}
 											]
 										},
-										"ignoreProperties": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreProperties": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -1399,23 +1333,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreShorthands": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										},
+										"ignoreShorthands": { "$ref": "#/$defs/ignore" },
 										"ignoreLonghands": {
 											"$ref": "#/$defs/stringXorArrayOfString"
 										}
@@ -1929,23 +1847,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreFontFamilyNames": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreFontFamilyNames": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -1981,23 +1883,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreFontFamilies": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreFontFamilies": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -2217,23 +2103,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreFunctions": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreFunctions": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -2269,23 +2139,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreFunctions": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreFunctions": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -2669,23 +2523,7 @@
 												}
 											]
 										},
-										"ignoreFunctions": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreFunctions": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -2765,57 +2603,9 @@
 												}
 											]
 										},
-										"ignoreAtRules": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										},
-										"ignoreRules": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										},
-										"ignorePseudoClasses": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreAtRules": { "$ref": "#/$defs/ignore" },
+										"ignoreRules": { "$ref": "#/$defs/ignore" },
+										"ignorePseudoClasses": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -2927,23 +2717,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreMediaFeatureNames": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreMediaFeatureNames": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -3141,8 +2915,16 @@
 									"$ref": "#/properties/rules/properties/media-query-no-invalid/oneOf/0"
 								},
 								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
+									"type": "object",
+									"properties": {
+										"ignoreFunctions": { "$ref": "#/$defs/ignore" }
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
 								}
 							]
 						}
@@ -3371,23 +3153,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreAtRules": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreAtRules": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -3536,40 +3302,8 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreProperties": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										},
-										"ignoreUnits": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										},
+										"ignoreProperties": { "$ref": "#/$defs/ignore" },
+										"ignoreUnits": { "$ref": "#/$defs/ignore" },
 										"insideFunctions": {
 											"type": "object",
 											"additionalProperties": {
@@ -3688,60 +3422,12 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreProperties": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										},
+										"ignoreProperties": { "$ref": "#/$defs/ignore" },
 										"checkPrefixed": {
 											"type": "boolean"
 										},
-										"ignoreSelectors": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										},
-										"ignoreAtRules": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreSelectors": { "$ref": "#/$defs/ignore" },
+										"ignoreAtRules": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -3777,23 +3463,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreProperties": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreProperties": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -4340,23 +4010,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreAttributes": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreAttributes": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -4451,23 +4105,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreSelectors": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreSelectors": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -4504,23 +4142,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreContextFunctionalPseudoClasses": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										},
+										"ignoreContextFunctionalPseudoClasses": { "$ref": "#/$defs/ignore" },
 										"checkContextFunctionalPseudoClasses": {
 											"anyOf": [
 												{
@@ -4600,23 +4222,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreSelectors": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreSelectors": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -4680,23 +4286,7 @@
 												}
 											]
 										},
-										"ignoreTypes": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreTypes": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -4866,23 +4456,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreSelectors": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreSelectors": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -5023,23 +4597,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignorePseudoClasses": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignorePseudoClasses": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -5180,23 +4738,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignorePseudoElements": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignorePseudoElements": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -5233,23 +4775,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreTypes": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreTypes": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -5300,40 +4826,8 @@
 												}
 											]
 										},
-										"ignoreNamespaces": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										},
-										"ignoreTypes": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreNamespaces": { "$ref": "#/$defs/ignore" },
+										"ignoreTypes": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -5478,45 +4972,10 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreFunctions": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										},
+										"ignoreFunctions": { "$ref": "#/$defs/ignore" },
 										"ignoreProperties": {
 											"type": "object",
-											"additionalProperties": {
-												"anyOf": [
-													{
-														"$ref": "#/$defs/stringXorArrayOfString"
-													},
-													{
-														"oneOf": [
-															{
-																"$ref": "#/$defs/literalXorRegexp"
-															},
-															{
-																"type": "array",
-																"items": {
-																	"$ref": "#/$defs/literalOrRegexp"
-																}
-															}
-														]
-													}
-												]
-											}
+											"additionalProperties": { "$ref": "#/$defs/ignore" }
 										}
 									},
 									"unevaluatedProperties": false,
@@ -5556,68 +5015,14 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreFunctions": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										},
+										"ignoreFunctions": { "$ref": "#/$defs/ignore" },
 										"ignoreProperties": {
 											"type": "object",
-											"additionalProperties": {
-												"anyOf": [
-													{
-														"$ref": "#/$defs/stringXorArrayOfString"
-													},
-													{
-														"oneOf": [
-															{
-																"$ref": "#/$defs/literalXorRegexp"
-															},
-															{
-																"type": "array",
-																"items": {
-																	"$ref": "#/$defs/literalOrRegexp"
-																}
-															}
-														]
-													}
-												]
-											}
+											"additionalProperties": { "$ref": "#/$defs/ignore" }
 										},
 										"ignoreMediaFeatureNames": {
 											"type": "object",
-											"additionalProperties": {
-												"anyOf": [
-													{
-														"$ref": "#/$defs/stringXorArrayOfString"
-													},
-													{
-														"oneOf": [
-															{
-																"$ref": "#/$defs/literalXorRegexp"
-															},
-															{
-																"type": "array",
-																"items": {
-																	"$ref": "#/$defs/literalOrRegexp"
-																}
-															}
-														]
-													}
-												]
-											}
+											"additionalProperties": { "$ref": "#/$defs/ignore" }
 										}
 									},
 									"unevaluatedProperties": false,
@@ -5654,40 +5059,8 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreUnits": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										},
-										"ignoreFunctions": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreUnits": { "$ref": "#/$defs/ignore" },
+										"ignoreFunctions": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -5724,57 +5097,9 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreProperties": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										},
-										"ignoreKeywords": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										},
-										"ignoreFunctions": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										},
+										"ignoreProperties": { "$ref": "#/$defs/ignore" },
+										"ignoreKeywords": { "$ref": "#/$defs/ignore" },
+										"ignoreFunctions": { "$ref": "#/$defs/ignore" },
 										"camelCaseSvgKeywords": {
 											"type": "boolean"
 										}
@@ -5813,23 +5138,7 @@
 								{
 									"type": "object",
 									"properties": {
-										"ignoreValues": {
-											"anyOf": [
-												{
-													"$ref": "#/$defs/stringXorArrayOfString"
-												},
-												{
-													"oneOf": [
-														{
-															"$ref": "#/$defs/literalXorRegexp"
-														},
-														{
-															"$ref": "#/$defs/arrayOfStringOrObject"
-														}
-													]
-												}
-											]
-										}
+										"ignoreValues": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
