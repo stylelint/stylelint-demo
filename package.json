@@ -103,7 +103,7 @@
     "@types/eslint__js": "^8.42.3",
     "@types/lz-string": "^1.5.0",
     "@types/node": "^22.10.1",
-    "eslint": "^9.13.0",
+    "eslint": "^9.16.0",
     "eslint-config-stylelint": "^23.0.0",
     "globals": "^15.12.0",
     "husky": "^9.1.7",
