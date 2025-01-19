@@ -5153,7 +5153,7 @@
 				}
 			},
 			"patternProperties": {
-				"@[a-z\\d][\\w.-]+/.+": {
+				"[a-z\\d@][\\w.-]*/.+": {
 					"oneOf": [
 						{
 							"oneOf": [
