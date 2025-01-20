@@ -128,7 +128,7 @@
 			},
 			"additionalProperties": false
 		},
-		"plugin": {
+		"pluginObject": {
 			"type": "object",
 			"properties": {
 				"ruleName": {
@@ -137,6 +137,25 @@
 				"rule": {}
 			},
 			"additionalProperties": false
+		},
+		"plugin": {
+			"anyOf": [
+				{
+					"type": "string"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"default": {
+							"$ref": "#/$defs/pluginObject"
+						}
+					},
+					"additionalProperties": false
+				},
+				{
+					"$ref": "#/$defs/pluginObject"
+				}
+			]
 		}
 	},
 	"type": "object",
@@ -206,23 +225,13 @@
 		"plugins": {
 			"oneOf": [
 				{
-					"type": "string"
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/plugin"
+					}
 				},
 				{
-					"oneOf": [
-						{
-							"type": "object",
-							"properties": {
-								"default": {
-									"$ref": "#/$defs/plugin"
-								}
-							},
-							"additionalProperties": false
-						},
-						{
-							"$ref": "#/$defs/plugin"
-						}
-					]
+					"$ref": "#/$defs/plugin"
 				}
 			]
 		},
