@@ -8,6 +8,16 @@
 				"type": "string"
 			}
 		},
+		"bool": {
+			"oneOf": [
+				{
+					"const": true
+				},
+				{
+					"type": "null"
+				}
+			]
+		},
 		"stringXorArrayOfString": {
 			"oneOf": [
 				{
@@ -120,14 +130,6 @@
 				}
 			]
 		},
-		"syntax": {
-			"type": "object",
-			"properties": {
-				"parse": {},
-				"stringify": {}
-			},
-			"additionalProperties": false
-		},
 		"pluginObject": {
 			"type": "object",
 			"properties": {
@@ -172,7 +174,12 @@
 					"type": "string"
 				},
 				{
-					"$ref": "#/$defs/syntax"
+					"type": "object",
+					"properties": {
+						"parse": {},
+						"stringify": {}
+					},
+					"additionalProperties": false
 				}
 			]
 		},
@@ -311,14 +318,7 @@
 				"annotation-no-unknown": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -366,6 +366,48 @@
 							"prefixItems": [
 								{
 									"$ref": "#/properties/rules/properties/at-rule-allowed-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"at-rule-descriptor-no-unknown": {
+					"oneOf": [
+						{
+							"$ref": "#/$defs/bool"
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/at-rule-descriptor-no-unknown/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"at-rule-descriptor-value-no-unknown": {
+					"oneOf": [
+						{
+							"$ref": "#/$defs/bool"
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/at-rule-descriptor-value-no-unknown/oneOf/0"
 								},
 								{
 									"$ref": "#/$defs/commonOptions",
@@ -499,17 +541,39 @@
 						}
 					]
 				},
+				"at-rule-no-deprecated": {
+					"oneOf": [
+						{
+							"$ref": "#/$defs/bool"
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/at-rule-no-deprecated/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreAtRules": { "$ref": "#/$defs/ignore" }
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
 				"at-rule-no-unknown": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -535,17 +599,39 @@
 						}
 					]
 				},
+				"at-rule-prelude-no-invalid": {
+					"oneOf": [
+						{
+							"$ref": "#/$defs/bool"
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/at-rule-prelude-no-invalid/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreAtRules": { "$ref": "#/$defs/ignore" }
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
 				"at-rule-no-vendor-prefix": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -597,14 +683,7 @@
 				"block-no-empty": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -808,14 +887,7 @@
 				"color-no-hex": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -836,14 +908,7 @@
 				"color-no-invalid-hex": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -931,14 +996,7 @@
 				"comment-no-empty": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -1162,14 +1220,7 @@
 				"custom-property-no-missing-var-function": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -1225,14 +1276,7 @@
 				"declaration-block-no-duplicate-custom-properties": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -1261,14 +1305,7 @@
 				"declaration-block-no-duplicate-properties": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -1322,14 +1359,7 @@
 				"declaration-block-no-redundant-longhand-properties": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -1361,14 +1391,7 @@
 				"declaration-block-no-shorthand-property-overrides": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -1493,14 +1516,7 @@
 				"declaration-no-important": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -1730,17 +1746,39 @@
 						}
 					]
 				},
+				"declaration-property-value-keyword-no-deprecated": {
+					"oneOf": [
+						{
+							"$ref": "#/$defs/bool"
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/declaration-property-value-keyword-no-deprecated/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreKeywords": { "$ref": "#/$defs/ignore" }
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
 				"declaration-property-value-no-unknown": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -1836,14 +1874,7 @@
 				"font-family-no-duplicate-names": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -1872,14 +1903,7 @@
 				"font-family-no-missing-generic-family-keyword": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -1997,14 +2021,7 @@
 				"function-calc-no-unspaced-operator": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -2063,14 +2080,7 @@
 				"function-linear-gradient-no-nonstandard-direction": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -2128,14 +2138,7 @@
 				"function-no-unknown": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -2164,14 +2167,7 @@
 				"function-url-no-scheme-relative": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -2377,14 +2373,7 @@
 				"keyframe-block-no-duplicate-selectors": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -2405,14 +2394,7 @@
 				"keyframe-declaration-no-important": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -2497,14 +2479,7 @@
 				"length-zero-no-unit": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -2706,14 +2681,7 @@
 				"media-feature-name-no-unknown": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -2742,14 +2710,7 @@
 				"media-feature-name-no-vendor-prefix": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -2849,14 +2810,7 @@
 				"media-feature-name-value-no-unknown": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -2906,14 +2860,7 @@
 				"media-query-no-invalid": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -2942,14 +2889,7 @@
 				"named-grid-areas-no-invalid": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -2970,14 +2910,7 @@
 				"no-descending-specificity": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -3020,14 +2953,7 @@
 				"no-duplicate-at-import-rules": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -3048,14 +2974,7 @@
 				"no-duplicate-selectors": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -3086,14 +3005,7 @@
 				"no-empty-source": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -3114,14 +3026,7 @@
 				"no-invalid-double-slash-comments": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -3142,14 +3047,7 @@
 				"no-invalid-position-at-import-rule": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -3178,14 +3076,7 @@
 				"no-irregular-whitespace": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -3206,14 +3097,7 @@
 				"no-unknown-animations": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -3234,14 +3118,7 @@
 				"no-unknown-custom-media": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -3262,14 +3139,7 @@
 				"no-unknown-custom-properties": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -3411,14 +3281,7 @@
 				"property-no-unknown": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -3452,14 +3315,7 @@
 				"property-no-vendor-prefix": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -3636,14 +3492,7 @@
 				"selector-anb-no-unmatchable": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -4395,14 +4244,7 @@
 				"selector-no-qualifying-type": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -4445,14 +4287,7 @@
 				"selector-no-vendor-prefix": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -4586,14 +4421,7 @@
 				"selector-pseudo-class-no-unknown": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -4727,14 +4555,7 @@
 				"selector-pseudo-element-no-unknown": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -4800,14 +4621,7 @@
 				"selector-type-no-unknown": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -4852,14 +4666,7 @@
 				"shorthand-property-no-redundant-values": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -4880,14 +4687,7 @@
 				"string-no-newline": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -4898,8 +4698,30 @@
 									"$ref": "#/properties/rules/properties/string-no-newline/oneOf/0"
 								},
 								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
+									"type": "object",
+									"properties": {
+										"ignore": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["at-rule-preludes", "declaration-values"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["at-rule-preludes", "declaration-values"]
+													}
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
 								}
 							]
 						}
@@ -5048,14 +4870,7 @@
 				"unit-no-unknown": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
@@ -5127,14 +4942,7 @@
 				"value-no-vendor-prefix": {
 					"oneOf": [
 						{
-							"oneOf": [
-								{
-									"const": true
-								},
-								{
-									"type": "null"
-								}
-							]
+							"$ref": "#/$defs/bool"
 						},
 						{
 							"type": "array",
