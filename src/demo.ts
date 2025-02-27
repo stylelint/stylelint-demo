@@ -1,10 +1,10 @@
 import './demo.css';
+import type { IRange, editor, languages } from 'monaco-editor';
 import type { ConfigFormat } from './components/config-editor';
 import type { LinterServiceResultSuccess } from './linter-service';
 import type { PackageJsonData } from './components/deps-editor';
 import type { Warning } from 'stylelint';
 import { debounce } from './utils/debounce';
-import type { editor } from 'monaco-editor';
 import html from './demo.html?raw';
 import { loadMonaco } from './monaco-editor';
 import { setupCodeEditor } from './components/code-editor';
@@ -14,6 +14,7 @@ import { setupDepsEditor } from './components/deps-editor';
 import { setupLintServer } from './linter-service';
 import { setupTabs } from './components/output-tabs';
 import { setupWarningsPanel } from './components/warnings';
+import type stylelint from 'stylelint';
 
 export type InputValues = {
 	/** Code text to lint. */
@@ -268,13 +269,74 @@ export async function mount({ element, init, listeners }: MountOptions) {
 			return;
 		}
 
-		codeEditor.setLeftMarkers(
-			result.result.warnings.map((w) => messageToMarker(w, result.ruleMetadata)),
-		);
+		const warnings = result.result.warnings;
+
+		codeEditor.setLeftMarkers(warnings.map((w) => messageToMarker(w, result.ruleMetadata)));
 		codeEditor.setRightMarkers(
 			result.fixResult.warnings.map((w) => messageToMarker(w, result.ruleMetadata)),
 		);
 		codeEditor.setRightValue(result.output);
+
+		codeEditor.setCodeActionProvider((model, _range, context) => {
+			if (context.only !== 'quickfix') {
+				return undefined;
+			}
+
+			const actions: languages.CodeAction[] = [];
+
+			for (const marker of context.markers) {
+				const message = findWarningFromMarker(marker);
+
+				if (!message) {
+					continue;
+				}
+
+				if (message.fix) {
+					actions.push(
+						createQuickFixCodeAction(
+							`Fix this ${message.rule} problem`,
+							marker,
+							model,
+							message.fix,
+						),
+					);
+				}
+			}
+
+			return {
+				actions,
+				dispose() {
+					/* noop */
+				},
+			};
+
+			/**
+			 * Find the warning from the given marker.
+			 */
+			function findWarningFromMarker(marker: editor.IMarkerData) {
+				const rule =
+					(typeof marker.code === 'string' ? marker.code : marker.code && marker.code.value) || '';
+
+				for (const warning of warnings) {
+					if (warning.rule !== rule) continue;
+
+					const startLineNumber = warning.line;
+					const startColumn = warning.column;
+
+					if (marker.startLineNumber !== startLineNumber || marker.startColumn !== startColumn)
+						continue;
+
+					const endLineNumber = warning.endLine ?? startLineNumber;
+					const endColumn = warning.endColumn ?? startColumn;
+
+					if (marker.endLineNumber !== endLineNumber || marker.endColumn !== endColumn) continue;
+
+					return warning;
+				}
+
+				return null;
+			}
+		});
 	}
 
 	function messageToMarker(
@@ -308,6 +370,44 @@ export async function mount({ element, init, listeners }: MountOptions) {
 			startColumn,
 			endLineNumber,
 			endColumn,
+		};
+	}
+
+	/**
+	 * Create quick-fix code action.
+	 */
+	function createQuickFixCodeAction(
+		title: string,
+		marker: editor.IMarkerData,
+		model: editor.ITextModel,
+		fix: stylelint.EditInfo,
+	): languages.CodeAction {
+		const start = model.getPositionAt(fix.range[0]);
+		const end = model.getPositionAt(fix.range[1]);
+
+		const editRange: IRange = {
+			startLineNumber: start.lineNumber,
+			startColumn: start.column,
+			endLineNumber: end.lineNumber,
+			endColumn: end.column,
+		};
+
+		return {
+			title,
+			diagnostics: [marker],
+			kind: 'quickfix',
+			edit: {
+				edits: [
+					{
+						resource: model.uri,
+						textEdit: {
+							range: editRange,
+							text: fix.text,
+						},
+						versionId: model.getVersionId(),
+					},
+				],
+			},
 		};
 	}
 }
