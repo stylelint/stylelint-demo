@@ -1,6 +1,12 @@
-import type { editor } from 'monaco-editor';
+import type { CancellationToken, IDisposable, Range, editor, languages } from 'monaco-editor';
 import { loadMonaco } from './monaco-loader.js';
 
+export type CodeActionProvider = (
+	model: editor.ITextModel,
+	range: Range,
+	context: languages.CodeActionContext,
+	token: CancellationToken,
+) => languages.ProviderResult<languages.CodeActionList>;
 export type MonacoEditor = {
 	/** Set the language. */
 	setModelLanguage: (language: string) => void;
@@ -14,6 +20,8 @@ export type MonacoEditor = {
 	getEditor: () => editor.IStandaloneCodeEditor;
 	/** Dispose the editor. */
 	disposeEditor: () => void;
+	/** Sets a code action provider. */
+	setCodeActionProvider: (codeActionProvider: CodeActionProvider) => void;
 };
 export type MonacoDiffEditor = {
 	/** Set the language. */
@@ -34,6 +42,8 @@ export type MonacoDiffEditor = {
 	getRightEditor: () => editor.IStandaloneCodeEditor;
 	/** Dispose the all editors. */
 	disposeEditor: () => void;
+	/** Sets a code action provider. */
+	setCodeActionProvider: (codeActionProvider: CodeActionProvider) => void;
 };
 export type BaseMonacoEditorOptions = {
 	/** Specify a target element to set up the code editor. */
@@ -121,6 +131,7 @@ export async function setupMonacoEditor({
 			listeners?.onChangeValue?.(value);
 		});
 
+		const codeActionProvider = buildCodeActionProviderContainer(leftEditor);
 		const result: MonacoDiffEditor = {
 			setModelLanguage: (lang) => {
 				for (const model of [original, modified]) {
@@ -142,8 +153,10 @@ export async function setupMonacoEditor({
 			},
 			getLeftEditor: () => leftEditor,
 			getRightEditor: () => rightEditor,
+			setCodeActionProvider: (provideCodeActions) => codeActionProvider.set(provideCodeActions),
 
 			disposeEditor: () => {
+				codeActionProvider.dispose();
 				leftEditor.getModel()?.dispose();
 				rightEditor.getModel()?.dispose();
 				leftEditor.dispose();
@@ -168,6 +181,7 @@ export async function setupMonacoEditor({
 		listeners?.onChangeValue?.(value);
 	});
 
+	const codeActionProvider = buildCodeActionProviderContainer(standaloneEditor);
 	const result: MonacoEditor = {
 		setModelLanguage: (lang) => {
 			const model = standaloneEditor.getModel();
@@ -184,8 +198,10 @@ export async function setupMonacoEditor({
 			void updateMarkers(standaloneEditor, markers);
 		},
 		getEditor: () => standaloneEditor,
+		setCodeActionProvider: (provideCodeActions) => codeActionProvider.set(provideCodeActions),
 
 		disposeEditor: () => {
+			codeActionProvider.dispose();
 			standaloneEditor.getModel()?.dispose();
 			standaloneEditor.dispose();
 		},
@@ -212,5 +228,43 @@ export async function setupMonacoEditor({
 			id,
 			JSON.parse(JSON.stringify(markers)) as editor.IMarkerData[],
 		);
+	}
+
+	function buildCodeActionProviderContainer(editor: editor.IStandaloneCodeEditor): {
+		set: (codeActionProvider: CodeActionProvider) => void;
+		dispose: () => void;
+	} {
+		let codeActionProviderDisposable: IDisposable = {
+			dispose: () => {
+				// void
+			},
+		};
+
+		function updateCodeActionProvider(codeActionProvider: CodeActionProvider) {
+			codeActionProviderDisposable.dispose();
+			codeActionProviderDisposable = monaco.languages.registerCodeActionProvider('*', {
+				provideCodeActions(model, ...args) {
+					if (editor.getModel()!.uri !== model.uri) {
+						return {
+							actions: [],
+							dispose() {
+								/* nop */
+							},
+						};
+					}
+
+					return codeActionProvider(model, ...args);
+				},
+			});
+		}
+
+		return {
+			set: (codeActionProvider) => {
+				updateCodeActionProvider(codeActionProvider);
+			},
+			dispose() {
+				codeActionProviderDisposable.dispose();
+			},
+		};
 	}
 }

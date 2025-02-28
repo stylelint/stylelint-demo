@@ -128,7 +128,7 @@ async function lint(input) {
 		fs.writeFileSync(targetFile, input.code, 'utf8');
 		fs.writeFileSync(configFile, input.config, 'utf8');
 
-		const result = await stylelint.lint({ files: [targetFile] });
+		const result = await stylelint.lint({ files: [targetFile], computeEditInfo: true });
 		const fixResult = await stylelint.lint({ files: [targetFile], fix: true });
 		const fixedFile = fs.readFileSync(targetFile, 'utf8');
 
