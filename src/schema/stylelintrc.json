@@ -526,9 +526,7 @@
 												}
 											]
 										},
-										"ignoreAtRules": {
-											"$ref": "#/$defs/stringXorArrayOfString"
-										}
+										"ignoreAtRules": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
@@ -2507,7 +2505,8 @@
 												}
 											]
 										},
-										"ignoreFunctions": { "$ref": "#/$defs/ignore" }
+										"ignoreFunctions": { "$ref": "#/$defs/ignore" },
+										"ignorePreludeOfAtRules": { "$ref": "#/$defs/ignore" }
 									},
 									"unevaluatedProperties": false,
 									"allOf": [
