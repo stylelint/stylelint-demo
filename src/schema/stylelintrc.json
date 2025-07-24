@@ -18,6 +18,23 @@
 				}
 			]
 		},
+		"booleanRule": {
+			"oneOf": [
+				{ "$ref": "#/$defs/bool" },
+				{
+					"type": "array",
+					"minItems": 1,
+					"maxItems": 2,
+					"prefixItems": [
+						{ "$ref": "#/$defs/bool" },
+						{
+							"$ref": "#/$defs/commonOptions",
+							"additionalProperties": false
+						}
+					]
+				}
+			]
+		},
 		"stringXorArrayOfString": {
 			"oneOf": [
 				{
@@ -376,46 +393,10 @@
 					]
 				},
 				"at-rule-descriptor-no-unknown": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/at-rule-descriptor-no-unknown/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"at-rule-descriptor-value-no-unknown": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/at-rule-descriptor-value-no-unknown/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"at-rule-disallowed-list": {
 					"oneOf": [
@@ -627,25 +608,7 @@
 					]
 				},
 				"at-rule-no-vendor-prefix": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/at-rule-no-vendor-prefix/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"at-rule-property-required-list": {
 					"oneOf": [
@@ -883,46 +846,10 @@
 					]
 				},
 				"color-no-hex": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/color-no-hex/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"color-no-invalid-hex": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/color-no-invalid-hex/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"comment-empty-line-before": {
 					"oneOf": [
@@ -992,25 +919,7 @@
 					]
 				},
 				"comment-no-empty": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/comment-no-empty/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"comment-pattern": {
 					"oneOf": [
@@ -1216,25 +1125,7 @@
 					]
 				},
 				"custom-property-no-missing-var-function": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/custom-property-no-missing-var-function/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"custom-property-pattern": {
 					"oneOf": [
@@ -1387,25 +1278,7 @@
 					]
 				},
 				"declaration-block-no-shorthand-property-overrides": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/declaration-block-no-shorthand-property-overrides/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"declaration-block-single-line-max-declarations": {
 					"oneOf": [
@@ -1512,25 +1385,7 @@
 					]
 				},
 				"declaration-no-important": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/declaration-no-important/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"declaration-property-max-values": {
 					"oneOf": [
@@ -2017,25 +1872,7 @@
 					]
 				},
 				"function-calc-no-unspaced-operator": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/function-calc-no-unspaced-operator/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"function-disallowed-list": {
 					"oneOf": [
@@ -2076,25 +1913,7 @@
 					]
 				},
 				"function-linear-gradient-no-nonstandard-direction": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/function-linear-gradient-no-nonstandard-direction/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"function-name-case": {
 					"oneOf": [
@@ -2163,25 +1982,7 @@
 					]
 				},
 				"function-url-no-scheme-relative": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/function-url-no-scheme-relative/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"function-url-quotes": {
 					"oneOf": [
@@ -2369,46 +2170,10 @@
 					]
 				},
 				"keyframe-block-no-duplicate-selectors": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/keyframe-block-no-duplicate-selectors/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"keyframe-declaration-no-important": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/keyframe-declaration-no-important/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"keyframe-selector-notation": {
 					"oneOf": [
@@ -2707,25 +2472,7 @@
 					]
 				},
 				"media-feature-name-no-vendor-prefix": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/media-feature-name-no-vendor-prefix/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"media-feature-name-unit-allowed-list": {
 					"oneOf": [
@@ -2807,25 +2554,7 @@
 					]
 				},
 				"media-feature-name-value-no-unknown": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/media-feature-name-value-no-unknown/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"media-feature-range-notation": {
 					"oneOf": [
@@ -2885,7 +2614,7 @@
 						}
 					]
 				},
-				"named-grid-areas-no-invalid": {
+				"media-type-no-deprecated": {
 					"oneOf": [
 						{
 							"$ref": "#/$defs/bool"
@@ -2896,15 +2625,26 @@
 							"maxItems": 2,
 							"prefixItems": [
 								{
-									"$ref": "#/properties/rules/properties/named-grid-areas-no-invalid/oneOf/0"
+									"$ref": "#/properties/rules/properties/media-type-no-deprecated/oneOf/0"
 								},
 								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
+									"type": "object",
+									"properties": {
+										"ignoreMediaTypes": { "$ref": "#/$defs/ignore" }
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
 								}
 							]
 						}
 					]
+				},
+				"named-grid-areas-no-invalid": {
+					"$ref": "#/$defs/booleanRule"
 				},
 				"no-descending-specificity": {
 					"oneOf": [
@@ -2950,25 +2690,7 @@
 					]
 				},
 				"no-duplicate-at-import-rules": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/no-duplicate-at-import-rules/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"no-duplicate-selectors": {
 					"oneOf": [
@@ -3002,46 +2724,10 @@
 					]
 				},
 				"no-empty-source": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/no-empty-source/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"no-invalid-double-slash-comments": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/no-invalid-double-slash-comments/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"no-invalid-position-at-import-rule": {
 					"oneOf": [
@@ -3073,88 +2759,16 @@
 					]
 				},
 				"no-irregular-whitespace": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/no-irregular-whitespace/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"no-unknown-animations": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/no-unknown-animations/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"no-unknown-custom-media": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/no-unknown-custom-media/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"no-unknown-custom-properties": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/no-unknown-custom-properties/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"number-max-precision": {
 					"oneOf": [
@@ -3489,25 +3103,7 @@
 					]
 				},
 				"selector-anb-no-unmatchable": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/selector-anb-no-unmatchable/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"selector-attribute-name-disallowed-list": {
 					"oneOf": [
@@ -4663,25 +4259,7 @@
 					]
 				},
 				"shorthand-property-no-redundant-values": {
-					"oneOf": [
-						{
-							"$ref": "#/$defs/bool"
-						},
-						{
-							"type": "array",
-							"minItems": 1,
-							"maxItems": 2,
-							"prefixItems": [
-								{
-									"$ref": "#/properties/rules/properties/shorthand-property-no-redundant-values/oneOf/0"
-								},
-								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
-								}
-							]
-						}
-					]
+					"$ref": "#/$defs/booleanRule"
 				},
 				"string-no-newline": {
 					"oneOf": [
@@ -4725,6 +4303,9 @@
 							]
 						}
 					]
+				},
+				"syntax-string-no-invalid": {
+					"$ref": "#/$defs/booleanRule"
 				},
 				"time-min-milliseconds": {
 					"oneOf": [
