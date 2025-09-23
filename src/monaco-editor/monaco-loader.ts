@@ -11,7 +11,16 @@ export function loadMonaco(): Promise<Monaco> {
 	return (
 		monacoPromise ||
 		(monacoPromise = (async () => {
-			const monaco: Monaco = await loadModuleFromMonaco('vs/editor/editor.main');
+			const rawMonaco: Monaco | { m: Monaco } = await loadModuleFromMonaco('vs/editor/editor.main');
+
+			let monaco: Monaco;
+
+			if ('m' in rawMonaco) {
+				// Support for monaco-editor@0.53
+				monaco = rawMonaco.m || rawMonaco;
+			} else {
+				monaco = rawMonaco;
+			}
 
 			monaco.languages.css.cssDefaults.setOptions({
 				validate: false, //Turn off CSS built-in validation.
@@ -65,11 +74,7 @@ async function setupMonaco(): Promise<void> {
 			(await appendMonacoEditorScript());
 
 		// @ts-expect-error -- global Monaco's require
-		window.require.config({
-			paths: {
-				vs: monacoScript.src.replace(/\/vs\/.*$/u, '/vs'),
-			},
-		});
+		window.require.config({ paths: { vs: monacoScript.src.replace(/\/vs\/.*$/u, '/vs') } });
 	}
 }
 
