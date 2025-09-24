@@ -684,6 +684,9 @@
 						}
 					]
 				},
+				"block-no-redundant-nested-style-rules": {
+					"$ref": "#/$defs/booleanRule"
+				},
 				"color-function-notation": {
 					"oneOf": [
 						{
@@ -2578,8 +2581,30 @@
 									"$ref": "#/properties/rules/properties/media-feature-range-notation/oneOf/0"
 								},
 								{
-									"$ref": "#/$defs/commonOptions",
-									"additionalProperties": false
+									"type": "object",
+									"properties": {
+										"except": {
+											"oneOf": [
+												{
+													"type": "string",
+													"enum": ["exact-value"]
+												},
+												{
+													"type": "array",
+													"items": {
+														"type": "string",
+														"enum": ["exact-value"]
+													}
+												}
+											]
+										}
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
 								}
 							]
 						}
@@ -2729,6 +2754,35 @@
 				"no-invalid-double-slash-comments": {
 					"$ref": "#/$defs/booleanRule"
 				},
+				"no-invalid-position-declaration": {
+					"oneOf": [
+						{
+							"$ref": "#/$defs/bool"
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/no-invalid-position-declaration/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreAtRules": { "$ref": "#/$defs/ignore" }
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
 				"no-invalid-position-at-import-rule": {
 					"oneOf": [
 						{
@@ -2760,6 +2814,35 @@
 				},
 				"no-irregular-whitespace": {
 					"$ref": "#/$defs/booleanRule"
+				},
+				"nesting-selector-no-missing-scoping-root": {
+					"oneOf": [
+						{
+							"$ref": "#/$defs/bool"
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/nesting-selector-no-missing-scoping-root/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreAtRules": { "$ref": "#/$defs/ignore" }
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
+								}
+							]
+						}
+					]
 				},
 				"no-unknown-animations": {
 					"$ref": "#/$defs/booleanRule"
@@ -2886,6 +2969,35 @@
 								{
 									"$ref": "#/$defs/commonOptions",
 									"additionalProperties": false
+								}
+							]
+						}
+					]
+				},
+				"property-no-deprecated": {
+					"oneOf": [
+						{
+							"$ref": "#/$defs/bool"
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/property-no-deprecated/oneOf/0"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"ignoreProperties": { "$ref": "#/$defs/ignore" }
+									},
+									"unevaluatedProperties": false,
+									"allOf": [
+										{
+											"$ref": "#/$defs/commonOptions"
+										}
+									]
 								}
 							]
 						}
@@ -3027,6 +3139,44 @@
 											"$ref": "#/$defs/commonOptions"
 										}
 									]
+								}
+							]
+						}
+					]
+				},
+				"rule-nesting-at-rule-required-list": {
+					"oneOf": [
+						{
+							"oneOf": [
+								{
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/$defs/literalXorRegexp"
+										},
+										{
+											"$ref": "#/$defs/arrayOfStringOrObject"
+										}
+									]
+								},
+								{
+									"type": "null"
+								}
+							]
+						},
+						{
+							"type": "array",
+							"minItems": 1,
+							"maxItems": 2,
+							"prefixItems": [
+								{
+									"$ref": "#/properties/rules/properties/rule-nesting-at-rule-required-list/oneOf/0"
+								},
+								{
+									"$ref": "#/$defs/commonOptions",
+									"additionalProperties": false
 								}
 							]
 						}
