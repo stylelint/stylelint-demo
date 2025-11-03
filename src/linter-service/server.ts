@@ -104,7 +104,6 @@ async function startServerInternal(webContainer: WebContainer): Promise<ServerIn
 	const callbacks: ((json: string) => void)[] = [];
 
 	serverProcess.output.pipeTo(
-		// eslint-disable-next-line n/no-unsupported-features/node-builtins -- We can allow the experimental API.
 		new WritableStream({
 			write(str) {
 				if (!callbacks.length) {

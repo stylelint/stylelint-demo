@@ -46,7 +46,6 @@ async function installDependencies(webContainer: WebContainer, consoleOutput: Co
 	const installProcess = await webContainer.spawn('npm', ['install']);
 
 	void installProcess.output.pipeTo(
-		// eslint-disable-next-line n/no-unsupported-features/node-builtins -- We can allow the experimental API.
 		new WritableStream({
 			write(data) {
 				consoleOutput.append(data);
