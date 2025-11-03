@@ -7,9 +7,9 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "clean": "node -e \"fs.rmSync('dist', {force: true, recursive: true})\"",
     "build": "vite build",
     "build:lib": "vite build -c vite.config.lib.ts",
+    "clean": "node -e \"fs.rmSync('dist', {force: true, recursive: true})\"",
     "dev": "vite",
     "format": "prettier . --write",
     "lint": "npm-run-all --parallel lint:*",
