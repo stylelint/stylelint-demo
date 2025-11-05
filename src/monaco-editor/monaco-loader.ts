@@ -11,7 +11,8 @@ export function loadMonaco(): Promise<Monaco> {
 	return (
 		monacoPromise ||
 		(monacoPromise = (async () => {
-			const rawMonaco: Monaco | { m: Monaco } = await loadModuleFromMonaco('vs/editor/editor.main');
+			const rawMonaco: Monaco | { m: Monaco } =
+				(await loadMonacoFromEsmCdn()) || (await loadModuleFromMonaco('vs/editor/editor.main'));
 
 			let monaco: Monaco;
 
@@ -51,6 +52,24 @@ export function loadMonaco(): Promise<Monaco> {
 	);
 }
 
+async function loadMonacoFromEsmCdn(): Promise<Monaco | null> {
+	try {
+		const result = await import(`https://cdn.jsdelivr.net/npm/monaco-editor@${monacoVersion}/+esm`);
+
+		const link = document.createElement('link');
+
+		link.rel = 'stylesheet';
+		link.href = `https://cdn.jsdelivr.net/npm/monaco-editor@${monacoVersion}/min/vs/editor/editor.main.css`;
+		document.head.append(link);
+
+		return result as Monaco;
+	} catch (e: unknown) {
+		console.warn('Failed to load Monaco editor from ESM CDN.', e);
+
+		return null;
+	}
+}
+
 async function loadModuleFromMonaco<T>(moduleName: string): Promise<T> {
 	await setupMonaco();
 
@@ -83,7 +102,7 @@ async function appendMonacoEditorScript(): Promise<HTMLScriptElement> {
 	const script = document.createElement('script');
 
 	return new Promise((resolve) => {
-		script.src = `https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/${monacoVersion}/min/vs/loader.min.js`;
+		script.src = `https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.53.0/min/vs/loader.min.js`;
 		script.onload = () => {
 			script.onload = null;
 
