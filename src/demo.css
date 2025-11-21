@@ -2,14 +2,26 @@
 :root {
 	--sd-black: oklch(0% 0 0deg);
 	--sd-black-a-8: oklch(from var(--sd-black) l c h / 8%);
+	--sd-gray-20: oklch(20% 0 0deg);
+	--sd-gray-25: oklch(25% 0 0deg);
 	--sd-gray-60: oklch(60% 0 0deg);
 	--sd-gray-90: oklch(90% 0 0deg);
 	--sd-gray-98: oklch(98% 0 0deg);
 	--sd-white: oklch(100% 0 0deg);
+	--sd-white-a-8: oklch(from var(--sd-white) l c h / 8%);
 	--sd-blue: oklch(50% 0.12 250deg);
 	--sd-purple: oklch(50% 0.12 285deg);
 	--sd-red: oklch(50% 0.18 20deg);
 	--sd-yellow: oklch(75% 0.14 80deg);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--sd-blue: oklch(60% 0.12 250deg);
+		--sd-purple: oklch(60% 0.12 285deg);
+		--sd-red: oklch(60% 0.18 20deg);
+		--sd-yellow: oklch(60% 0.14 80deg);
+	}
 }
 
 @layer reset {
@@ -40,6 +52,10 @@
 		font-size: 0.875rem;
 		margin: 0;
 		overscroll-behavior-y: none;
+
+		@media (prefers-color-scheme: dark) {
+			color: var(--sd-white);
+		}
 	}
 
 	/* Inline text semantics */
@@ -76,12 +92,22 @@
 		min-block-size: 2rem;
 		padding-inline: 0.25rem;
 		place-items: center;
+
+		@media (prefers-color-scheme: dark) {
+			color: var(--sd-gray-90);
+		}
 	}
 
 	input,
 	select {
 		border: 1px solid var(--sd-gray-90);
 		border-radius: 2px;
+
+		@media (prefers-color-scheme: dark) {
+			background-color: var(--sd-gray-20);
+			border: 1px solid var(--sd-gray-25);
+			color: var(--sd-white);
+		}
 	}
 }
 
@@ -105,6 +131,10 @@
 		&:not(:has(input[data-radio-name='warnings']:checked)) sd-warnings,
 		&:not(:has(input[data-radio-name='console']:checked)) sd-console {
 			display: none !important;
+		}
+
+		@media (prefers-color-scheme: dark) {
+			background-color: var(--sd-gray-20);
 		}
 	}
 
@@ -131,10 +161,22 @@
 
 			&:has(input[type='radio']:hover) {
 				color: var(--sd-black);
+
+				@media (prefers-color-scheme: dark) {
+					color: var(--sd-white);
+				}
 			}
 
 			&:has(input[type='radio']:checked) {
 				color: var(--sd-black);
+
+				@media (prefers-color-scheme: dark) {
+					color: var(--sd-white);
+				}
+			}
+
+			@media (prefers-color-scheme: dark) {
+				color: var(--sd-gray-90);
 			}
 		}
 	}
@@ -145,7 +187,15 @@
 		& label {
 			&:has(input[type='radio']:checked) {
 				background-color: var(--sd-white);
+
+				@media (prefers-color-scheme: dark) {
+					background-color: var(--sd-gray-25);
+				}
 			}
+		}
+
+		@media (prefers-color-scheme: dark) {
+			background-color: var(--sd-gray-20);
 		}
 	}
 
@@ -158,6 +208,12 @@
 				text-decoration: underline;
 				text-underline-offset: 0.45em;
 			}
+		}
+
+		@media (prefers-color-scheme: dark) {
+			background-color: var(--sd-gray-25);
+			border-block-start: 1px solid var(--sd-gray-25);
+			box-shadow: 0 2px 4px 0 var(--sd-white-a-8);
 		}
 	}
 
