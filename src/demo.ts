@@ -146,6 +146,14 @@ export async function mount({ element, init, listeners }: MountOptions) {
 		loadMonaco(),
 	]);
 
+	const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+	const updateTheme = () => {
+		monaco.editor.setTheme(mediaQuery.matches ? 'vs-dark' : 'vs');
+	};
+
+	updateTheme();
+	mediaQuery.addEventListener('change', updateTheme);
+
 	let seq = 0;
 
 	if (await updateDependencies(depsEditor.getValue())) {
@@ -165,6 +173,7 @@ export async function mount({ element, init, listeners }: MountOptions) {
 			configEditor.disposeEditor();
 			depsEditor.disposeEditor();
 			await lintServer.teardown();
+			mediaQuery.removeEventListener('change', updateTheme);
 			element.innerHTML = '';
 		},
 	};
