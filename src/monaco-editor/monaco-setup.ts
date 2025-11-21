@@ -90,9 +90,10 @@ export async function setupMonacoEditor({
 	element.textContent = '';
 	element.style.padding = '';
 	const { value, language, fileName } = init;
+	const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'vs-dark' : 'vs';
 
 	const options = {
-		theme: 'vs',
+		theme,
 		automaticLayout: true,
 		tabSize: 2,
 		fontSize: 12,
