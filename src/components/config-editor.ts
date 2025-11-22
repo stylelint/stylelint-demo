@@ -1,9 +1,18 @@
-import defaultConfig from './defaults/config.json';
+import defaultConfigRaw from './defaults/config.mjs?raw';
 import { setupMonacoEditor } from '../monaco-editor/monaco-setup.js';
 
-const FORMATS: ConfigFormat[] = ['json', 'js', 'yaml'];
+const FORMATS: ConfigFormat[] = [
+	'stylelint.config.mjs',
+	'stylelint.config.cjs',
+	'.stylelintrc.json',
+	'.stylelintrc.yaml',
+];
 
-export type ConfigFormat = 'json' | 'js' | 'yaml';
+export type ConfigFormat =
+	| 'stylelint.config.mjs'
+	| 'stylelint.config.cjs'
+	| '.stylelintrc.json'
+	| '.stylelintrc.yaml';
 
 export type ConfigEditorOptions = {
 	/** Specify a target element to set up the config editor. */
@@ -41,14 +50,16 @@ export async function setupConfigEditor({ element, listeners, init }: ConfigEdit
 		formatSelect.appendChild(option);
 	}
 
-	const initFormat = adjustFormat(init?.format || 'json');
+	const initFormat = (
+		FORMATS.includes(init?.format as ConfigFormat) ? init?.format : 'stylelint.config.mjs'
+	) as ConfigFormat;
 
 	const monacoEditor = await setupMonacoEditor({
 		element: element.querySelector<HTMLDivElement>('sd-config-monaco')!,
 		init: {
 			language: getLanguage(initFormat),
-			value: init?.value ?? JSON.stringify(defaultConfig, null, 2),
-			fileName: `.stylelintrc.${initFormat}`,
+			value: init?.value ?? defaultConfigRaw,
+			fileName: initFormat,
 		},
 		listeners,
 		useDiffEditor: false,
@@ -56,7 +67,7 @@ export async function setupConfigEditor({ element, listeners, init }: ConfigEdit
 
 	formatSelect.value = initFormat;
 	formatSelect.addEventListener('change', () => {
-		const format = adjustFormat(formatSelect.value);
+		const format = formatSelect.value as ConfigFormat;
 
 		monacoEditor.setModelLanguage(getLanguage(format));
 		listeners.onChangeFormat(format);
@@ -65,17 +76,15 @@ export async function setupConfigEditor({ element, listeners, init }: ConfigEdit
 	return {
 		...monacoEditor,
 		getFormat() {
-			return adjustFormat(formatSelect.value);
+			return formatSelect.value as ConfigFormat;
 		},
 	};
 
-	function adjustFormat(format: string): ConfigFormat {
-		const str = (format?.trim()?.toLowerCase() || 'json') as ConfigFormat;
-
-		return FORMATS.includes(str) ? str : 'json';
-	}
-
 	function getLanguage(format: ConfigFormat) {
-		return format === 'js' ? 'javascript' : format;
+		if (format.endsWith('.mjs') || format.endsWith('.cjs')) {
+			return 'javascript';
+		}
+
+		return format.split('.').pop() ?? 'json';
 	}
 }
