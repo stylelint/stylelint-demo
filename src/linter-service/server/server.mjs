@@ -102,7 +102,19 @@ async function lint(input) {
 			);
 		}
 
-		const configFile = path.join(SRC_DIR, input.configFormat);
+		/** @type {string} */
+		let filename = input.configFormat;
+
+		// Workaround to bypass the module cache
+		// See: https://github.com/stylelint/stylelint-demo/issues/418
+		if (filename.endsWith('.mjs') || filename.endsWith('.cjs')) {
+			const ext = path.extname(filename);
+			const base = path.basename(filename, ext);
+
+			filename = `${base}-${Date.now()}${ext}`;
+		}
+
+		const configFile = path.join(SRC_DIR, filename);
 
 		fs.mkdirSync(path.dirname(targetFile), { recursive: true });
 		fs.mkdirSync(path.dirname(configFile), { recursive: true });
@@ -118,9 +130,14 @@ async function lint(input) {
 		fs.writeFileSync(targetFile, input.code, 'utf8');
 		fs.writeFileSync(configFile, input.config, 'utf8');
 
-		const result = await stylelint.lint({ files: [targetFile], computeEditInfo: true });
-		const fixResult = await stylelint.lint({ files: [targetFile], fix: true });
+		const result = await stylelint.lint({ files: [targetFile], configFile, computeEditInfo: true });
+		const fixResult = await stylelint.lint({ files: [targetFile], configFile, fix: true });
 		const fixedFile = fs.readFileSync(targetFile, 'utf8');
+
+		// Continuation of module cache workaround
+		if (configFile.endsWith('.mjs') || configFile.endsWith('.cjs')) {
+			fs.unlinkSync(configFile);
+		}
 
 		/** @type {LinterServiceResult} */
 		const output = {
