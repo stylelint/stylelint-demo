@@ -2,7 +2,7 @@ import './style.css';
 import { compress, decompress } from './utils/compress';
 import type { ConfigFormat } from './components/config-editor';
 import { debounce } from './utils/debounce';
-import defaultConfig from './components/defaults/config.json';
+import defaultConfig from './components/defaults/config.mjs';
 import defaultDeps from './components/defaults/deps';
 import { mount } from './demo';
 
@@ -64,6 +64,19 @@ if (queryParam.syntax) {
 		} catch {
 			// ignore
 		}
+	}
+}
+
+// Backward compatibility for old file format picker
+if (queryParam.configFormat) {
+	const format = queryParam.configFormat.trim().toLowerCase();
+
+	if (format === 'json') {
+		queryParam.configFormat = '.stylelintrc.json';
+	} else if (format === 'yaml') {
+		queryParam.configFormat = '.stylelintrc.yaml';
+	} else if (format === 'js') {
+		queryParam.configFormat = 'stylelint.config.cjs';
 	}
 }
 

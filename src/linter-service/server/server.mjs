@@ -28,22 +28,15 @@ const RESERVED_FILE_NAMES = [
 	'.stylelintrc.yml',
 	'stylelint.config.cjs',
 	'stylelint.config.js',
+	'stylelint.config.mjs',
 	'.stylelintignore',
 ];
 
 const CONFIG_FORMATS = [
-	{
-		id: 'json',
-		name: '.stylelintrc.json',
-	},
-	{
-		id: 'js',
-		name: 'stylelint.config.cjs',
-	},
-	{
-		id: 'yaml',
-		name: '.stylelintrc.yaml',
-	},
+	'stylelint.config.mjs',
+	'stylelint.config.cjs',
+	'.stylelintrc.json',
+	'.stylelintrc.yaml',
 ];
 
 /**
@@ -109,18 +102,15 @@ async function lint(input) {
 			);
 		}
 
-		const configFile = path.join(
-			SRC_DIR,
-			CONFIG_FORMATS.find((f) => f.id === input.configFormat)?.name ?? '.stylelintrc.json',
-		);
+		const configFile = path.join(SRC_DIR, input.configFormat);
 
 		fs.mkdirSync(path.dirname(targetFile), { recursive: true });
 		fs.mkdirSync(path.dirname(configFile), { recursive: true });
 
 		for (const configFormat of CONFIG_FORMATS) {
-			if (configFormat.id === input.configFormat) continue;
+			if (configFormat === input.configFormat) continue;
 
-			const otherConfigFile = path.join(SRC_DIR, configFormat.name);
+			const otherConfigFile = path.join(SRC_DIR, configFormat);
 
 			if (fs.existsSync(otherConfigFile)) fs.unlinkSync(otherConfigFile);
 		}
