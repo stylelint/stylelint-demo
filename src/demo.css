@@ -4,6 +4,7 @@
 	--sd-black-a-8: oklch(from var(--sd-black) l c h / 8%);
 	--sd-gray-20: oklch(20% 0 0deg);
 	--sd-gray-25: oklch(25% 0 0deg);
+	--sd-gray-35: oklch(35% 0 0deg);
 	--sd-gray-60: oklch(60% 0 0deg);
 	--sd-gray-90: oklch(90% 0 0deg);
 	--sd-gray-98: oklch(98% 0 0deg);
@@ -90,6 +91,27 @@
 		border-radius: 2px;
 		color: light-dark(initial, var(--sd-white));
 	}
+
+	button {
+		background: light-dark(var(--sd-white), var(--sd-gray-35));
+		border: 1px solid light-dark(var(--sd-gray-90), var(--sd-gray-60));
+		border-radius: 4px;
+		box-shadow: 0 2px 2px 0 light-dark(var(--sd-black-a-8), var(--sd-white-a-8));
+		color: light-dark(var(--sd-gray-60), var(--sd-gray-90));
+		cursor: pointer;
+		font-family: inherit;
+		padding-block: 0.125rem;
+		padding-inline: 0.5rem;
+
+		&:active {
+			box-shadow: none;
+			transform: translateY(1px);
+		}
+
+		&:hover {
+			color: light-dark(var(--sd-black), var(--sd-white));
+		}
+	}
 }
 
 @layer custom-elements {
@@ -101,7 +123,8 @@
 			'input-tabs' min-content
 			'inputs' 1fr
 			'output-tabs' min-content
-			'outputs' max(10rem, 33vb);
+			'outputs' max(10rem, 33vb)
+			'toolbar' min-content;
 
 		&:not(:has(input[data-radio-name='code']:checked)) sd-code,
 		&:not(:has(input[data-radio-name='config']:checked)) sd-config,
@@ -205,6 +228,7 @@
 
 	sd-outputs {
 		display: block;
+		grid-area: outputs;
 	}
 
 	sd-xterm-wrapper {
@@ -281,5 +305,16 @@
 				row-gap: 0.25rem;
 			}
 		}
+	}
+
+	sd-toolbar {
+		background-color: light-dark(var(--sd-gray-98), var(--sd-gray-25));
+		display: flex;
+		gap: 1rem;
+		grid-area: toolbar;
+		padding-block: 0.5rem;
+		padding-inline: 1rem;
+		place-content: end;
+		place-items: center;
 	}
 }
