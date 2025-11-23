@@ -22,12 +22,12 @@ export function setupReport({ element, getData }: ReportOptions) {
 			const codeLang = data.fileName.split('.').pop() ?? 'css';
 			const configLang = data.configFormat.split('.').pop() ?? 'mjs';
 
-			url.searchParams.set('stylelint-run', `[Demo](${window.location.href})`);
+			url.searchParams.set('reproduce-bug', `\`\`\`${codeLang}\n${data.code}\n\`\`\``);
 			url.searchParams.set(
 				'stylelint-configuration',
 				`\`\`\`${configLang}\n${data.config}\n\`\`\``,
 			);
-			url.searchParams.set('reproduce-bug', `\`\`\`${codeLang}\n${data.code}\n\`\`\``);
+			url.searchParams.set('stylelint-run', `[Demo](${window.location.href})`);
 			url.searchParams.set(
 				'stylelint-version',
 				`\`\`\`json\n${JSON.stringify(
