@@ -4,8 +4,9 @@ export type CopyLinkOptions = {
 
 export function setupCopyLink({ element }: CopyLinkOptions) {
 	const button = document.createElement('button');
+	const buttonText = 'Copy link';
 
-	button.textContent = 'Copy link';
+	button.textContent = buttonText;
 	button.addEventListener('click', copy);
 	element.replaceChildren(button);
 
