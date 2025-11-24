@@ -22,6 +22,8 @@ jobs:
       contents: read
 
   e2e:
+    permissions:
+      contents: read
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
