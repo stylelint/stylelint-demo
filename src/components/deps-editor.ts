@@ -30,9 +30,12 @@ export async function setupDepsEditor({ element, listeners, init }: DepsEditorOp
 		useDiffEditor: false,
 	});
 
+	let installedPackages: PackageJsonData[] = [];
+
 	return {
 		...monacoEditor,
 		setPackages(packages: PackageJsonData[]) {
+			installedPackages = packages;
 			versionsPanel.innerHTML = '';
 
 			for (const pkg of packages) {
@@ -46,6 +49,9 @@ export async function setupDepsEditor({ element, listeners, init }: DepsEditorOp
 				li.appendChild(document.createTextNode(`@${pkg.version}`));
 				versionsPanel.appendChild(li);
 			}
+		},
+		getPackages() {
+			return installedPackages;
 		},
 	};
 }

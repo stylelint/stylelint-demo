@@ -10,8 +10,10 @@ import { loadMonaco } from './monaco-editor';
 import { setupCodeEditor } from './components/code-editor';
 import { setupConfigEditor } from './components/config-editor';
 import { setupConsoleOutput } from './components/console';
+import { setupCopyLink } from './components/copy-link';
 import { setupDepsEditor } from './components/deps-editor';
 import { setupLintServer } from './linter-service';
+import { setupReport } from './components/report';
 import { setupTabs } from './components/output-tabs';
 import { setupWarningsPanel } from './components/warnings';
 import type stylelint from 'stylelint';
@@ -104,7 +106,7 @@ export async function mount({ element, init, listeners }: MountOptions) {
 						config: value,
 					});
 				}),
-				onChangeFormat: debounce((format) => {
+				onChangeFormat: debounce(async (format) => {
 					onChangeValues({
 						configFormat: format,
 					});
@@ -120,11 +122,7 @@ export async function mount({ element, init, listeners }: MountOptions) {
 						return;
 					}
 
-					listeners?.onChange?.({
-						code: codeEditor.getLeftValue(),
-						fileName: codeEditor.getFileName(),
-						config: configEditor.getValue(),
-						configFormat: configEditor.getFormat(),
+					onChangeValues({
 						deps: value,
 					});
 
@@ -145,6 +143,21 @@ export async function mount({ element, init, listeners }: MountOptions) {
 		setupLintServer({ consoleOutput, outputTabs }),
 		loadMonaco(),
 	]);
+
+	setupReport({
+		element: element.querySelector<HTMLElement>('sd-report')!,
+		getData: () => ({
+			config: configEditor.getValue(),
+			configFormat: configEditor.getFormat(),
+			code: codeEditor.getLeftValue(),
+			fileName: codeEditor.getFileName(),
+			packages: depsEditor.getPackages(),
+		}),
+	});
+
+	setupCopyLink({
+		element: element.querySelector<HTMLElement>('sd-copy-link')!,
+	});
 
 	const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 	const updateTheme = () => {
@@ -226,19 +239,22 @@ export async function mount({ element, init, listeners }: MountOptions) {
 		fileName = codeEditor.getFileName(),
 		config = configEditor.getValue(),
 		configFormat = configEditor.getFormat(),
+		deps = depsEditor.getValue(),
 	}: {
 		code?: string;
 		fileName?: string;
 		config?: string;
 		configFormat?: ConfigFormat;
+		deps?: string;
 	}) {
 		listeners?.onChange?.({
 			code,
 			fileName,
 			config,
 			configFormat,
-			deps: depsEditor.getValue(),
+			deps,
 		});
+
 		lint({
 			code,
 			fileName,
