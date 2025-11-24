@@ -13,6 +13,11 @@ export function setupCopyLink({ element }: CopyLinkOptions) {
 		try {
 			// eslint-disable-next-line n/no-unsupported-features/node-builtins
 			await navigator.clipboard.writeText(window.location.href);
+
+			button.textContent = 'Copied!';
+			setTimeout(() => {
+				button.textContent = buttonText;
+			}, 2000);
 		} catch {
 			// ignore
 		}
