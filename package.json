@@ -90,11 +90,11 @@
   },
   "dependencies": {
     "@webcontainer/api": "^1.6.1",
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/xterm": "^5.5.0",
     "ansi-regex": "^6.2.2",
     "lz-string": "^1.5.0",
-    "monaco-editor": "^0.54.0",
-    "xterm": "^5.3.0",
-    "xterm-addon-fit": "^0.8.0"
+    "monaco-editor": "^0.54.0"
   },
   "devDependencies": {
     "@stylelint/prettier-config": "^4.0.0",

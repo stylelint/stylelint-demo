@@ -1,6 +1,6 @@
-import 'xterm/css/xterm.css';
-import { FitAddon } from 'xterm-addon-fit';
-import { Terminal } from 'xterm';
+import '@xterm/xterm/css/xterm.css';
+import { FitAddon } from '@xterm/addon-fit';
+import { Terminal } from '@xterm/xterm';
 export type ConsoleOutput = {
 	appendLine: (string: string) => void;
 	append: (string: string) => void;
