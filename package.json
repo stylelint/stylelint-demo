@@ -11,6 +11,7 @@
     "build:lib": "vite build -c vite.config.lib.ts",
     "clean": "node -e \"fs.rmSync('dist', {force: true, recursive: true})\"",
     "dev": "vite",
+    "e2e": "playwright test",
     "format": "prettier . --write",
     "lint": "npm-run-all --parallel lint:*",
     "lint:css": "stylelint src/**/*.css",
@@ -97,6 +98,7 @@
     "monaco-editor": "^0.54.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.56.1",
     "@stylelint/prettier-config": "^4.0.0",
     "@stylelint/remark-preset": "^5.1.1",
     "eslint": "^9.38.0",
