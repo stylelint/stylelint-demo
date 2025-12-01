@@ -95,7 +95,7 @@
     "@xterm/xterm": "^5.5.0",
     "ansi-regex": "^6.2.2",
     "lz-string": "^1.5.0",
-    "monaco-editor": "^0.54.0"
+    "monaco-editor": "^0.55.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",
