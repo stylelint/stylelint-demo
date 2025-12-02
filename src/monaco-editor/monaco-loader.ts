@@ -10,11 +10,11 @@ export function loadMonaco(): Promise<Monaco> {
 	return (
 		monacoPromise ||
 		(monacoPromise = (async () => {
-			monaco.languages.css.cssDefaults.setOptions({
+			monaco.css.cssDefaults.setOptions({
 				validate: false, //Turn off CSS built-in validation.
 			});
 
-			monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+			monaco.json.jsonDefaults.setDiagnosticsOptions({
 				validate: true,
 				enableSchemaRequest: false, // TODO: When switching a remote schema, enable it.
 				schemas: [
