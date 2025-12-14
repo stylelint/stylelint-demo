@@ -43,6 +43,9 @@ function getShareableUrl(): string {
 			referrerUrl.hash = window.location.hash;
 			referrerUrl.search = window.location.search;
 
+			// NOTE: This relies on the parent website's implementation, so we need to ensure it's consistent.
+			referrerUrl.pathname = '/demo/';
+
 			return referrerUrl.href;
 		}
 
