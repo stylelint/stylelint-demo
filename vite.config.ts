@@ -10,7 +10,7 @@ export default defineConfig(() => ({
 	},
 	plugins: [
 		monacoEditorPlugin({
-			languageWorkers: ['editorWorkerService', 'css', 'html', 'json', 'typescript'],
+			languageWorkers: ['editor', 'css', 'html', 'json', 'typescript'],
 		}),
 	],
 }));

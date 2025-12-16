@@ -1,0 +1,34 @@
+diff --git a/node_modules/vite-plugin-monaco-editor-esm/dist/languageWork.js b/node_modules/vite-plugin-monaco-editor-esm/dist/languageWork.js
+index fa442ee..61e1db4 100644
+--- a/node_modules/vite-plugin-monaco-editor-esm/dist/languageWork.js
++++ b/node_modules/vite-plugin-monaco-editor-esm/dist/languageWork.js
+@@ -1,23 +1,23 @@
+ export const languageWorkAttr = [
+     {
+-        label: 'editorWorkerService',
+-        entry: 'monaco-editor/esm/vs/editor/editor.worker',
++        label: 'editor',
++        entry: 'monaco-editor/esm/vs/editor/editor.worker.js?worker',
+     },
+     {
+         label: 'css',
+-        entry: 'monaco-editor/esm/vs/language/css/css.worker',
++        entry: 'monaco-editor/esm/vs/language/css/css.worker.js?worker',
+     },
+     {
+         label: 'html',
+-        entry: 'monaco-editor/esm/vs/language/html/html.worker',
++        entry: 'monaco-editor/esm/vs/language/html/html.worker.js?worker',
+     },
+     {
+         label: 'json',
+-        entry: 'monaco-editor/esm/vs/language/json/json.worker',
++        entry: 'monaco-editor/esm/vs/language/json/json.worker.js?worker',
+     },
+     {
+         label: 'typescript',
+-        entry: 'monaco-editor/esm/vs/language/typescript/ts.worker',
++        entry: 'monaco-editor/esm/vs/language/typescript/ts.worker.js?worker',
+     },
+ ];
+ const languageWorksByLabel = {};
