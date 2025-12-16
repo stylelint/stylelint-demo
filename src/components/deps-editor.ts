@@ -1,4 +1,4 @@
-import defaultDeps from './defaults/deps';
+import defaultDeps from './defaults/deps.json?raw';
 import { setupMonacoEditor } from '../monaco-editor/monaco-setup.js';
 
 export type DepsEditorOptions = {
@@ -24,7 +24,7 @@ export async function setupDepsEditor({ element, listeners, init }: DepsEditorOp
 		element: element.querySelector('sd-deps-monaco')!,
 		init: {
 			language: 'json',
-			value: init?.value ?? JSON.stringify(defaultDeps, null, 2),
+			value: init?.value ?? defaultDeps,
 		},
 		listeners,
 		useDiffEditor: false,

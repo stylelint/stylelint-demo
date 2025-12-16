@@ -3,7 +3,7 @@ import { compress, decompress } from './utils/compress';
 import type { ConfigFormat } from './components/config-editor';
 import { debounce } from './utils/debounce';
 import defaultConfig from './components/defaults/config.mjs';
-import defaultDeps from './components/defaults/deps';
+import defaultDeps from './components/defaults/deps.json';
 import { mount } from './demo';
 
 const syntaxes = [
@@ -46,7 +46,7 @@ if (queryParam.syntax) {
 			const customSyntax = syntax.customSyntax;
 
 			if (!queryParam.deps) {
-				const deps = { [customSyntax]: 'latest', ...(defaultDeps || {}) };
+				const deps = { [customSyntax]: 'latest', ...defaultDeps };
 
 				queryParam.deps = JSON.stringify(deps, null, 2);
 			}
