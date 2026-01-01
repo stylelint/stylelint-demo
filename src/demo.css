@@ -234,8 +234,17 @@
 	sd-xterm-wrapper {
 		block-size: 100%;
 		display: block;
+		line-height: 1;
 		overflow: hidden;
 		position: relative;
+
+		& * {
+			line-height: normal;
+		}
+
+		& .xterm .xterm-viewport {
+			background-color: light-dark(var(--sd-white), var(--sd-gray-20)) !important;
+		}
 	}
 
 	sd-warnings,
