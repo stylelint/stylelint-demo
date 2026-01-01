@@ -1,11 +1,10 @@
+import { type FileSystemTree, WebContainer } from '@webcontainer/api';
 import type { LintResult, RuleMeta } from 'stylelint';
 import type { ConfigFormat } from '../components/config-editor.js';
 import type { ConsoleOutput } from '../components/console';
-import type { FileSystemTree } from '@webcontainer/api';
 import { Installer } from './installer';
 import { Server } from './server';
 import type { Tabs } from '../components/output-tabs';
-import { WebContainer } from '@webcontainer/api';
 
 export type LinterServiceResult = LinterServiceResultSuccess | LinterServiceResultError;
 export type LinterServiceResultSuccess = {

@@ -1,6 +1,5 @@
-import type { UserConfigFn } from 'vite';
+import { type UserConfigFn, defineConfig } from 'vite';
 import baseConfig from './vite.config';
-import { defineConfig } from 'vite';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import pkg from './package.json';

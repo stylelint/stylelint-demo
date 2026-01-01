@@ -1,18 +1,16 @@
 import './demo.css';
+import { type ConfigFormat, setupConfigEditor } from './components/config-editor';
 import type { IRange, editor, languages } from 'monaco-editor';
-import type { ConfigFormat } from './components/config-editor';
-import type { LinterServiceResultSuccess } from './linter-service';
-import type { PackageJsonData } from './components/deps-editor';
+import { type LinterServiceResultSuccess, setupLintServer } from './linter-service';
+import { type PackageJsonData, setupDepsEditor } from './components/deps-editor';
 import type { Warning } from 'stylelint';
 import { debounce } from './utils/debounce';
 import html from './demo.html?raw';
 import { loadMonaco } from './monaco-editor';
 import { setupCodeEditor } from './components/code-editor';
-import { setupConfigEditor } from './components/config-editor';
+
 import { setupConsoleOutput } from './components/console';
 import { setupCopyLink } from './components/copy-link';
-import { setupDepsEditor } from './components/deps-editor';
-import { setupLintServer } from './linter-service';
 import { setupReport } from './components/report';
 import { setupTabs } from './components/output-tabs';
 import { setupWarningsPanel } from './components/warnings';
