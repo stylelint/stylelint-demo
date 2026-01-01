@@ -42,8 +42,7 @@
       "stylelint-config-standard"
     ],
     "plugins": [
-      "stylelint-order",
-      "stylelint-use-logical-spec"
+      "stylelint-order"
     ],
     "rules": {
       "declaration-property-value-no-unknown": true,
@@ -63,7 +62,6 @@
         ]
       },
       "font-weight-notation": "numeric",
-      "liberty/use-logical-spec": "always",
       "media-feature-name-unit-allowed-list": {
         "/(width|height)$/": [
           "em"
@@ -111,8 +109,7 @@
     "remark-cli": "^12.0.1",
     "stylelint": "github:stylelint/stylelint#v17",
     "stylelint-config-standard": "github:stylelint/stylelint-config-standard#prepare-next",
-    "stylelint-order": "^7.0.0",
-    "stylelint-use-logical-spec": "^5.0.1",
+    "stylelint-order": "^7.0.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.50.1",
     "vite": "^7.3.0",
