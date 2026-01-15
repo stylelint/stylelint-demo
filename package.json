@@ -42,8 +42,7 @@
       "stylelint-config-standard"
     ],
     "plugins": [
-      "stylelint-order",
-      "stylelint-use-logical-spec"
+      "stylelint-order"
     ],
     "rules": {
       "declaration-property-value-no-unknown": true,
@@ -63,7 +62,6 @@
         ]
       },
       "font-weight-notation": "numeric",
-      "liberty/use-logical-spec": "always",
       "media-feature-name-unit-allowed-list": {
         "/(width|height)$/": [
           "em"
@@ -109,10 +107,9 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^3.7.4",
     "remark-cli": "^12.0.1",
-    "stylelint": "^16.26.1",
-    "stylelint-config-standard": "^39.0.1",
-    "stylelint-order": "^7.0.0",
-    "stylelint-use-logical-spec": "^5.0.1",
+    "stylelint": "^17.0.0",
+    "stylelint-config-standard": "^40.0.0",
+    "stylelint-order": "^7.0.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.50.1",
     "vite": "^7.3.0",
