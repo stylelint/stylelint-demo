@@ -67,7 +67,7 @@ export async function setupConfigEditor({ element, listeners, init }: ConfigEdit
 
 	formatSelect.value = initFormat;
 	formatSelect.addEventListener('change', async () => {
-		const fileName = formatSelect.value as ConfigFormat;
+		const format = formatSelect.value as ConfigFormat;
 		const value = monacoEditor.getValue();
 
 		monacoEditor.disposeEditor();
@@ -75,13 +75,14 @@ export async function setupConfigEditor({ element, listeners, init }: ConfigEdit
 		monacoEditor = await setupMonacoEditor({
 			element: element.querySelector<HTMLDivElement>('sd-config-monaco')!,
 			init: {
-				language: getLanguage(fileName),
+				language: getLanguage(format),
 				value,
-				fileName,
+				fileName: format,
 			},
 			listeners,
 			useDiffEditor: false,
 		});
+		listeners.onChangeFormat(format);
 	});
 
 	return {

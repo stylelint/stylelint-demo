@@ -60,6 +60,7 @@ export async function setupCodeEditor({ element, listeners, init }: CodeEditorOp
 			},
 			useDiffEditor: true,
 		});
+		listeners.onChangeFileName(fileName);
 	});
 
 	return {
