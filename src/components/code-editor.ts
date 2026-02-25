@@ -1,5 +1,6 @@
+import type * as monaco from 'modern-monaco/editor-core';
+import { type CodeActionProvider, setupMonacoEditor } from '../monaco-editor/monaco-setup.js';
 import defaultCSS from './defaults/css.css?raw';
-import { setupMonacoEditor } from '../monaco-editor/monaco-setup.js';
 
 export type CodeEditorOptions = {
 	/** Specify a target element to set up the code editor. */
@@ -26,7 +27,7 @@ export type CodeEditorOptions = {
 export async function setupCodeEditor({ element, listeners, init }: CodeEditorOptions) {
 	const fileNameInput = element.querySelector<HTMLInputElement>('#sd-code-file-name')!;
 	const initFileName = adjustFileName(init.fileName);
-	const monacoEditor = await setupMonacoEditor({
+	let monacoEditor = await setupMonacoEditor({
 		element: element.querySelector<HTMLDivElement>('sd-code-monaco')!,
 		init: {
 			language: getLanguage(initFileName),
@@ -39,22 +40,41 @@ export async function setupCodeEditor({ element, listeners, init }: CodeEditorOp
 	});
 
 	fileNameInput.value = initFileName;
-	fileNameInput.addEventListener('input', () => {
+	fileNameInput.addEventListener('input', async () => {
 		const fileName = adjustFileName(fileNameInput.value);
 
 		if (fileNameInput.value && fileNameInput.value !== fileName) {
 			fileNameInput.value = fileName;
 		}
 
-		monacoEditor.setModelLanguage(getLanguage(fileName));
-		listeners.onChangeFileName(fileName);
+		const value = monacoEditor.getLeftValue();
+
+		monacoEditor = await setupMonacoEditor({
+			element: element.querySelector<HTMLDivElement>('sd-code-monaco')!,
+			init: {
+				language: getLanguage(fileName),
+				value,
+			},
+			listeners: {
+				onChangeValue: listeners.onChangeValue,
+			},
+			useDiffEditor: true,
+		});
 	});
 
 	return {
-		...monacoEditor,
+		getLeftValue: () => monacoEditor.getLeftValue(),
+		getLeftEditor: () => monacoEditor.getLeftEditor(),
 		getFileName() {
 			return adjustFileName(fileNameInput.value);
 		},
+		setLeftMarkers: (markers: monaco.editor.IMarkerData[]) => monacoEditor.setLeftMarkers(markers),
+		setRightValue: (value: string) => monacoEditor.setRightValue(value),
+		setRightMarkers: (markers: monaco.editor.IMarkerData[]) =>
+			monacoEditor.setRightMarkers(markers),
+		setCodeActionProvider: (codeActionProvider: CodeActionProvider) =>
+			monacoEditor.setCodeActionProvider(codeActionProvider),
+		disposeEditor: () => monacoEditor.disposeEditor(),
 	};
 
 	function adjustFileName(fileName: string | undefined) {
