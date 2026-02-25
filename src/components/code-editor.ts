@@ -74,16 +74,14 @@ export async function setupCodeEditor({ element, listeners, init }: CodeEditorOp
 			? 'less'
 			: lower.endsWith('.sass')
 			? 'sass'
-			: lower.endsWith('.html') || lower.endsWith('.vue')
+			: lower.endsWith('.html')
 			? 'html'
-			: lower.endsWith('.js') || lower.endsWith('.mjs') || lower.endsWith('.cjs')
+			: lower.endsWith('.vue')
+			? 'vue'
+			: lower.endsWith('.js') || lower.endsWith('.mjs') || lower.endsWith('.cjs') || lower.endsWith('.jsx')
 			? 'javascript'
-			: lower.endsWith('.jsx')
-			? 'javascriptreact'
-			: lower.endsWith('.ts') || lower.endsWith('.mts') || lower.endsWith('.cts')
+			: lower.endsWith('.ts') || lower.endsWith('.mts') || lower.endsWith('.cts') || lower.endsWith('.tsx')
 			? 'typescript'
-			: lower.endsWith('.tsx')
-			? 'typescriptreact'
 			: lower.endsWith('.svelte')
 			? 'svelte'
 			: lower.endsWith('.astro')

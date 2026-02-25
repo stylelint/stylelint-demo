@@ -1,4 +1,11 @@
-import type { CancellationToken, IDisposable, Range, editor, languages } from 'monaco-editor';
+import type {
+	CancellationToken,
+	IDisposable,
+	Range,
+	editor,
+	languages,
+} from 'modern-monaco/editor-core';
+import { DARK_THEME_NAME, LIGHT_THEME_NAME } from './const';
 import { loadMonaco } from './monaco-loader.js';
 
 export type CodeActionProvider = (
@@ -90,7 +97,9 @@ export async function setupMonacoEditor({
 	element.textContent = '';
 	element.style.padding = '';
 	const { value, language, fileName } = init;
-	const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'vs-dark' : 'vs';
+	const theme = window.matchMedia('(prefers-color-scheme: dark)').matches
+		? DARK_THEME_NAME
+		: LIGHT_THEME_NAME;
 
 	const options = {
 		theme,
