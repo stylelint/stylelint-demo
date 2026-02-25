@@ -109,7 +109,12 @@ export async function setupMonacoEditor({
 		minimap: {
 			enabled: false,
 		},
-		quickSuggestions: false,
+		quickSuggestions: {
+			other: true,
+			comments: false,
+			strings: false,
+		},
+		quickSuggestionsDelay: 300,
 		colorDecorators: false,
 		renderControlCharacters: false,
 		renderIndentGuides: false,
