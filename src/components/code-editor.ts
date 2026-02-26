@@ -31,6 +31,7 @@ export async function setupCodeEditor({ element, listeners, init }: CodeEditorOp
 		element: element.querySelector<HTMLDivElement>('sd-code-monaco')!,
 		init: {
 			language: getLanguage(initFileName),
+			fileName: initFileName,
 			value: init.value ?? defaultCSS,
 		},
 		listeners: {
@@ -53,6 +54,7 @@ export async function setupCodeEditor({ element, listeners, init }: CodeEditorOp
 			element: element.querySelector<HTMLDivElement>('sd-code-monaco')!,
 			init: {
 				language: getLanguage(fileName),
+				fileName,
 				value,
 			},
 			listeners: {

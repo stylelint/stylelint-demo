@@ -62,7 +62,7 @@ export type BaseMonacoEditorOptions = {
 		/** Code language. */
 		language: string;
 		/** Code file name. */
-		fileName?: string | undefined;
+		fileName: string;
 	};
 	/** Event listeners. */
 	listeners?: {
@@ -132,8 +132,12 @@ export async function setupMonacoEditor({
 			...options,
 			useInlineViewWhenSpaceIsLimited: false,
 		});
-		const original = monaco.editor.createModel(value, language);
-		const modified = monaco.editor.createModel(value, language);
+		const original = monaco.editor.createModel(value, language, monaco.Uri.file(fileName));
+		const modified = monaco.editor.createModel(
+			value,
+			language,
+			monaco.Uri.file(`${fileName}.diff`),
+		);
 
 		const leftEditor = diffEditor.getOriginalEditor();
 		const rightEditor = diffEditor.getModifiedEditor();
@@ -183,11 +187,7 @@ export async function setupMonacoEditor({
 		return result;
 	}
 
-	const model = monaco.editor.createModel(
-		value,
-		language,
-		fileName ? monaco.Uri.file(fileName) : undefined,
-	);
+	const model = monaco.editor.createModel(value, language, monaco.Uri.file(fileName));
 	const standaloneEditor = monaco.editor.create(element, { ...options, model });
 
 	standaloneEditor.onDidChangeModelContent(() => {
