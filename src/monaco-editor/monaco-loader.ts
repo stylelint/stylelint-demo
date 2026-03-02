@@ -15,9 +15,15 @@ export function loadMonaco(): Promise<Monaco> {
 			const monaco = await init({
 				themes: [DARK_THEME_NAME, LIGHT_THEME_NAME],
 				lsp: {
-					css: {},
+					css: {
+						diagnosticsOptions: {
+							validate: false,
+						},
+					},
 					json: {
-						validate: true,
+						diagnosticsOptions: {
+							validate: true,
+						},
 						schemas: [
 							{
 								// TODO: Note that this schema URL is actually absent. It's the same as `schemaStylelintrc.$id`.

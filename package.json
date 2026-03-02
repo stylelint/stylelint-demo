@@ -93,7 +93,7 @@
     "@xterm/xterm": "^6.0.0",
     "ansi-regex": "^6.2.2",
     "lz-string": "^1.5.0",
-    "modern-monaco": "^0.3.8"
+    "modern-monaco": "^0.4.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.0",

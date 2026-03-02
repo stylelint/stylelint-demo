@@ -1,7 +1,6 @@
 import type * as monacoNS from 'modern-monaco/editor-core';
 import { type CodeActionProvider, setupMonacoEditor } from '../monaco-editor/monaco-setup.js';
 import defaultCSS from './defaults/css.css?raw';
-import { loadMonaco } from '../monaco-editor/monaco-loader.js';
 
 export type CodeEditorOptions = {
 	/** Specify a target element to set up the code editor. */
@@ -64,31 +63,6 @@ export async function setupCodeEditor({ element, listeners, init }: CodeEditorOp
 			useDiffEditor: true,
 		});
 		listeners.onChangeFileName(fileName);
-	});
-
-	const monaco = await loadMonaco();
-
-	monaco.editor.onDidChangeMarkers((uris) => {
-		const original = monacoEditor.getLeftEditor().getModel()!;
-		const modified = monacoEditor.getRightEditor().getModel()!;
-
-		clearCssMarkers(original);
-		clearCssMarkers(modified);
-
-		function clearCssMarkers(model: monacoNS.editor.ITextModel) {
-			if (!uris.some((uri) => uri.toString() === model.uri.toString())) return;
-
-			if (
-				!monaco.editor
-					.getModelMarkers({ resource: model.uri })
-					.some((marker) => marker.owner === 'css')
-			)
-				return;
-
-			// Clear the built-in CSS validator markers to prevent them from displaying.
-			// This is to avoid them overlapping with Stylelint's linting errors.
-			monaco.editor.setModelMarkers(model, 'css', []);
-		}
 	});
 
 	return {
