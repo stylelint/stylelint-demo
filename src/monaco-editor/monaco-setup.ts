@@ -1,4 +1,11 @@
-import type { CancellationToken, IDisposable, Range, editor, languages } from 'monaco-editor';
+import type {
+	CancellationToken,
+	IDisposable,
+	Range,
+	editor,
+	languages,
+} from 'modern-monaco/editor-core';
+import { DARK_THEME_NAME, LIGHT_THEME_NAME } from './const';
 import { loadMonaco } from './monaco-loader.js';
 
 export type CodeActionProvider = (
@@ -55,7 +62,7 @@ export type BaseMonacoEditorOptions = {
 		/** Code language. */
 		language: string;
 		/** Code file name. */
-		fileName?: string | undefined;
+		fileName: string;
 	};
 	/** Event listeners. */
 	listeners?: {
@@ -90,7 +97,9 @@ export async function setupMonacoEditor({
 	element.textContent = '';
 	element.style.padding = '';
 	const { value, language, fileName } = init;
-	const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'vs-dark' : 'vs';
+	const theme = window.matchMedia('(prefers-color-scheme: dark)').matches
+		? DARK_THEME_NAME
+		: LIGHT_THEME_NAME;
 
 	const options = {
 		theme,
@@ -100,7 +109,12 @@ export async function setupMonacoEditor({
 		minimap: {
 			enabled: false,
 		},
-		quickSuggestions: false,
+		quickSuggestions: {
+			other: true,
+			comments: false,
+			strings: false,
+		},
+		quickSuggestionsDelay: 300,
 		colorDecorators: false,
 		renderControlCharacters: false,
 		renderIndentGuides: false,
@@ -118,8 +132,12 @@ export async function setupMonacoEditor({
 			...options,
 			useInlineViewWhenSpaceIsLimited: false,
 		});
-		const original = monaco.editor.createModel(value, language);
-		const modified = monaco.editor.createModel(value, language);
+		const original = monaco.editor.createModel(value, language, monaco.Uri.file(fileName));
+		const modified = monaco.editor.createModel(
+			value,
+			language,
+			monaco.Uri.file(`${fileName}.diff`),
+		);
 
 		const leftEditor = diffEditor.getOriginalEditor();
 		const rightEditor = diffEditor.getModifiedEditor();
@@ -169,11 +187,7 @@ export async function setupMonacoEditor({
 		return result;
 	}
 
-	const model = monaco.editor.createModel(
-		value,
-		language,
-		fileName ? monaco.Uri.file(fileName) : undefined,
-	);
+	const model = monaco.editor.createModel(value, language, monaco.Uri.file(fileName));
 	const standaloneEditor = monaco.editor.create(element, { ...options, model });
 
 	standaloneEditor.onDidChangeModelContent(() => {

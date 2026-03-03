@@ -24,6 +24,7 @@ export async function setupDepsEditor({ element, listeners, init }: DepsEditorOp
 		element: element.querySelector('sd-deps-monaco')!,
 		init: {
 			language: 'json',
+			fileName: 'package-dependencies.json',
 			value: init?.value ?? defaultDeps,
 		},
 		listeners,

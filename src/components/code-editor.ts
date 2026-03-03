@@ -1,5 +1,6 @@
+import type * as monacoNS from 'modern-monaco/editor-core';
+import { type CodeActionProvider, setupMonacoEditor } from '../monaco-editor/monaco-setup.js';
 import defaultCSS from './defaults/css.css?raw';
-import { setupMonacoEditor } from '../monaco-editor/monaco-setup.js';
 
 export type CodeEditorOptions = {
 	/** Specify a target element to set up the code editor. */
@@ -26,10 +27,11 @@ export type CodeEditorOptions = {
 export async function setupCodeEditor({ element, listeners, init }: CodeEditorOptions) {
 	const fileNameInput = element.querySelector<HTMLInputElement>('#sd-code-file-name')!;
 	const initFileName = adjustFileName(init.fileName);
-	const monacoEditor = await setupMonacoEditor({
+	let monacoEditor = await setupMonacoEditor({
 		element: element.querySelector<HTMLDivElement>('sd-code-monaco')!,
 		init: {
 			language: getLanguage(initFileName),
+			fileName: initFileName,
 			value: init.value ?? defaultCSS,
 		},
 		listeners: {
@@ -39,22 +41,44 @@ export async function setupCodeEditor({ element, listeners, init }: CodeEditorOp
 	});
 
 	fileNameInput.value = initFileName;
-	fileNameInput.addEventListener('input', () => {
+	fileNameInput.addEventListener('input', async () => {
 		const fileName = adjustFileName(fileNameInput.value);
 
 		if (fileNameInput.value && fileNameInput.value !== fileName) {
 			fileNameInput.value = fileName;
 		}
 
-		monacoEditor.setModelLanguage(getLanguage(fileName));
+		const value = monacoEditor.getLeftValue();
+
+		monacoEditor = await setupMonacoEditor({
+			element: element.querySelector<HTMLDivElement>('sd-code-monaco')!,
+			init: {
+				language: getLanguage(fileName),
+				fileName,
+				value,
+			},
+			listeners: {
+				onChangeValue: listeners.onChangeValue,
+			},
+			useDiffEditor: true,
+		});
 		listeners.onChangeFileName(fileName);
 	});
 
 	return {
-		...monacoEditor,
+		getLeftValue: () => monacoEditor.getLeftValue(),
+		getLeftEditor: () => monacoEditor.getLeftEditor(),
 		getFileName() {
 			return adjustFileName(fileNameInput.value);
 		},
+		setLeftMarkers: (markers: monacoNS.editor.IMarkerData[]) =>
+			monacoEditor.setLeftMarkers(markers),
+		setRightValue: (value: string) => monacoEditor.setRightValue(value),
+		setRightMarkers: (markers: monacoNS.editor.IMarkerData[]) =>
+			monacoEditor.setRightMarkers(markers),
+		setCodeActionProvider: (codeActionProvider: CodeActionProvider) =>
+			monacoEditor.setCodeActionProvider(codeActionProvider),
+		disposeEditor: () => monacoEditor.disposeEditor(),
 	};
 
 	function adjustFileName(fileName: string | undefined) {
@@ -74,16 +98,14 @@ export async function setupCodeEditor({ element, listeners, init }: CodeEditorOp
 			? 'less'
 			: lower.endsWith('.sass')
 			? 'sass'
-			: lower.endsWith('.html') || lower.endsWith('.vue')
+			: lower.endsWith('.html')
 			? 'html'
-			: lower.endsWith('.js') || lower.endsWith('.mjs') || lower.endsWith('.cjs')
+			: lower.endsWith('.vue')
+			? 'vue'
+			: lower.endsWith('.js') || lower.endsWith('.mjs') || lower.endsWith('.cjs') || lower.endsWith('.jsx')
 			? 'javascript'
-			: lower.endsWith('.jsx')
-			? 'javascriptreact'
-			: lower.endsWith('.ts') || lower.endsWith('.mts') || lower.endsWith('.cts')
+			: lower.endsWith('.ts') || lower.endsWith('.mts') || lower.endsWith('.cts') || lower.endsWith('.tsx')
 			? 'typescript'
-			: lower.endsWith('.tsx')
-			? 'typescriptreact'
 			: lower.endsWith('.svelte')
 			? 'svelte'
 			: lower.endsWith('.astro')

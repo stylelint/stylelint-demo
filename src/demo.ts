@@ -1,6 +1,7 @@
 import './demo.css';
 import { type ConfigFormat, setupConfigEditor } from './components/config-editor';
-import type { IRange, editor, languages } from 'monaco-editor';
+import { DARK_THEME_NAME, LIGHT_THEME_NAME } from './monaco-editor/const';
+import type { IRange, editor, languages } from 'modern-monaco/editor-core';
 import { type LinterServiceResultSuccess, setupLintServer } from './linter-service';
 import { type PackageJsonData, setupDepsEditor } from './components/deps-editor';
 import type { Warning } from 'stylelint';
@@ -159,7 +160,7 @@ export async function mount({ element, init, listeners }: MountOptions) {
 
 	const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 	const updateTheme = () => {
-		monaco.editor.setTheme(mediaQuery.matches ? 'vs-dark' : 'vs');
+		monaco.editor.setTheme(mediaQuery.matches ? DARK_THEME_NAME : LIGHT_THEME_NAME);
 	};
 
 	updateTheme();

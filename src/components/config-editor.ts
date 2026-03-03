@@ -54,7 +54,7 @@ export async function setupConfigEditor({ element, listeners, init }: ConfigEdit
 		FORMATS.includes(init?.format as ConfigFormat) ? init?.format : 'stylelint.config.mjs'
 	) as ConfigFormat;
 
-	const monacoEditor = await setupMonacoEditor({
+	let monacoEditor = await setupMonacoEditor({
 		element: element.querySelector<HTMLDivElement>('sd-config-monaco')!,
 		init: {
 			language: getLanguage(initFormat),
@@ -66,18 +66,31 @@ export async function setupConfigEditor({ element, listeners, init }: ConfigEdit
 	});
 
 	formatSelect.value = initFormat;
-	formatSelect.addEventListener('change', () => {
+	formatSelect.addEventListener('change', async () => {
 		const format = formatSelect.value as ConfigFormat;
+		const value = monacoEditor.getValue();
 
-		monacoEditor.setModelLanguage(getLanguage(format));
+		monacoEditor.disposeEditor();
+
+		monacoEditor = await setupMonacoEditor({
+			element: element.querySelector<HTMLDivElement>('sd-config-monaco')!,
+			init: {
+				language: getLanguage(format),
+				value,
+				fileName: format,
+			},
+			listeners,
+			useDiffEditor: false,
+		});
 		listeners.onChangeFormat(format);
 	});
 
 	return {
-		...monacoEditor,
+		getValue: () => monacoEditor.getValue(),
 		getFormat() {
 			return formatSelect.value as ConfigFormat;
 		},
+		disposeEditor: () => monacoEditor.disposeEditor(),
 	};
 
 	function getLanguage(format: ConfigFormat) {
