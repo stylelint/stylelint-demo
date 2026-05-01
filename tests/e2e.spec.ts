@@ -61,7 +61,7 @@ test.describe.serial('Stylelint demo', () => {
 		await configMonaco.click();
 		await pressBackspace(100);
 		await page.keyboard.type('{ "rules": { "color-no-hex": true }}');
-		await expect(warnings).toContainText('Unexpected hex color');
+		await expect(warnings).toContainText('Disallowed hex color');
 	});
 
 	test('changing dependencies', async () => {
