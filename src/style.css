@@ -1,4 +1,4 @@
 #app {
 	block-size: 100dvb;
-	display: grid;
+	display: block grid;
 }
