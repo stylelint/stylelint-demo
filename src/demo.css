@@ -45,7 +45,7 @@
 		font-family: system-ui;
 		font-size: 0.875rem;
 		margin: 0;
-		overscroll-behavior-y: none;
+		overscroll-behavior-block: none;
 	}
 
 	/* Inline text semantics */
@@ -77,7 +77,7 @@
 	/* Forms */
 	label {
 		color: light-dark(var(--sd-gray-60), var(--sd-gray-90));
-		display: flex;
+		display: block flex;
 		gap: 0.25rem;
 		min-block-size: 2rem;
 		padding-inline: 0.25rem;
@@ -118,7 +118,7 @@
 	stylelint-demo {
 		background-color: light-dark(var(--sd-white), var(--sd-gray-20));
 		block-size: 100dvb;
-		display: grid;
+		display: block grid;
 		grid:
 			'input-tabs' min-content
 			'inputs' 1fr
@@ -140,17 +140,17 @@
 
 	sd-input-tabs,
 	sd-output-tabs {
-		display: flex;
+		display: block flex;
 		gap: 1px;
 		inline-size: 100%;
 
-		& input[type='radio'] {
+		input[type='radio'] {
 			inline-size: 0;
 			margin: 0;
 			opacity: 0;
 		}
 
-		& label {
+		label {
 			color: light-dark(var(--sd-gray-60), var(--sd-gray-90));
 			cursor: pointer;
 			font-size: 0.75rem;
@@ -172,7 +172,7 @@
 	sd-input-tabs {
 		background-color: light-dark(var(--sd-gray-98), var(--sd-gray-20));
 
-		& label {
+		label {
 			&:has(input[type='radio']:checked) {
 				background-color: light-dark(var(--sd-white), var(--sd-gray-25));
 			}
@@ -184,7 +184,7 @@
 		border-block-start: 1px solid light-dark(var(--sd-gray-90), var(--sd-gray-25));
 		box-shadow: 0 2px 4px 0 light-dark(var(--sd-black-a-8), var(--sd-white-a-8));
 
-		& label {
+		label {
 			&:has(input[type='radio']:checked) {
 				text-decoration: underline;
 				text-underline-offset: 0.45em;
@@ -195,31 +195,31 @@
 	sd-code,
 	sd-config,
 	sd-deps {
-		display: grid;
+		display: block grid;
 		grid-template-rows: min-content 1fr;
 	}
 
 	sd-deps {
-		display: grid;
+		display: block grid;
 		grid:
 			'deps-label deps-label' min-content
 			'deps-monaco deps-installed' 1fr
 			/ 1fr 1fr;
 
-		& label {
+		label {
 			grid-area: deps-label;
 		}
 
-		& sd-deps-monaco {
+		sd-deps-monaco {
 			grid-area: deps-monaco;
 		}
 
-		& sd-deps-installed {
+		sd-deps-installed {
 			grid-area: deps-installed;
 			padding-inline: 0.5rem;
 		}
 
-		& ul {
+		ul {
 			list-style: none;
 			margin-block: unset;
 			padding-inline-start: unset;
@@ -227,22 +227,22 @@
 	}
 
 	sd-outputs {
-		display: block;
+		display: block flow;
 		grid-area: outputs;
 	}
 
 	sd-xterm-wrapper {
 		block-size: 100%;
-		display: block;
+		display: block flow;
 		line-height: 1;
 		overflow: hidden;
 		position: relative;
 
-		& * {
+		* {
 			line-height: normal;
 		}
 
-		& .xterm .xterm-viewport {
+		.xterm .xterm-viewport {
 			background-color: light-dark(var(--sd-white), var(--sd-gray-20)) !important;
 		}
 	}
@@ -250,7 +250,7 @@
 	sd-warnings,
 	sd-console {
 		block-size: 100%;
-		display: block;
+		display: block flow;
 		font-family: monospace;
 		font-size: 0.75rem;
 		inline-size: 100%;
@@ -263,7 +263,7 @@
 		container: warnings / inline-size;
 
 		ul {
-			display: grid;
+			display: block grid;
 			gap: 0.5rem 1rem;
 			list-style: none;
 			margin-block: unset;
@@ -277,18 +277,18 @@
 				}
 			}
 
-			& li {
-				display: grid;
+			li {
+				display: block grid;
 				grid-column: 1 / -1;
 				grid-template-columns: subgrid;
 				place-items: start;
 
-				& span:first-child {
-					color: gray;
+				span:first-child {
+					color: var(--sd-gray-60);
 					cursor: pointer;
 				}
 
-				& span[data-sd-severity] {
+				span[data-sd-severity] {
 					color: var(--sd-white);
 					flex-basis: 8ch;
 					font-size: 0.6875rem;
@@ -296,15 +296,15 @@
 					text-transform: uppercase;
 				}
 
-				& span[data-sd-severity='error'] {
+				span[data-sd-severity='error'] {
 					background-color: var(--sd-red);
 				}
 
-				& span[data-sd-severity='warning'] {
+				span[data-sd-severity='warning'] {
 					background-color: var(--sd-yellow);
 				}
 
-				& span:nth-child(2) {
+				span:nth-child(2) {
 					padding-inline: 0.25rem;
 				}
 			}
@@ -318,7 +318,7 @@
 
 	sd-toolbar {
 		background-color: light-dark(var(--sd-gray-98), var(--sd-gray-25));
-		display: flex;
+		display: block flex;
 		gap: 1rem;
 		grid-area: toolbar;
 		padding-block: 0.5rem;
