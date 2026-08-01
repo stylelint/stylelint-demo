@@ -9,10 +9,7 @@ const FORMATS: ConfigFormat[] = [
 ];
 
 export type ConfigFormat =
-	| 'stylelint.config.mjs'
-	| 'stylelint.config.cjs'
-	| '.stylelintrc.json'
-	| '.stylelintrc.yaml';
+	'stylelint.config.mjs' | 'stylelint.config.cjs' | '.stylelintrc.json' | '.stylelintrc.yaml';
 
 export type ConfigEditorOptions = {
 	/** Specify a target element to set up the config editor. */
