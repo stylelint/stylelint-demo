@@ -80,13 +80,13 @@
     "modern-monaco": "^0.4.2"
   },
   "devDependencies": {
-    "@playwright/test": "^1.62.0",
+    "@playwright/test": "^1.62.1",
     "@stylelint/prettier-config": "^4.0.0",
     "@stylelint/remark-preset": "^5.1.1",
-    "eslint": "^10.8.0",
+    "eslint": "^10.8.1",
     "eslint-config-stylelint": "^27.0.0",
-    "globals": "^17.7.0",
-    "lint-staged": "^17.2.0",
+    "globals": "^17.10.0",
+    "lint-staged": "^17.3.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.9.6",
     "remark-cli": "^12.0.1",
@@ -94,9 +94,9 @@
     "stylelint-config-alphabetical-order": "^2.0.0",
     "stylelint-config-modern": "^1.0.0",
     "stylelint-config-standard": "^40.0.0",
-    "typescript": "^6.0.3",
-    "typescript-eslint": "^8.65.0",
-    "vite": "^8.1.5"
+    "typescript": "^7.0.2",
+    "typescript-eslint": "^8.67.0",
+    "vite": "^8.2.1"
   },
   "engines": {
     "node": "24"
