@@ -11,6 +11,7 @@ updates:
     groups:
       dev-deps:
         dependency-type: development
+        exclude-patterns: ['typescript'] # TODO: typescript-eslint hasn't supported typescript@7 yet.
 
   - package-ecosystem: github-actions
     directory: '/'
