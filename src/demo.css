@@ -89,7 +89,6 @@
 		background-color: light-dark(transparent, var(--sd-gray-20));
 		border: 1px solid light-dark(var(--sd-gray-90), var(--sd-gray-25));
 		border-radius: 2px;
-		color: light-dark(initial, var(--sd-white));
 	}
 
 	button {
