@@ -1,7 +1,7 @@
 import type { WebContainer, WebContainerProcess } from '@webcontainer/api';
 import { createJsonPayload, extractJson } from './server/extract-json.mjs';
 import type { ConsoleOutput } from '../components/console';
-import type { Tabs } from '../components/output-tabs';
+import type { Tabs } from '../components/tabs';
 
 export class Server {
 	private readonly webContainer: WebContainer;
@@ -35,7 +35,7 @@ export class Server {
 			let server = this.server;
 
 			if (!server) {
-				this.outputTabs.setChecked('console');
+				this.outputTabs.setSelected('console');
 				this.consoleOutput.appendLine('Starting server...');
 				server = await this._serverStart();
 			}
@@ -65,10 +65,10 @@ export class Server {
 			if (this.server) {
 				this.server.process.kill();
 				await this.server.process.exit;
-				this.outputTabs.setChecked('console');
+				this.outputTabs.setSelected('console');
 				this.consoleOutput.appendLine('Restarting server...');
 			} else {
-				this.outputTabs.setChecked('console');
+				this.outputTabs.setSelected('console');
 				this.consoleOutput.appendLine('Starting server...');
 			}
 

@@ -8,7 +8,6 @@ test.describe.serial('Stylelint demo', () => {
 	let config: ReturnType<Page['locator']>;
 	let configMonaco: ReturnType<Page['locator']>;
 	let depsMonaco: ReturnType<Page['locator']>;
-	let depsInstalled: ReturnType<Page['locator']>;
 	let warnings: ReturnType<Page['locator']>;
 	let console: ReturnType<Page['locator']>;
 
@@ -21,7 +20,6 @@ test.describe.serial('Stylelint demo', () => {
 		config = page.locator('sd-config');
 		configMonaco = page.locator('sd-config-monaco').getByRole('code').first();
 		depsMonaco = page.locator('sd-deps-monaco').getByRole('code').first();
-		depsInstalled = page.locator('sd-deps-installed');
 		warnings = page.locator('sd-warnings');
 		console = page.locator('sd-console');
 	});
@@ -43,15 +41,7 @@ test.describe.serial('Stylelint demo', () => {
 		await codeMonaco.click();
 		await pressBackspace();
 		await page.keyboard.type('a { color: #fff; }');
-		await expect
-			.poll(async () => {
-				const ul = warnings.locator('ul');
-
-				return await ul.evaluate((el: Element) => {
-					return window.getComputedStyle(el, '::before').content;
-				});
-			})
-			.toContain('No problems');
+		await expect(warnings).toContainText('No problems have been detected');
 	});
 
 	test('changing config and format', async () => {
@@ -70,13 +60,12 @@ test.describe.serial('Stylelint demo', () => {
 		await depsMonaco.click();
 		await pressBackspace();
 		await page.keyboard.type('{"stylelint": "16.0.0"}');
-		await expect(depsInstalled).toContainText('stylelint');
-		await expect(depsInstalled).toContainText('16.0.0', { timeout: 60_000 });
+		await expect(depsMonaco).toContainText('16.0.0 installed', { timeout: 60_000 });
 	});
 
 	test('copying the link', async () => {
 		await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
-		await page.getByRole('button', { name: 'Copy link' }).click();
+		await page.getByRole('button', { name: 'Copy demo link' }).click();
 
 		/* eslint-disable-next-line n/no-unsupported-features/node-builtins */
 		const clipboardText = await page.evaluate(() => navigator.clipboard.readText());
@@ -87,7 +76,7 @@ test.describe.serial('Stylelint demo', () => {
 	test('reporting a bug', async () => {
 		const [bugPage] = await Promise.all([
 			page.context().waitForEvent('page'),
-			page.getByRole('link', { name: 'Report a bug' }).click(),
+			page.getByRole('link', { name: 'Report a Stylelint bug' }).click(),
 		]);
 		const bugUrl = bugPage.url();
 

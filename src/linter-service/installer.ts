@@ -1,6 +1,6 @@
 import type { WebContainer, WebContainerProcess } from '@webcontainer/api';
 import type { ConsoleOutput } from '../components/console';
-import type { Tabs } from '../components/output-tabs';
+import type { Tabs } from '../components/tabs';
 
 export class Installer {
 	private readonly webContainer: WebContainer;
@@ -24,7 +24,7 @@ export class Installer {
 
 	/** Run `npm install` to install dependencies. */
 	public async install() {
-		this.outputTabs.setChecked('console');
+		this.outputTabs.setSelected('console');
 		this.consoleOutput.appendLine('Installing dependencies...');
 
 		if (this.installProcess != null) {

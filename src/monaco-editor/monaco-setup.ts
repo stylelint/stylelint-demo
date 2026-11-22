@@ -5,7 +5,7 @@ import type {
 	editor,
 	languages,
 } from 'modern-monaco/editor-core';
-import { DARK_THEME_NAME, LIGHT_THEME_NAME } from './const';
+import { getPreferredThemeName } from './const';
 import { loadMonaco } from './monaco-loader.js';
 
 export type CodeActionProvider = (
@@ -97,9 +97,7 @@ export async function setupMonacoEditor({
 	element.textContent = '';
 	element.style.padding = '';
 	const { value, language, fileName } = init;
-	const theme = window.matchMedia('(prefers-color-scheme: dark)').matches
-		? DARK_THEME_NAME
-		: LIGHT_THEME_NAME;
+	const theme = getPreferredThemeName();
 
 	const options = {
 		theme,
