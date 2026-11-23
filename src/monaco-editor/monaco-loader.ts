@@ -1,7 +1,7 @@
 import type * as monacoNS from 'modern-monaco/editor-core';
-import { DARK_THEME_NAME, LIGHT_THEME_NAME } from './const';
 import { init } from 'modern-monaco';
 import schemaStylelintrc from '../schema/stylelintrc.json';
+import { themes } from './themes';
 
 type Monaco = typeof monacoNS;
 
@@ -13,7 +13,7 @@ export function loadMonaco(): Promise<Monaco> {
 		monacoPromise ||
 		(monacoPromise = (async () => {
 			const monaco = await init({
-				themes: [DARK_THEME_NAME, LIGHT_THEME_NAME],
+				themes: Object.values(themes),
 				lsp: {
 					css: {
 						diagnosticsOptions: {

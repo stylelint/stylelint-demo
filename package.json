@@ -52,10 +52,15 @@
           "%",
           "ch",
           "dvb",
+          "px",
           "rem",
           "vb"
         ],
-        "/^font|^gap/|^inset|^margin|^padding/": [
+        "/^font|^gap/|^inset|^margin/": [
+          "rem"
+        ],
+        "/^padding/": [
+          "px",
           "rem"
         ]
       },

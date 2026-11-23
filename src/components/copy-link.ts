@@ -1,27 +1,42 @@
+import copyIcon from './icons/copy.svg?raw';
+import { createIcon } from './icon';
+import { createTooltip } from './tooltip';
+import { debounce } from '../utils/debounce';
+
 export type CopyLinkOptions = {
 	element: HTMLElement;
 };
 
 export function setupCopyLink({ element }: CopyLinkOptions) {
 	const button = document.createElement('button');
-	const buttonText = 'Copy link';
+	const text = 'Copy a link to this code, config and dependencies';
+	const tooltip = createTooltip(button, 'sd-copy-link-tooltip', text);
+	const restoreTooltip = debounce(() => {
+		tooltip.hidePopover();
+		tooltip.textContent = text;
+	}, 2000);
 
-	button.textContent = buttonText;
+	button.type = 'button';
+	button.append(createIcon(copyIcon), 'Copy demo link');
 	button.addEventListener('click', copy);
-	element.replaceChildren(button);
+	element.replaceChildren(button, tooltip);
 
 	async function copy() {
 		try {
 			// eslint-disable-next-line n/no-unsupported-features/node-builtins
 			await navigator.clipboard.writeText(getShareableUrl());
-
-			button.textContent = 'Copied!';
-			setTimeout(() => {
-				button.textContent = buttonText;
-			}, 2000);
+			report('Copied');
 		} catch {
-			// ignore
+			report('Copy failed');
 		}
+	}
+
+	function report(message: string) {
+		tooltip.textContent = message;
+
+		if (CSS.supports('position-area: block-start')) tooltip.showPopover();
+
+		restoreTooltip();
 	}
 }
 

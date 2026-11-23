@@ -1,11 +1,11 @@
 import './demo.css';
 import { type ConfigFormat, setupConfigEditor } from './components/config-editor';
-import { DARK_THEME_NAME, LIGHT_THEME_NAME } from './monaco-editor/const';
 import type { IRange, editor, languages } from 'modern-monaco/editor-core';
 import { type LinterServiceResultSuccess, setupLintServer } from './linter-service';
 import { type PackageJsonData, setupDepsEditor } from './components/deps-editor';
 import type { Warning } from 'stylelint';
 import { debounce } from './utils/debounce';
+import { getPreferredThemeName } from './monaco-editor/const';
 import html from './demo.html?raw';
 import { loadMonaco } from './monaco-editor';
 import { setupCodeEditor } from './components/code-editor';
@@ -13,7 +13,8 @@ import { setupCodeEditor } from './components/code-editor';
 import { setupConsoleOutput } from './components/console';
 import { setupCopyLink } from './components/copy-link';
 import { setupReport } from './components/report';
-import { setupTabs } from './components/output-tabs';
+import { setupSeverityCounts } from './components/severity-counts';
+import { setupTabs } from './components/tabs';
 import { setupWarningsPanel } from './components/warnings';
 import type stylelint from 'stylelint';
 
@@ -49,20 +50,44 @@ export async function mount({ element, init, listeners }: MountOptions) {
 	element.innerHTML = html;
 
 	const inputTabs = setupTabs({
-		element: element.querySelector<HTMLDivElement>('sd-input-tabs')!,
+		element: element.querySelector<HTMLElement>('sd-input-tabs')!,
 	});
 	const outputTabs = setupTabs({
-		element: element.querySelector<HTMLDivElement>('sd-output-tabs')!,
+		element: element.querySelector<HTMLElement>('sd-output-tabs')!,
 	});
 	const consoleOutput = setupConsoleOutput({
-		element: element.querySelector<HTMLDivElement>('sd-xterm-wrapper')!,
+		element: element.querySelector<HTMLElement>('sd-xterm-wrapper')!,
+	});
+
+	const severityCounts = setupSeverityCounts({
+		element: element.querySelector<HTMLElement>('sd-severity-counts')!,
+		listeners: {
+			onClick() {
+				outputTabs.setSelected('warnings');
+			},
+		},
+	});
+
+	setupReport({
+		element: element.querySelector<HTMLElement>('sd-report')!,
+		getData: () => ({
+			config: configEditor.getValue(),
+			configFormat: configEditor.getFormat(),
+			code: codeEditor.getLeftValue(),
+			fileName: codeEditor.getFileName(),
+			packages: depsEditor.getPackages(),
+		}),
+	});
+	setupCopyLink({
+		element: element.querySelector<HTMLElement>('sd-copy-link')!,
 	});
 
 	consoleOutput.clear();
 	consoleOutput.appendLine('Setup...');
 
 	const warningsPanel = setupWarningsPanel({
-		element: element.querySelector<HTMLDivElement>('sd-warnings')!,
+		element: element.querySelector<HTMLElement>('sd-warnings')!,
+		badge: element.querySelector<HTMLElement>('sd-badge')!,
 		listeners: {
 			onClickWaning(warning) {
 				const editor = codeEditor.getLeftEditor();
@@ -76,13 +101,13 @@ export async function mount({ element, init, listeners }: MountOptions) {
 				});
 				editor.revealLineInCenter(warning.line);
 
-				inputTabs.setChecked('code');
+				inputTabs.setSelected('code');
 			},
 		},
 	});
 	const [codeEditor, configEditor, depsEditor, lintServer, monaco] = await Promise.all([
 		setupCodeEditor({
-			element: element.querySelector<HTMLDivElement>('sd-code')!,
+			element: element.querySelector<HTMLElement>('sd-code')!,
 			listeners: {
 				onChangeValue: debounce(async (value) => {
 					onChangeValues({
@@ -98,7 +123,7 @@ export async function mount({ element, init, listeners }: MountOptions) {
 			init: { value: init?.code, fileName: init?.fileName },
 		}),
 		setupConfigEditor({
-			element: element.querySelector<HTMLDivElement>('sd-config')!,
+			element: element.querySelector<HTMLElement>('sd-config')!,
 			listeners: {
 				onChangeValue: debounce(async (value) => {
 					onChangeValues({
@@ -114,7 +139,7 @@ export async function mount({ element, init, listeners }: MountOptions) {
 			init: { value: init?.config, format: init?.configFormat },
 		}),
 		setupDepsEditor({
-			element: element.querySelector<HTMLDivElement>('sd-deps')!,
+			element: element.querySelector<HTMLElement>('sd-deps')!,
 			listeners: {
 				onChangeValue: debounce(async (value) => {
 					if (!(await updateDependencies(value))) {
@@ -143,27 +168,16 @@ export async function mount({ element, init, listeners }: MountOptions) {
 		loadMonaco(),
 	]);
 
-	setupReport({
-		element: element.querySelector<HTMLElement>('sd-report')!,
-		getData: () => ({
-			config: configEditor.getValue(),
-			configFormat: configEditor.getFormat(),
-			code: codeEditor.getLeftValue(),
-			fileName: codeEditor.getFileName(),
-			packages: depsEditor.getPackages(),
-		}),
-	});
-
-	setupCopyLink({
-		element: element.querySelector<HTMLElement>('sd-copy-link')!,
-	});
-
 	const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 	const updateTheme = () => {
-		monaco.editor.setTheme(mediaQuery.matches ? DARK_THEME_NAME : LIGHT_THEME_NAME);
+		const themeName = getPreferredThemeName();
+
+		monaco.editor.setTheme(themeName);
+		consoleOutput.setTheme(themeName);
 	};
 
 	updateTheme();
+	consoleOutput.setFontFamily(monaco.editor.EditorOptions.fontFamily.defaultValue);
 	mediaQuery.addEventListener('change', updateTheme);
 
 	let seq = 0;
@@ -196,7 +210,7 @@ export async function mount({ element, init, listeners }: MountOptions) {
 
 			return true;
 		} catch (e) {
-			outputTabs.setChecked('console');
+			outputTabs.setSelected('console');
 			consoleOutput.clear();
 			consoleOutput.appendLine((e as Error).message);
 
@@ -287,7 +301,8 @@ export async function mount({ element, init, listeners }: MountOptions) {
 		}
 
 		warningsPanel.setResult(result);
-		outputTabs.setChecked('warnings');
+		severityCounts.setResult(result);
+		outputTabs.setSelected('warnings');
 
 		if (result.returnCode !== 0) {
 			return;

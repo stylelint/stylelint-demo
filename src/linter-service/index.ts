@@ -4,7 +4,7 @@ import type { ConfigFormat } from '../components/config-editor.js';
 import type { ConsoleOutput } from '../components/console';
 import { Installer } from './installer';
 import { Server } from './server';
-import type { Tabs } from '../components/output-tabs';
+import type { Tabs } from '../components/tabs';
 
 export type LinterServiceResult = LinterServiceResultSuccess | LinterServiceResultError;
 export type LinterServiceResultSuccess = {
@@ -56,7 +56,7 @@ export async function setupLintServer({
 	consoleOutput: ConsoleOutput;
 	outputTabs: Tabs;
 }): Promise<LinterService> {
-	outputTabs.setChecked('console');
+	outputTabs.setSelected('console');
 	consoleOutput.appendLine('Starting WebContainer...');
 
 	const webContainer = await WebContainer.boot();

@@ -1,3 +1,7 @@
+import bugIcon from './icons/bug.svg?raw';
+import { createIcon } from './icon';
+import { createTooltip } from './tooltip';
+
 export type ReportOptions = {
 	element: HTMLElement;
 	getData: () => ReportData;
@@ -15,6 +19,8 @@ export function setupReport({ element, getData }: ReportOptions) {
 	const link = element.querySelector('a');
 
 	if (link) {
+		link.prepend(createIcon(bugIcon));
+		link.after(createTooltip(link, 'sd-report-tooltip', 'Opens a prefilled bug report on GitHub'));
 		link.addEventListener('click', () => {
 			const data = getData();
 			const url = new URL(link.href);

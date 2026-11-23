@@ -1,52 +1,44 @@
 <stylelint-demo>
-	<sd-input-tabs>
-		<label>
-			<input type="radio" name="stylelint_input_tabs" data-radio-name="code" checked />Code
-		</label>
-		<label>
-			<input type="radio" name="stylelint_input_tabs" data-radio-name="config" />Config
-		</label>
-		<label>
-			<input type="radio" name="stylelint_input_tabs" data-radio-name="deps" />Dependencies
-		</label>
-	</sd-input-tabs>
-	<sd-code>
-		<label>› <input type="text" id="sd-code-file-name" /></label>
-		<sd-code-monaco></sd-code-monaco>
-	</sd-code>
-	<sd-config>
-		<label
-			>›
-			<select type="text" id="sd-config-format"></select>
-		</label>
-		<sd-config-monaco></sd-config-monaco>
-	</sd-config>
-	<sd-deps>
-		<label>› package.json</label>
-		<sd-deps-monaco></sd-deps-monaco>
-		<sd-deps-installed>
-			<label>Installed:</label>
-			<ul></ul>
-		</sd-deps-installed>
-	</sd-deps>
-	<sd-output-tabs>
-		<label>
-			<input type="radio" name="stylelint_output_tabs" data-radio-name="warnings" checked />Problems
-		</label>
-		<label>
-			<input type="radio" name="stylelint_output_tabs" data-radio-name="console" />Console
-		</label>
-	</sd-output-tabs>
+	<sd-inputs>
+		<sd-input-tabs role="tablist" focusgroup="tablist nomemory" aria-label="Inputs">
+			<button type="button" role="tab" id="sd-code-tab" aria-selected="true" focusgroupstart>
+				Code
+			</button>
+			<button type="button" role="tab" id="sd-config-tab" aria-selected="false">Config</button>
+			<button type="button" role="tab" id="sd-deps-tab" aria-selected="false">Dependencies</button>
+		</sd-input-tabs>
+		<sd-code role="tabpanel" aria-labelledby="sd-code-tab">
+			<label><input type="text" id="sd-code-file-name" aria-label="File name" /></label>
+			<sd-code-monaco></sd-code-monaco>
+		</sd-code>
+		<sd-config role="tabpanel" aria-labelledby="sd-config-tab" hidden>
+			<label><select id="sd-config-format" aria-label="Config format"></select></label>
+			<sd-config-monaco></sd-config-monaco>
+		</sd-config>
+		<sd-deps role="tabpanel" aria-labelledby="sd-deps-tab" hidden>
+			<label>package.json</label>
+			<sd-deps-monaco></sd-deps-monaco>
+		</sd-deps>
+	</sd-inputs>
 	<sd-outputs>
-		<sd-warnings></sd-warnings>
-		<sd-console><sd-xterm-wrapper></sd-xterm-wrapper></sd-console>
+		<sd-output-tabs role="tablist" focusgroup="tablist nomemory" aria-label="Outputs">
+			<button type="button" role="tab" id="sd-warnings-tab" aria-selected="true" focusgroupstart>
+				Problems<sd-badge></sd-badge>
+			</button>
+			<button type="button" role="tab" id="sd-console-tab" aria-selected="false">Console</button>
+		</sd-output-tabs>
+		<sd-warnings role="tabpanel" aria-labelledby="sd-warnings-tab" tabindex="0"></sd-warnings>
+		<sd-console role="tabpanel" aria-labelledby="sd-console-tab" hidden
+			><sd-xterm-wrapper></sd-xterm-wrapper
+		></sd-console>
 	</sd-outputs>
 	<sd-toolbar>
+		<sd-severity-counts></sd-severity-counts>
 		<sd-report>
 			<a
 				href="https://github.com/stylelint/stylelint/issues/new?template=REPORT_A_BUG.yml"
 				target="_blank"
-				>Report a bug</a
+				>Report a Stylelint bug</a
 			>
 		</sd-report>
 		<sd-copy-link></sd-copy-link>
