@@ -16,6 +16,7 @@
 	--sd-spacing-size100: 0.625rem;
 	--sd-spacing-size120: 0.75rem;
 	--sd-spacing-size160: 1rem;
+	--sd-spacing-size240: 1.5rem;
 	--sd-spacing-size280: 1.75rem;
 	--sd-spacing-size320: 2rem;
 	--sd-stroke-thickness: 1px;
@@ -58,6 +59,7 @@
 	--sd-input-background: light-dark(oklch(100% 0 0deg), oklch(21.7% 0.002 248deg));
 	--sd-input-border: light-dark(oklch(88.2% 0 0deg / 40%), oklch(32.7% 0.003 229deg));
 	--sd-input-foreground: light-dark(oklch(24.4% 0 0deg), oklch(80.5% 0 0deg));
+	--sd-modern-tab-hover-background: light-dark(oklch(0% 0 0deg / 7.8%), oklch(100% 0 0deg / 7.8%));
 	--sd-modern-ui-shell-background: light-dark(oklch(98.6% 0.004 286deg), oklch(21.7% 0.002 248deg));
 	--sd-panel-background: light-dark(oklch(98.6% 0.004 286deg), oklch(21.7% 0.002 248deg));
 	--sd-panel-title-badge-background: light-dark(
@@ -227,6 +229,7 @@
 		margin-block-start: var(--sd-spacing-size40);
 		margin-inline: var(--sd-spacing-size40);
 		overflow: clip;
+		padding: var(--sd-stroke-thickness);
 		position: relative;
 
 		&::after {
@@ -242,6 +245,13 @@
 
 	sd-inputs {
 		--sd-connected-tab-border: var(--sd-editor-group-header-tabs-border);
+		--sd-connected-tab-fill-block-inset: calc(-1 * var(--sd-stroke-thickness));
+		--sd-connected-tab-fill-block-size: auto;
+		--sd-connected-tab-hover-background: color-mix(
+			in srgb,
+			var(--sd-foreground) 6%,
+			var(--sd-editor-group-header-connected-tabs-background)
+		);
 		--sd-connected-tab-surface: var(--sd-editor-background);
 
 		grid-area: inputs;
@@ -251,6 +261,9 @@
 
 	sd-outputs {
 		--sd-connected-tab-border: var(--sd-surface-border);
+		--sd-connected-tab-fill-block-inset: 0;
+		--sd-connected-tab-fill-block-size: var(--sd-spacing-size240);
+		--sd-connected-tab-hover-background: var(--sd-modern-tab-hover-background);
 		--sd-connected-tab-surface: var(--sd-panel-background);
 
 		grid-area: outputs;
@@ -280,6 +293,7 @@
 			border-start-start-radius: var(--sd-connected-tab-cap-radius);
 			color: var(--sd-tab-inactive-foreground);
 			gap: var(--sd-spacing-size20);
+			isolation: isolate;
 			padding-inline: var(--sd-spacing-size160);
 			position: relative;
 
@@ -289,11 +303,6 @@
 			}
 
 			&:hover {
-				background-color: color-mix(
-					in srgb,
-					var(--sd-foreground) 6%,
-					var(--sd-editor-group-header-connected-tabs-background)
-				);
 				color: var(--sd-tab-active-foreground);
 			}
 
@@ -308,12 +317,29 @@
 				position: absolute;
 			}
 
+			&:not([aria-selected='true']) {
+				&::after {
+					block-size: var(--sd-connected-tab-fill-block-size);
+					border-radius: var(--sd-corner-radius-small);
+					content: '';
+					inset-block: var(--sd-connected-tab-fill-block-inset) 0;
+					inset-inline: var(--sd-spacing-size20);
+					margin-block: auto;
+					position: absolute;
+					z-index: -1;
+				}
+
+				&:hover::after {
+					background-color: var(--sd-connected-tab-hover-background);
+				}
+			}
+
 			&[aria-selected='true'] {
 				background-color: var(--sd-connected-tab-surface);
 				border-color: var(--sd-connected-tab-border);
 				color: var(--sd-tab-active-foreground);
-				margin-block-end: calc(-1 * var(--sd-stroke-thickness));
-				padding-block-end: var(--sd-stroke-thickness);
+				margin-block: calc(-1 * var(--sd-stroke-thickness));
+				padding-block: var(--sd-stroke-thickness);
 
 				&::before,
 				&::after {
@@ -354,6 +380,19 @@
 		}
 	}
 
+	sd-output-tabs {
+		button {
+			&:not([aria-selected='true']):focus-visible {
+				outline: none;
+
+				&::after {
+					outline: var(--sd-stroke-thickness) solid var(--sd-focus-border);
+					outline-offset: calc(-1 * var(--sd-stroke-thickness));
+				}
+			}
+		}
+	}
+
 	sd-badge {
 		background-color: var(--sd-panel-title-badge-background);
 		block-size: var(--sd-spacing-size160);
@@ -381,6 +420,7 @@
 
 	sd-deps {
 		label {
+			line-height: 1.2;
 			padding-inline-start: calc(
 				var(--sd-spacing-size80) + var(--sd-stroke-thickness) + var(--sd-spacing-size60)
 			);
